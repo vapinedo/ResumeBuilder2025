@@ -1,24 +1,24 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import { AutoGridRow } from '../AutoGridRow';
-import { fillPdf } from '../../utils/pdfHelper';
-import CustomTextField from '../CustomTextField';
-import CustomSelectField from '../CustomSelectField';
+import { fillPdf } from '@utils/pdfHelper';
+import { AutoGridRow } from '@components/AutoGridRow';
+import { DatosPersonales } from '@interfaces/HojaDeVida';
+import CustomTextField from '@components/CustomTextField';
 import { Snackbar, Alert, TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { DatosPersonales } from '../../interfaces/HojaDeVida';
+import CustomSelectField from '@components/CustomSelectField';
 import { Grid, Typography, Paper, Button } from '@mui/material';
-import { useDatosPersonalesForm } from '../../hooks/useDatosPersonalesForm';
+import { useDatosPersonalesForm } from '@hooks/useDatosPersonalesForm';
 
 export const DatosPersonalesForm: React.FC = () => {
 
   const {
-    register,
-    handleSubmit,
-    errors,
     watch,
+    errors,
     setValue,
+    register,
     onSubmit,
+    handleSubmit,
     openSnackbar,
     handleSnackbarClose
   } = useDatosPersonalesForm();

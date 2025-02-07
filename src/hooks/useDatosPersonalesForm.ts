@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useEffect, useMemo, useState } from 'react';
-import { DatosPersonales } from '../interfaces/HojaDeVida';
-import { useHojaDeVidaStore } from '../store/useHojaDeVidaStore';
+import { DatosPersonales } from '@interfaces/HojaDeVida';
+import { useHojaDeVidaStore } from '@store/useHojaDeVidaStore';
 
 export const useDatosPersonalesForm = () => {
   const { setDatosPersonales } = useHojaDeVidaStore();
@@ -13,12 +13,12 @@ export const useDatosPersonalesForm = () => {
   }, []);
 
   const {
+    reset,
+    watch,
+    setValue,
     register,
     handleSubmit,
     formState: { errors },
-    reset,
-    watch,
-    setValue
   } = useForm<DatosPersonales>({ defaultValues: storedResume });
 
   useEffect(() => {
@@ -46,13 +46,13 @@ export const useDatosPersonalesForm = () => {
   };
 
   return {
-    register,
-    handleSubmit,
-    errors,
     reset,
+    errors,
     watch,
     setValue,
+    register,
     onSubmit,
+    handleSubmit,
     openSnackbar,
     handleSnackbarClose
   };
