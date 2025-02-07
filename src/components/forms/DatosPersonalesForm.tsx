@@ -4,61 +4,25 @@ import { AutoGridRow } from '../AutoGridRow';
 import { fillPdf } from '../../utils/pdfHelper';
 import CustomTextField from '../CustomTextField';
 import CustomSelectField from '../CustomSelectField';
-import { useForm, SubmitHandler } from 'react-hook-form';
 import { Snackbar, Alert, TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DatosPersonales } from '../../interfaces/HojaDeVida';
 import { Grid, Typography, Paper, Button } from '@mui/material';
-import { useHojaDeVidaStore } from '../../store/useHojaDeVidaStore';
+import { useDatosPersonalesForm } from '../../hooks/useDatosPersonalesForm';
 
 export const DatosPersonalesForm: React.FC = () => {
-  const { setDatosPersonales } = useHojaDeVidaStore();
-  const [openSnackbar, setOpenSnackbar] = React.useState(false);
-
-  // Recuperar datos del localStorage para defaultValues
-  const storedData = React.useMemo(() => {
-    const data = localStorage.getItem('datosPersonales');
-    return data ? JSON.parse(data) : {};
-  }, []);
 
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    reset, // Para reiniciar valores
+    errors,
     watch,
-    setValue
-  } = useForm<DatosPersonales>({
-    defaultValues: storedData // Configurar valores iniciales
-  });
-
-  React.useEffect(() => {
-    // Sincronizar con el estado global
-    Object.keys(storedData).forEach(key => {
-      setDatosPersonales(key as keyof DatosPersonales, storedData[key]);
-    });
-
-    // Actualizar los valores del formulario al cambiar `storedData`
-    reset(storedData);
-  }, [storedData, setDatosPersonales, reset]);
-
-  const handleSnackbarClose = () => setOpenSnackbar(false);
-
-  const onSubmit: SubmitHandler<DatosPersonales> = data => {
-    try {
-      // Guardar en el estado global
-      for (const campo in data) {
-        setDatosPersonales(campo as keyof DatosPersonales, data[campo as keyof DatosPersonales]);
-      }
-      // Guardar en el localStorage
-      localStorage.setItem('datosPersonales', JSON.stringify(data));
-      console.log('Datos Personales guardados:', data);
-      setOpenSnackbar(true);
-    } catch (error) {
-      console.error('Error guardando los datos:', error);
-    }
-  };
-
+    setValue,
+    onSubmit,
+    openSnackbar,
+    handleSnackbarClose
+  } = useDatosPersonalesForm();
+  
   return (
     <Paper elevation={3} sx={{ padding: 3, marginBottom: 3 }}>
       <Typography variant='h5' gutterBottom>

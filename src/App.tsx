@@ -1,5 +1,4 @@
 import React from 'react';
-import dayjs from './utils/dayjsConfig'; // Importa la configuración de dayjs
 import { HomePage } from './pages/HomePage';
 import { AboutPage } from './pages/AboutPage';
 import { LocalizationProvider } from '@mui/x-date-pickers';
@@ -8,10 +7,10 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const App: React.FC = () => (
   <LocalizationProvider
-    dateAdapter={AdapterDayjs}
     adapterLocale='es'
+    dateAdapter={AdapterDayjs}
     dateFormats={{
-      keyboardDate: 'YYYY-MM-DD' // Configura el formato de fecha
+      keyboardDate: 'YYYY-MM-DD'
     }}
   >
     <BrowserRouter>
