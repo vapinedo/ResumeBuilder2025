@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { EstadoHojaDeVida } from '../interfaces/HojaDeVida';
+import { EstadoHojaDeVida } from '@interfaces/HojaDeVida';
 
 export const useHojaDeVidaStore = create<EstadoHojaDeVida>(set => ({
   datosPersonales: {
