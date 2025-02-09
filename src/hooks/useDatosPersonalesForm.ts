@@ -7,6 +7,12 @@ export const useDatosPersonalesForm = () => {
   const { setDatosPersonales } = useHojaDeVidaStore();
   const [openSnackbar, setOpenSnackbar] = useState(false);
 
+  const syncGlobalState = (datosPersonales: Partial<DatosPersonales>) => {
+    Object.entries(datosPersonales).forEach(([key, value]) => {
+      setDatosPersonales(key as keyof DatosPersonales, value);
+    });
+  };
+
   const storedResume = useMemo(() => {
     const data = localStorage.getItem('datosPersonales');
     return data ? JSON.parse(data) : {};
@@ -22,10 +28,7 @@ export const useDatosPersonalesForm = () => {
   } = useForm<DatosPersonales>({ defaultValues: storedResume });
 
   useEffect(() => {
-    Object.keys(storedResume).forEach(key => {
-      setDatosPersonales(key as keyof DatosPersonales, storedResume[key]);
-    });
-
+    syncGlobalState(storedResume);
     reset(storedResume);
   }, [storedResume, setDatosPersonales, reset]);
 
@@ -33,9 +36,7 @@ export const useDatosPersonalesForm = () => {
 
   const onSubmit = (data: DatosPersonales) => {
     try {
-      Object.keys(data).forEach(key => {
-        setDatosPersonales(key as keyof DatosPersonales, data[key as keyof DatosPersonales]);
-      });
+      syncGlobalState(data);
 
       localStorage.setItem('datosPersonales', JSON.stringify(data));
       console.log('Datos guardados:', data);
