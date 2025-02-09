@@ -29,16 +29,23 @@ export const useDatosPersonalesForm = () => {
   } = useForm<DatosPersonales>({ defaultValues: storedResume });
 
   useEffect(() => {
-    syncGlobalState(storedResume);
-    reset(storedResume);
-  }, [storedResume, setDatosPersonales, reset]);
+    try {
+      const storedResume = localStorage.getItem('datosPersonales');
+      const parsedResume: DatosPersonales = storedResume ? JSON.parse(storedResume) : {};
+  
+      syncGlobalState(parsedResume);
+      reset(parsedResume);
+    } catch (error) {
+      console.error('Error al recuperar los datos personales del localStorage:', error);
+    }
+  }, [setDatosPersonales, reset]);
+  
 
   const onSubmit = (data: DatosPersonales) => {
     try {
       syncGlobalState(data);
 
       localStorage.setItem('datosPersonales', JSON.stringify(data));
-      console.log('Datos guardados:', data);
       showSnackbar();
     } catch (error) {
       console.error('Error guardando los datos:', error);
