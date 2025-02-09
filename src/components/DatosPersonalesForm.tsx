@@ -31,32 +31,31 @@ export const DatosPersonalesForm: React.FC = () => {
       </Typography>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-      {Array.from({ length: Math.ceil(datosPersonalesCampos.length / 4) }, (_, rowIndex) => (
-        <AutoGridRow key={rowIndex} rowSpacing={2}>
-          {datosPersonalesCampos.slice(rowIndex * 4, rowIndex * 4 + 4).map((campo) => (
-            campo.type === 'text' ? (
-              <CustomTextField key={campo.name} label={campo.label} name={campo.name} register={register} errors={errors} required />
-            ) : campo.type === 'select' ? (
-              <CustomSelectField key={campo.name} label={campo.label} name={campo.name} register={register} errors={errors} required options={campo.options} />
-            ) : (
-              <DatePicker
-                key={campo.name}
-                label={campo.label}
-                value={watch(campo.name as keyof DatosPersonales) ? dayjs(watch(campo.name as keyof DatosPersonales)) : null}
-                onChange={(newValue) => setValue(campo.name as keyof DatosPersonales, newValue ? newValue.format('YYYY-MM-DD') : '')}
-                slotProps={{
-                  textField: {
-                    fullWidth: true,
-                    error: !!errors[campo.name as keyof DatosPersonales],
-                    helperText: errors[campo.name as keyof DatosPersonales]?.message
-                  }
-                }}
-                
-              />
-            )
-          ))}
-        </AutoGridRow>
-      ))}
+        {datosPersonalesCampos.map((fila, rowIndex) => (
+          <AutoGridRow key={rowIndex} rowSpacing={2}>
+            {fila.map((campo) => (
+              campo.type === 'text' ? (
+                <CustomTextField key={campo.name} label={campo.label} name={campo.name} register={register} errors={errors} required />
+              ) : campo.type === 'select' ? (
+                <CustomSelectField key={campo.name} label={campo.label} name={campo.name} register={register} errors={errors} required options={campo.options} />
+              ) : (
+                <DatePicker
+                  key={campo.name}
+                  label={campo.label}
+                  value={watch(campo.name as keyof DatosPersonales) ? dayjs(watch(campo.name as keyof DatosPersonales)) : null}
+                  onChange={(newValue) => setValue(campo.name as keyof DatosPersonales, newValue ? newValue.format('YYYY-MM-DD') : '')}
+                  slotProps={{
+                    textField: {
+                      fullWidth: true,
+                      error: !!errors[campo.name as keyof DatosPersonales],
+                      helperText: errors[campo.name as keyof DatosPersonales]?.message
+                    }
+                  }}
+                />
+              )
+            ))}
+          </AutoGridRow>
+        ))}
 
         <Grid item xs={12}>
           <Button type='submit' variant='contained' color='primary' sx={{ marginTop: 3 }}>

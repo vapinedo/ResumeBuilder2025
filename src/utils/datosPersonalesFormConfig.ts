@@ -28,25 +28,47 @@ interface CampoFecha extends CampoBase {
 
 export type CampoFormulario = CampoTexto | CampoSelect | CampoFecha;
 
-export const datosPersonalesCampos: CampoFormulario[] = [
-  { label: 'Primer Apellido', name: 'primerApellido', type: 'text' },
-  { label: 'Segundo Apellido', name: 'segundoApellido', type: 'text' },
-  { label: 'Nombres', name: 'nombres', type: 'text' },
-  { label: 'Número de Documento', name: 'numeroDocumento', type: 'text' },
-  { label: 'Sexo', name: 'sexo', type: 'select', options: sexoOptions },
-  { label: 'Tipo de Documento', name: 'tipoDocumento', type: 'select', options: tipoDocumentoOptions },
-  { label: 'Nacionalidad', name: 'nacionalidad', type: 'select', options: nacionalidadOptions },
-  { label: 'Fecha de Nacimiento', name: 'fechaNacimiento', type: 'date' },
-  { label: 'País de Nacimiento', name: 'paisNacimiento', type: 'select', options: paisOptions },
-  { label: 'Departamento de Nacimiento', name: 'departamentoNacimiento', type: 'select', options: departamentoOptions },
-  { label: 'Municipio de Nacimiento', name: 'municipioNacimiento', type: 'select', options: municipioOptions },
-  { label: 'Tipo de Libreta Militar', name: 'tipoLibretaMilitar', type: 'select', options: tipoLibretaMilitarOptions },
-  { label: 'Número de Libreta Militar', name: 'numeroLibretaMilitar', type: 'text' },
-  { label: 'Distrito Militar', name: 'distritoMilitar', type: 'text' },
-  { label: 'Dirección de Correspondencia', name: 'direccionCorrespondencia', type: 'text' },
-  { label: 'País de Correspondencia', name: 'paisCorrespondencia', type: 'select', options: paisOptions },
-  { label: 'Departamento de Correspondencia', name: 'departamentoCorrespondencia', type: 'select', options: departamentoOptions },
-  { label: 'Municipio de Correspondencia', name: 'municipioCorrespondencia', type: 'select', options: municipioOptions },
-  { label: 'Teléfono', name: 'telefono', type: 'text' },
-  { label: 'Email', name: 'email', type: 'text' }
+/** 
+ * Nueva estructura agrupada por filas en un array 
+ * Cada fila es un array con los campos correspondientes.
+ */
+export const datosPersonalesCampos: CampoFormulario[][] = [
+  // Fila 1
+  [
+    { label: 'Primer Apellido', name: 'primerApellido', type: 'text' },
+    { label: 'Segundo Apellido', name: 'segundoApellido', type: 'text' },
+    { label: 'Nombres', name: 'nombres', type: 'text' },
+    { label: 'Sexo', name: 'sexo', type: 'select', options: sexoOptions }
+  ],
+  // Fila 2
+  [
+    { label: 'Tipo de Documento', name: 'tipoDocumento', type: 'select', options: tipoDocumentoOptions },
+    { label: 'Número de Documento', name: 'numeroDocumento', type: 'text' },
+    { label: 'Nacionalidad', name: 'nacionalidad', type: 'select', options: nacionalidadOptions },
+    { label: 'Fecha de Nacimiento', name: 'fechaNacimiento', type: 'date' }
+  ],
+  // Fila 3
+  [
+    { label: 'País de Nacimiento', name: 'paisNacimiento', type: 'select', options: paisOptions },
+    { label: 'Departamento de Nacimiento', name: 'departamentoNacimiento', type: 'select', options: departamentoOptions },
+    { label: 'Municipio de Nacimiento', name: 'municipioNacimiento', type: 'select', options: municipioOptions }
+  ],
+  // Fila 4
+  [
+    { label: 'Tipo de Libreta Militar', name: 'tipoLibretaMilitar', type: 'select', options: tipoLibretaMilitarOptions },
+    { label: 'Número de Libreta Militar', name: 'numeroLibretaMilitar', type: 'text' },
+    { label: 'Distrito Militar', name: 'distritoMilitar', type: 'text' }
+  ],
+  // Fila 5
+  [
+    { label: 'Dirección de Correspondencia', name: 'direccionCorrespondencia', type: 'text' },
+    { label: 'País de Correspondencia', name: 'paisCorrespondencia', type: 'select', options: paisOptions },
+    { label: 'Departamento de Correspondencia', name: 'departamentoCorrespondencia', type: 'select', options: departamentoOptions },
+    { label: 'Municipio de Correspondencia', name: 'municipioCorrespondencia', type: 'select', options: municipioOptions }
+  ],
+  // Fila 6
+  [
+    { label: 'Teléfono', name: 'telefono', type: 'text' },
+    { label: 'Email', name: 'email', type: 'text' }
+  ]
 ];
