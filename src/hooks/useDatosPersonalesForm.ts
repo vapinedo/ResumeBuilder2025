@@ -1,11 +1,12 @@
 import { useForm } from 'react-hook-form';
+import { useSnackbar } from '@hooks/useSnackbar';
 import { useEffect, useMemo, useState } from 'react';
 import { DatosPersonales } from '@interfaces/HojaDeVida';
 import { useHojaDeVidaStore } from '@store/useHojaDeVidaStore';
 
 export const useDatosPersonalesForm = () => {
   const { setDatosPersonales } = useHojaDeVidaStore();
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const { openSnackbar, showSnackbar, handleSnackbarClose } = useSnackbar();
 
   const syncGlobalState = (datosPersonales: Partial<DatosPersonales>) => {
     Object.entries(datosPersonales).forEach(([key, value]) => {
@@ -32,15 +33,13 @@ export const useDatosPersonalesForm = () => {
     reset(storedResume);
   }, [storedResume, setDatosPersonales, reset]);
 
-  const handleSnackbarClose = () => setOpenSnackbar(false);
-
   const onSubmit = (data: DatosPersonales) => {
     try {
       syncGlobalState(data);
 
       localStorage.setItem('datosPersonales', JSON.stringify(data));
       console.log('Datos guardados:', data);
-      setOpenSnackbar(true);
+      showSnackbar();
     } catch (error) {
       console.error('Error guardando los datos:', error);
     }
