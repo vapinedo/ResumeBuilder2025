@@ -9,10 +9,10 @@ import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue } from "rea
 
 interface RenderFormFieldsProps {
   campo: CampoFormulario;
-  register: UseFormRegister<DatosPersonales>;
   watch: UseFormWatch<DatosPersonales>;
-  setValue: UseFormSetValue<DatosPersonales>;
   errors: FieldErrors<DatosPersonales>;
+  register: UseFormRegister<DatosPersonales>;
+  setValue: UseFormSetValue<DatosPersonales>;
 }
 
 export const RenderFormFields: React.FC<RenderFormFieldsProps> = ({ campo, register, watch, setValue, errors }) => {
