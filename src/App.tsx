@@ -1,25 +1,14 @@
 import React from 'react';
 import { HomePage } from '@pages/HomePage';
-import { AboutPage } from '@pages/AboutPage';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { LocalizationProviderConfig } from '@components/LocalizationProviderConfig';
 
-const App: React.FC = () => (
-  <LocalizationProvider
-    adapterLocale='es'
-    dateAdapter={AdapterDayjs}
-    dateFormats={{
-      keyboardDate: 'YYYY-MM-DD'
-    }}
-  >
+export const App: React.FC = () => (
+  <LocalizationProviderConfig>
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<HomePage />} />
-        <Route path='/about' element={<AboutPage />} />
       </Routes>
     </BrowserRouter>
-  </LocalizationProvider>
+  </LocalizationProviderConfig>
 );
-
-export default App;
