@@ -24,7 +24,7 @@ const CustomSelectField: React.FC<CustomSelectFieldProps> = ({ label, name, regi
       label={label}
       variant='outlined'
       error={!!errors[name]}
-      helperText={errors[name]?.message}
+      helperText={errors[name]?.message ? String(errors[name]?.message) : undefined}
       {...register(name, { required: required ? 'Este campo es obligatorio' : false })}
     >
       {options.map(option => (
