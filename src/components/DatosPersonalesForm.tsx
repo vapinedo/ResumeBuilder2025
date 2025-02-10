@@ -1,10 +1,10 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { fillPdf } from '@utils/pdfHelper';
+import { Snackbar, Alert } from '@mui/material';
 import { AutoGridRow } from '@components/AutoGridRow';
 import { DatosPersonales } from '@interfaces/HojaDeVida';
 import CustomTextField from '@components/CustomTextField';
-import { Snackbar, Alert, TextField } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import CustomSelectField from '@components/CustomSelectField';
 import { Grid, Typography, Paper, Button } from '@mui/material';
