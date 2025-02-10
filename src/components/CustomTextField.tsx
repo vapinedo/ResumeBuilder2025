@@ -22,9 +22,10 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
   return (
     <TextField
       fullWidth
-      variant='outlined'
-      label={label}
       type={type}
+      size='small'
+      label={label}
+      variant='outlined'
       error={!!errors[name]}
       helperText={errors[name]?.message as string}
       {...register(name, required ? { required: `${label} es obligatorio` } : {})}

@@ -62,6 +62,7 @@ export const DatosPersonalesForm: React.FC = () => {
                   onChange={(newValue) => setValue(campo.name as keyof DatosPersonales, newValue ? newValue.format('YYYY-MM-DD') : '')}
                   slotProps={{
                     textField: {
+                      size: 'small',
                       fullWidth: true,
                       error: !!errors[campo.name as keyof DatosPersonales],
                       helperText: errors[campo.name as keyof DatosPersonales]?.message

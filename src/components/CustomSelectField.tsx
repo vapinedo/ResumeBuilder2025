@@ -24,6 +24,7 @@ const CustomSelectField: React.FC<CustomSelectFieldProps> = ({ label, name, regi
     <TextField
       select
       fullWidth
+      size='small'
       label={label}
       variant='outlined'
       value={selectedValue}
