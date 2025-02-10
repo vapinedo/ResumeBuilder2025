@@ -1,13 +1,10 @@
 import React from 'react';
-import dayjs from 'dayjs';
 import { fillPdf } from '@utils/pdfHelper';
 import { Snackbar, Alert } from '@mui/material';
 import { AutoGridRow } from '@components/AutoGridRow';
 import { DatosPersonales } from '@interfaces/HojaDeVida';
-import CustomTextField from '@components/CustomTextField';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import CustomSelectField from '@components/CustomSelectField';
 import { Grid, Typography, Paper, Button } from '@mui/material';
+import { RenderFormFields } from '@components/RenderFormFields';
 import { useDatosPersonalesForm } from '@hooks/useDatosPersonalesForm';
 import { datosPersonalesCampos } from '@utils/datosPersonalesFormConfig';
 
@@ -34,42 +31,14 @@ export const DatosPersonalesForm: React.FC = () => {
         {datosPersonalesCampos.map((fila, rowIndex) => (
           <AutoGridRow key={rowIndex} rowSpacing={2}>
             {fila.map((campo) => (
-              campo.type === 'text' ? (
-                <CustomTextField 
-                  required 
-                  errors={errors} 
-                  key={campo.name} 
-                  name={campo.name} 
-                  label={campo.label} 
-                  register={register} 
-                />
-              ) : campo.type === 'select' ? (
-                <CustomSelectField 
-                  required 
-                  watch={watch} 
-                  errors={errors} 
-                  key={campo.name} 
-                  name={campo.name} 
-                  label={campo.label} 
-                  register={register} 
-                  options={campo.options} 
-                />
-              ) : (
-                <DatePicker
-                  key={campo.name}
-                  label={campo.label}
-                  value={watch(campo.name as keyof DatosPersonales) ? dayjs(watch(campo.name as keyof DatosPersonales)) : null}
-                  onChange={(newValue) => setValue(campo.name as keyof DatosPersonales, newValue ? newValue.format('YYYY-MM-DD') : '')}
-                  slotProps={{
-                    textField: {
-                      size: 'small',
-                      fullWidth: true,
-                      error: !!errors[campo.name as keyof DatosPersonales],
-                      helperText: errors[campo.name as keyof DatosPersonales]?.message
-                    }
-                  }}
-                />
-              )
+              <RenderFormFields
+                key={campo.name}
+                campo={campo}
+                register={register}
+                watch={watch}
+                setValue={setValue}
+                errors={errors}
+              />
             ))}
           </AutoGridRow>
         ))}
