@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextField, MenuItem } from '@mui/material';
-import { FieldErrors, UseFormRegister } from 'react-hook-form';
+import { FieldErrors, UseFormRegister, UseFormWatch } from 'react-hook-form';
 
 interface SelectOption {
   value: string;
@@ -8,21 +8,25 @@ interface SelectOption {
 }
 
 interface CustomSelectFieldProps {
-  label: string;
   name: string;
-  register: UseFormRegister<any>;
+  label: string;
+  required?: boolean;
   errors: FieldErrors;
   options: SelectOption[];
-  required?: boolean;
+  watch: UseFormWatch<any>;
+  register: UseFormRegister<any>;
 }
 
-const CustomSelectField: React.FC<CustomSelectFieldProps> = ({ label, name, register, errors, options, required }) => {
+const CustomSelectField: React.FC<CustomSelectFieldProps> = ({ label, name, register, watch, errors, options, required }) => {
+  const selectedValue = watch(name) ?? "";
+
   return (
     <TextField
       select
       fullWidth
       label={label}
       variant='outlined'
+      value={selectedValue}
       error={!!errors[name]}
       helperText={errors[name]?.message ? String(errors[name]?.message) : undefined}
       {...register(name, { required: required ? 'Este campo es obligatorio' : false })}

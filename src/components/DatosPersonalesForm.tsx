@@ -35,9 +35,25 @@ export const DatosPersonalesForm: React.FC = () => {
           <AutoGridRow key={rowIndex} rowSpacing={2}>
             {fila.map((campo) => (
               campo.type === 'text' ? (
-                <CustomTextField key={campo.name} label={campo.label} name={campo.name} register={register} errors={errors} required />
+                <CustomTextField 
+                  required 
+                  errors={errors} 
+                  key={campo.name} 
+                  name={campo.name} 
+                  label={campo.label} 
+                  register={register} 
+                />
               ) : campo.type === 'select' ? (
-                <CustomSelectField key={campo.name} label={campo.label} name={campo.name} register={register} errors={errors} required options={campo.options} />
+                <CustomSelectField 
+                  required 
+                  watch={watch} 
+                  errors={errors} 
+                  key={campo.name} 
+                  name={campo.name} 
+                  label={campo.label} 
+                  register={register} 
+                  options={campo.options} 
+                />
               ) : (
                 <DatePicker
                   key={campo.name}
