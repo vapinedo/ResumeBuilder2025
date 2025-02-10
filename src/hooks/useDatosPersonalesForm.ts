@@ -18,17 +18,18 @@ export const useDatosPersonalesForm = () => {
     watch,
     setValue,
     register,
-    handleSubmit,
+    handleSubmit,  // Asegurar que se exporta
     formState: { errors },
   } = useForm<DatosPersonales>({ defaultValues: storedResume });
 
   useEffect(() => {
     try {
       const storedResume = localStorage.getItem('datosPersonales');
-      const parsedResume: Partial<DatosPersonales> = storedResume ? JSON.parse(storedResume) : {};
-
-      actualizarDatosPersonales(parsedResume); // Se actualiza el estado global directamente
-      reset(parsedResume);
+      if (storedResume) {
+        const parsedResume: DatosPersonales = JSON.parse(storedResume);
+        actualizarDatosPersonales(parsedResume);
+        reset(parsedResume);
+      }
     } catch (error) {
       console.error('Error al recuperar los datos personales del localStorage:', error);
     }
@@ -36,8 +37,7 @@ export const useDatosPersonalesForm = () => {
 
   const onSubmit = (data: DatosPersonales) => {
     try {
-      actualizarDatosPersonales(data); // Guardamos en el store global
-      
+      actualizarDatosPersonales(data);
       localStorage.setItem('datosPersonales', JSON.stringify(data));
       showSnackbar();
     } catch (error) {
@@ -51,8 +51,8 @@ export const useDatosPersonalesForm = () => {
     watch,
     setValue,
     register,
-    onSubmit,
-    handleSubmit,
+    onSubmit,      // Exportamos onSubmit
+    handleSubmit,  // Exportamos handleSubmit
     openSnackbar,
     handleSnackbarClose
   };
