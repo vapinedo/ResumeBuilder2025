@@ -1,7 +1,7 @@
 import React from 'react';
-import { Snackbar, Alert } from '@mui/material';
 import { FormButtons } from '@components/FormButtons';
 import { DatosPersonalesForm } from '@components/DatosPersonalesForm';
+import { SnackbarNotification } from '@components/SnackbarNotification';
 import { useDatosPersonalesForm } from '@hooks/useDatosPersonalesForm';
 
 export const HojaDeVidaForm: React.FC = () => {
@@ -12,16 +12,12 @@ export const HojaDeVidaForm: React.FC = () => {
       <DatosPersonalesForm />
       <FormButtons handleSubmit={handleSubmit} onSubmit={onSubmit} />
 
-      <Snackbar
+      <SnackbarNotification
+        severity="success"
         open={openSnackbar}
-        autoHideDuration={3000}
         onClose={handleSnackbarClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      >
-        <Alert onClose={handleSnackbarClose} severity='success'>
-          Datos guardados correctamente
-        </Alert>
-      </Snackbar>
+        message="Datos guardados correctamente"
+      />
     </form>
   );
 };
