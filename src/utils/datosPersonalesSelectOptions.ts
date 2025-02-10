@@ -19,11 +19,6 @@ export const tipoLibretaMilitarOptions = [
   { value: 'segunda', label: 'Segunda Clase' }
 ];
 
-export const paisOptions = [
-  { value: 'colombia', label: 'Colombia' },
-  { value: 'venezuela', label: 'Venezuela' }
-];
-
 export const departamentoOptions = [
   { value: 'guajira', label: 'La Guajira' },
   { value: 'atlantico', label: 'Atlántico' }

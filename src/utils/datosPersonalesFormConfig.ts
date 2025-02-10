@@ -1,12 +1,12 @@
 import {
   sexoOptions,
-  paisOptions,
   municipioOptions,
   departamentoOptions,
   nacionalidadOptions,
   tipoDocumentoOptions,
   tipoLibretaMilitarOptions,
 } from '@utils/datosPersonalesSelectOptions';
+import { listaDePaises } from '@utils/listaDePaises';
 
 interface CampoBase {
   label: string;
@@ -49,7 +49,7 @@ export const datosPersonalesCampos: CampoFormulario[][] = [
   ],
   // Fila 3
   [
-    { label: 'País de Nacimiento', name: 'paisNacimiento', type: 'select', options: paisOptions },
+    { label: 'País de Nacimiento', name: 'paisNacimiento', type: 'select', options: listaDePaises },
     { label: 'Departamento de Nacimiento', name: 'departamentoNacimiento', type: 'select', options: departamentoOptions },
     { label: 'Municipio de Nacimiento', name: 'municipioNacimiento', type: 'select', options: municipioOptions },
     { label: 'Teléfono', name: 'telefono', type: 'text' },
@@ -64,7 +64,7 @@ export const datosPersonalesCampos: CampoFormulario[][] = [
   // Fila 5
   [
     { label: 'Dirección de Correspondencia', name: 'direccionCorrespondencia', type: 'text' },
-    { label: 'País de Correspondencia', name: 'paisCorrespondencia', type: 'select', options: paisOptions },
+    { label: 'País de Correspondencia', name: 'paisCorrespondencia', type: 'select', options: listaDePaises },
     { label: 'Departamento de Correspondencia', name: 'departamentoCorrespondencia', type: 'select', options: departamentoOptions },
     { label: 'Municipio de Correspondencia', name: 'municipioCorrespondencia', type: 'select', options: municipioOptions }
   ]
