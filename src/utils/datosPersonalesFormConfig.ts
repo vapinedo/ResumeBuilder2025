@@ -51,13 +51,15 @@ export const datosPersonalesCampos: CampoFormulario[][] = [
   [
     { label: 'País de Nacimiento', name: 'paisNacimiento', type: 'select', options: paisOptions },
     { label: 'Departamento de Nacimiento', name: 'departamentoNacimiento', type: 'select', options: departamentoOptions },
-    { label: 'Municipio de Nacimiento', name: 'municipioNacimiento', type: 'select', options: municipioOptions }
+    { label: 'Municipio de Nacimiento', name: 'municipioNacimiento', type: 'select', options: municipioOptions },
+    { label: 'Teléfono', name: 'telefono', type: 'text' },
   ],
   // Fila 4
   [
     { label: 'Tipo de Libreta Militar', name: 'tipoLibretaMilitar', type: 'select', options: tipoLibretaMilitarOptions },
     { label: 'Número de Libreta Militar', name: 'numeroLibretaMilitar', type: 'text' },
-    { label: 'Distrito Militar', name: 'distritoMilitar', type: 'text' }
+    { label: 'Distrito Militar', name: 'distritoMilitar', type: 'text' },
+    { label: 'Email', name: 'email', type: 'text' }
   ],
   // Fila 5
   [
@@ -65,10 +67,5 @@ export const datosPersonalesCampos: CampoFormulario[][] = [
     { label: 'País de Correspondencia', name: 'paisCorrespondencia', type: 'select', options: paisOptions },
     { label: 'Departamento de Correspondencia', name: 'departamentoCorrespondencia', type: 'select', options: departamentoOptions },
     { label: 'Municipio de Correspondencia', name: 'municipioCorrespondencia', type: 'select', options: municipioOptions }
-  ],
-  // Fila 6
-  [
-    { label: 'Teléfono', name: 'telefono', type: 'text' },
-    { label: 'Email', name: 'email', type: 'text' }
   ]
 ];
