@@ -24,5 +24,5 @@ export interface DatosPersonales {
 
 export interface EstadoHojaDeVida {
   datosPersonales: DatosPersonales;
-  setDatosPersonales: (campo: keyof DatosPersonales, valor: string) => void;
+  actualizarDatosPersonales: (datos: Partial<DatosPersonales>) => void;
 }

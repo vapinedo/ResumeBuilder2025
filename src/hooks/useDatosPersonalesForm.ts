@@ -1,18 +1,12 @@
 import { useForm } from 'react-hook-form';
+import { useEffect, useMemo } from 'react';
 import { useSnackbar } from '@hooks/useSnackbar';
-import { useEffect, useMemo, useState } from 'react';
 import { DatosPersonales } from '@interfaces/HojaDeVida';
 import { useHojaDeVidaStore } from '@store/useHojaDeVidaStore';
 
 export const useDatosPersonalesForm = () => {
-  const { setDatosPersonales } = useHojaDeVidaStore();
+  const { actualizarDatosPersonales } = useHojaDeVidaStore();
   const { openSnackbar, showSnackbar, handleSnackbarClose } = useSnackbar();
-
-  const syncGlobalState = (datosPersonales: Partial<DatosPersonales>) => {
-    Object.entries(datosPersonales).forEach(([key, value]) => {
-      setDatosPersonales(key as keyof DatosPersonales, value);
-    });
-  };
 
   const storedResume = useMemo(() => {
     const data = localStorage.getItem('datosPersonales');
@@ -31,20 +25,19 @@ export const useDatosPersonalesForm = () => {
   useEffect(() => {
     try {
       const storedResume = localStorage.getItem('datosPersonales');
-      const parsedResume: DatosPersonales = storedResume ? JSON.parse(storedResume) : {};
-  
-      syncGlobalState(parsedResume);
+      const parsedResume: Partial<DatosPersonales> = storedResume ? JSON.parse(storedResume) : {};
+
+      actualizarDatosPersonales(parsedResume); // Se actualiza el estado global directamente
       reset(parsedResume);
     } catch (error) {
       console.error('Error al recuperar los datos personales del localStorage:', error);
     }
-  }, [setDatosPersonales, reset]);
-  
+  }, [actualizarDatosPersonales, reset]);
 
   const onSubmit = (data: DatosPersonales) => {
     try {
-      syncGlobalState(data);
-
+      actualizarDatosPersonales(data); // Guardamos en el store global
+      
       localStorage.setItem('datosPersonales', JSON.stringify(data));
       showSnackbar();
     } catch (error) {

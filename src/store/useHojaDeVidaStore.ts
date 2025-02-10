@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { EstadoHojaDeVida } from '@interfaces/HojaDeVida';
 
 export const useHojaDeVidaStore = create<EstadoHojaDeVida>(set => ({
-  datosPersonales: {
+  datosPersonales: { 
     primerApellido: '',
     segundoApellido: '',
     nombres: '',
@@ -28,9 +28,9 @@ export const useHojaDeVidaStore = create<EstadoHojaDeVida>(set => ({
     telefono: '',
     email: ''
   },
-
-  setDatosPersonales: (campo, valor) =>
+  actualizarDatosPersonales: (datos) =>
     set(state => ({
-      datosPersonales: { ...state.datosPersonales, [campo]: valor }
+      datosPersonales: { ...state.datosPersonales, ...datos }
     }))
 }));
+
