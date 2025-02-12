@@ -1,13 +1,19 @@
 import React from 'react';
 import { Typography, Paper } from '@mui/material';
 import { AutoGridRow } from '@components/AutoGridRow';
+import { DatosPersonales } from '@interfaces/HojaDeVida';
 import { RenderFormFields } from '@components/RenderFormFields';
-import { useDatosPersonalesForm } from '@hooks/useDatosPersonalesForm';
 import { datosPersonalesCampos } from '@utils/datosPersonalesFormConfig';
+import { UseFormRegister, FieldErrors, UseFormSetValue } from 'react-hook-form';
 
-export const DatosPersonalesForm: React.FC = () => {
-  const { watch, errors, setValue, register } = useDatosPersonalesForm();
-  
+interface Props {
+  watch: any;
+  errors: FieldErrors<DatosPersonales>;
+  register: UseFormRegister<DatosPersonales>;
+  setValue: UseFormSetValue<DatosPersonales>;
+}
+
+export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValue, watch }) => {
   return (
     <Paper elevation={3} sx={{ padding: 3, marginBottom: 3 }}>
       <Typography variant='h5' gutterBottom>
@@ -18,12 +24,12 @@ export const DatosPersonalesForm: React.FC = () => {
         <AutoGridRow key={rowIndex} rowSpacing={2}>
           {fila.map((campo) => (
             <RenderFormFields
-              key={campo.name}
               campo={campo}
-              register={register}
               watch={watch}
-              setValue={setValue}
               errors={errors}
+              key={campo.name}
+              register={register}
+              setValue={setValue}
             />
           ))}
         </AutoGridRow>
