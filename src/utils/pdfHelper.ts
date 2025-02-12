@@ -15,11 +15,12 @@ export const fillPdf = async (formData: DatosPersonales): Promise<string> => {
   const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
   // Función reutilizable para dibujar texto en la página
-  const drawText = (page: any, font: any, text: string, x: number, y: number, caps: boolean = true, size: number = 10) => {
-    page.drawText(caps ? text.toUpperCase() : text, { x, y, size, font, color: rgb(0, 0, 0) });
+  const drawText = (page: any, font: any, text: string | undefined, x: number, y: number, caps: boolean = true, size: number = 10) => {
+    const safeText = text ? (caps ? text.toUpperCase() : text) : '';
+    page.drawText(safeText, { x, y, size, font, color: rgb(0, 0, 0) });
   };
 
-  console.log(formData);
+  console.log('datos a pdf', formData);
 
   // Escribir datos en el PDF
   drawText(page, font, formData.primerApellido, 64, 602);
