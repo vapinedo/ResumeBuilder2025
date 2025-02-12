@@ -29,7 +29,7 @@ const CountrySelect: React.FC<Props> = ({ name, control }) => {
           isSearchable
           getOptionLabel={(e) => e.label} // Muestra nombre + bandera
           getOptionValue={(e) => e.value} // Almacena solo el value
-          value={countries.find((c) => c.value === field.value) || null} // 🔥 Asegura que el valor sea un objeto válido
+          value={countries?.find((c) => c.value === field.value) || null} // 🔥 Asegura que el valor sea un objeto válido
           onChange={(selectedOption) => field.onChange(selectedOption ? selectedOption.value : "")} // 🔥 Guarda solo el value
           styles={{
             control: (base) => ({
