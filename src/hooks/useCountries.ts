@@ -15,7 +15,8 @@ const fetchCountries = async (): Promise<Country[]> => {
   return data.map((country: any) => ({
     value: country.name.common,
     label: `${country.name.common} ${country.flag}`
-  }));
+  }))
+  .sort((a: any, b: any) => a.value.localeCompare(b.value)) // AZ order
 }
 
 const useCountries = () => {
