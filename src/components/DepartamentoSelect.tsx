@@ -7,14 +7,18 @@ import useDepartamentos from "@hooks/useDepartamentos";
 interface Props {
   name: string;
   control: any;
+  selectedCountry: string; // 🔥 Recibimos el país seleccionado
 }
 
-const DepartamentoSelect: React.FC<Props> = ({ name, control }) => {
+const DepartamentoSelect: React.FC<Props> = ({ name, control, selectedCountry }) => {
   const { departamentos, isLoading, error } = useDepartamentos();
-  const theme = useTheme(); // 🔥 Obtener tema de MUI
+  const theme = useTheme();
 
   if (isLoading) return <p>Cargando departamentos...</p>;
   if (error) return <p>Error al cargar los departamentos</p>;
+
+  // 🔥 Filtrar departamentos solo si el país seleccionado es Colombia
+  const departamentosDisponibles = selectedCountry === "Colombia" ? departamentos : [];
 
   return (
     <Controller
@@ -23,7 +27,7 @@ const DepartamentoSelect: React.FC<Props> = ({ name, control }) => {
       render={({ field }) => (
         <Select
           {...field}
-          options={departamentos}
+          options={departamentosDisponibles}
           placeholder="Selecciona un departamento..."
           isClearable
           isSearchable
@@ -31,6 +35,7 @@ const DepartamentoSelect: React.FC<Props> = ({ name, control }) => {
           getOptionValue={(e) => e.value}
           value={departamentos.find((d) => d.value === field.value) || null}
           onChange={(selectedOption) => field.onChange(selectedOption ? selectedOption.value : "")}
+          isDisabled={selectedCountry !== "Colombia"} // 🔥 Deshabilitar si el país no es Colombia
           styles={{
             control: (base) => ({
               ...base,

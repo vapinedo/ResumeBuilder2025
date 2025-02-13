@@ -22,6 +22,10 @@ export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValu
   const { data: countries, isLoading: isLoadingCountries, error } = useCountries();
   const { departamentos, isLoading: isLoadingDepartamentos } = useDepartamentos();
 
+  // 🔥 Obtenemos el país seleccionado en cada caso
+  const paisNacimiento = watch("paisNacimiento") || "";
+  const paisCorrespondencia = watch("paisCorrespondencia") || "";
+
   useEffect(() => {
     const normalizarPais = () => {
       const paisCorrespondencia = watch("paisCorrespondencia");
@@ -47,11 +51,11 @@ export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValu
           (d) => d.value.toLowerCase() === departamentoSeleccionado.toLowerCase()
         );
         if (matchedDepartamento && matchedDepartamento.value !== departamentoSeleccionado) {
-          setValue(campo, matchedDepartamento.value); // ✅ Ahora TypeScript no mostrará error
+          setValue(campo, matchedDepartamento.value);
         }
       }
     };
-  
+
     normalizarDepartamento("departamentoNacimiento");
     normalizarDepartamento("departamentoCorrespondencia");
   }, [watch("departamentoNacimiento"), watch("departamentoCorrespondencia"), departamentos, setValue]);
@@ -72,8 +76,10 @@ export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValu
           {fila.map((campo) =>
             campo.name === "paisCorrespondencia" || campo.name === "paisNacimiento" ? (
               <CountrySelect key={campo.name} name={campo.name} control={control} />
-            ) : campo.name === "departamentoCorrespondencia" || campo.name === "departamentoNacimiento" ? (
-              <DepartamentoSelect key={campo.name} name={campo.name} control={control} />
+            ) : campo.name === "departamentoCorrespondencia" ? (
+              <DepartamentoSelect key={campo.name} name={campo.name} control={control} selectedCountry={paisCorrespondencia} />
+            ) : campo.name === "departamentoNacimiento" ? (
+              <DepartamentoSelect key={campo.name} name={campo.name} control={control} selectedCountry={paisNacimiento} />
             ) : (
               <RenderFormFields
                 campo={campo}
