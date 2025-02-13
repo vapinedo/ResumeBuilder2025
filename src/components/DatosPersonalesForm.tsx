@@ -9,6 +9,7 @@ import { DatosPersonales } from "@interfaces/HojaDeVida";
 import { RenderFormFields } from "@components/RenderFormFields";
 import { datosPersonalesFormConfig } from "@utils/datosPersonalesFormConfig";
 import { UseFormRegister, FieldErrors, UseFormSetValue, Control } from "react-hook-form";
+import MunicipioSelect from "./MunicipioSelect";
 
 interface Props {
   watch: any;
@@ -22,9 +23,11 @@ export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValu
   const { data: countries, isLoading: isLoadingCountries, error } = useCountries();
   const { departamentos, isLoading: isLoadingDepartamentos } = useDepartamentos();
 
-  // 🔥 Obtenemos el país seleccionado en cada caso
+  // 🔥 Obtenemos los valores seleccionados en tiempo real
   const paisNacimiento = watch("paisNacimiento") || "";
   const paisCorrespondencia = watch("paisCorrespondencia") || "";
+  const departamentoNacimiento = watch("departamentoNacimiento") || "";
+  const departamentoCorrespondencia = watch("departamentoCorrespondencia") || "";
 
   useEffect(() => {
     const normalizarPais = () => {
@@ -42,7 +45,6 @@ export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValu
     normalizarPais();
   }, [watch("paisCorrespondencia"), countries, setValue]);
 
-  // 🔥 Normalizar `departamentoNacimiento` y `departamentoCorrespondencia`
   useEffect(() => {
     const normalizarDepartamento = (campo: "departamentoNacimiento" | "departamentoCorrespondencia") => {
       const departamentoSeleccionado = watch(campo);
@@ -80,6 +82,10 @@ export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValu
               <DepartamentoSelect key={campo.name} name={campo.name} control={control} selectedCountry={paisCorrespondencia} />
             ) : campo.name === "departamentoNacimiento" ? (
               <DepartamentoSelect key={campo.name} name={campo.name} control={control} selectedCountry={paisNacimiento} />
+            ) : campo.name === "municipioCorrespondencia" ? (
+              <MunicipioSelect key={campo.name} name={campo.name} control={control} selectedDepartamento={departamentoCorrespondencia} />
+            ) : campo.name === "municipioNacimiento" ? (
+              <MunicipioSelect key={campo.name} name={campo.name} control={control} selectedDepartamento={departamentoNacimiento} />
             ) : (
               <RenderFormFields
                 campo={campo}
