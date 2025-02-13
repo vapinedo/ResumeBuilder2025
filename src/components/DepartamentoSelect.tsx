@@ -46,7 +46,7 @@ const DepartamentoSelect: React.FC<Props> = ({ name, control, selectedCountry })
             }),
             option: (base, state) => ({
               ...base,
-              backgroundColor: state.isFocused ? theme.palette.action.hover : "transparent",
+              backgroundColor: state.isFocused ? theme.palette.action.hover : theme.palette.background.paper,
               color: theme.palette.text.primary,
             }),
             singleValue: (base) => ({
@@ -55,9 +55,10 @@ const DepartamentoSelect: React.FC<Props> = ({ name, control, selectedCountry })
             }),
             menu: (base) => ({
               ...base,
-              backgroundColor: theme.palette.background.paper,
+              backgroundColor: theme.palette.background.paper, // 🔥 Asegura un fondo sólido
+              zIndex: 9999, // 🔥 Evita que se superponga con otros elementos
             }),
-          }}
+          }}          
         />
       )}
     />
