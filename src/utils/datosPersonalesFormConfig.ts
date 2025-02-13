@@ -1,7 +1,6 @@
 import {
   sexoOptions,
   municipioOptions,
-  departamentoOptions,
   nacionalidadOptions,
   tipoDocumentoOptions,
   tipoLibretaMilitarOptions,
@@ -31,7 +30,10 @@ export type CampoFormulario = CampoTexto | CampoSelect | CampoFecha;
  * Nueva estructura agrupada por filas en un array 
  * Cada fila es un array con los campos correspondientes.
  */
-export const datosPersonalesFormConfig = (paises: { value: string; label: string }[]): CampoFormulario[][] => [
+export const datosPersonalesFormConfig = (
+  paises: { value: string; label: string }[],
+  departamentos: { value: string; label: string }[]
+): CampoFormulario[][] => [
   // Fila 1
   [
     { label: 'Primer Apellido', name: 'primerApellido', type: 'text' },
@@ -49,7 +51,7 @@ export const datosPersonalesFormConfig = (paises: { value: string; label: string
   // Fila 3
   [
     { label: 'País de Nacimiento', name: 'paisNacimiento', type: 'select', options: paises },
-    { label: 'Departamento de Nacimiento', name: 'departamentoNacimiento', type: 'select', options: departamentoOptions },
+    { label: 'Departamento de Nacimiento', name: 'departamentoNacimiento', type: 'select', options: departamentos },
     { label: 'Municipio de Nacimiento', name: 'municipioNacimiento', type: 'select', options: municipioOptions },
     { label: 'Teléfono', name: 'telefono', type: 'text' },
   ],
@@ -64,7 +66,7 @@ export const datosPersonalesFormConfig = (paises: { value: string; label: string
   [
     { label: 'Dirección de Correspondencia', name: 'direccionCorrespondencia', type: 'text' },
     { label: 'País de Correspondencia', name: 'paisCorrespondencia', type: 'select', options: paises },
-    { label: 'Departamento de Correspondencia', name: 'departamentoCorrespondencia', type: 'select', options: departamentoOptions },
+    { label: 'Departamento de Correspondencia', name: 'departamentoCorrespondencia', type: 'select', options: departamentos },
     { label: 'Municipio de Correspondencia', name: 'municipioCorrespondencia', type: 'select', options: municipioOptions }
   ]
 ];
