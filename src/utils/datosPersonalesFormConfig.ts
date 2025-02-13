@@ -39,7 +39,7 @@ export const datosPersonalesFormConfig = (
     { label: 'Primer Apellido', name: 'primerApellido', type: 'text' },
     { label: 'Segundo Apellido', name: 'segundoApellido', type: 'text' },
     { label: 'Nombres', name: 'nombres', type: 'text' },
-    { label: 'Sexo', name: 'sexo', type: 'select', options: sexoOptions }
+    { label: 'Email', name: 'email', type: 'text' }
   ],
   // Fila 2
   [
@@ -50,23 +50,23 @@ export const datosPersonalesFormConfig = (
   ],
   // Fila 3
   [
+    { label: 'Teléfono', name: 'telefono', type: 'text' },
     { label: 'País de Nacimiento', name: 'paisNacimiento', type: 'select', options: paises },
     { label: 'Departamento de Nacimiento', name: 'departamentoNacimiento', type: 'select', options: departamentos },
     { label: 'Municipio de Nacimiento', name: 'municipioNacimiento', type: 'select', options: municipioOptions },
-    { label: 'Teléfono', name: 'telefono', type: 'text' },
   ],
   // Fila 4
-  [
-    { label: 'Tipo de Libreta Militar', name: 'tipoLibretaMilitar', type: 'select', options: tipoLibretaMilitarOptions },
-    { label: 'Número de Libreta Militar', name: 'numeroLibretaMilitar', type: 'text' },
-    { label: 'Distrito Militar', name: 'distritoMilitar', type: 'text' },
-    { label: 'Email', name: 'email', type: 'text' }
-  ],
-  // Fila 5
   [
     { label: 'Dirección de Correspondencia', name: 'direccionCorrespondencia', type: 'text' },
     { label: 'País de Correspondencia', name: 'paisCorrespondencia', type: 'select', options: paises },
     { label: 'Departamento de Correspondencia', name: 'departamentoCorrespondencia', type: 'select', options: departamentos },
     { label: 'Municipio de Correspondencia', name: 'municipioCorrespondencia', type: 'select', options: municipioOptions }
-  ]
+  ],
+  // Fila 5
+  [
+    { label: 'Sexo', name: 'sexo', type: 'select', options: sexoOptions },
+    { label: 'Tipo de Libreta Militar', name: 'tipoLibretaMilitar', type: 'select', options: tipoLibretaMilitarOptions },
+    { label: 'Número de Libreta Militar', name: 'numeroLibretaMilitar', type: 'text' },
+    { label: 'Distrito Militar', name: 'distritoMilitar', type: 'text' },
+  ],
 ];
