@@ -11,6 +11,7 @@ export const HojaDeVidaForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <FormButtons handleSubmit={handleSubmit} onSubmit={onSubmit} />
       <DatosPersonalesForm
         register={register}
         errors={errors}
@@ -18,7 +19,6 @@ export const HojaDeVidaForm: React.FC = () => {
         watch={watch}
         control={control} // 🔥 Pasamos control correctamente
       />
-      <FormButtons handleSubmit={handleSubmit} onSubmit={onSubmit} />
 
       <SnackbarNotification
         severity="success"
