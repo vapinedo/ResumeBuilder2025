@@ -9,8 +9,6 @@ export const useHojaDeVidaStore = create<EstadoHojaDeVida>(set => ({
     tipoDocumento: '',
     numeroDocumento: '',
     sexo: '',
-    nacionalidad: '',
-    pais: '',
     fechaNacimiento: '',
     tipoLibretaMilitar: '',
     numeroLibretaMilitar: '',

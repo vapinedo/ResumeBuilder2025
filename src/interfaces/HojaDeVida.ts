@@ -5,8 +5,6 @@ export interface DatosPersonales {
   tipoDocumento: string;
   numeroDocumento: string;
   sexo: string;
-  nacionalidad: string;
-  pais: string;
   fechaNacimiento: string;
   tipoLibretaMilitar: string;
   numeroLibretaMilitar: string;

@@ -9,11 +9,6 @@ export const tipoDocumentoOptions = [
   { value: 'PAS', label: 'Pasaporte (PAS)' }
 ];
 
-export const nacionalidadOptions = [
-  { value: 'COL', label: 'Colombiano (COL)' },
-  { value: 'EXT', label: 'Extranjero (EXT)' }
-];
-
 export const tipoLibretaMilitarOptions = [
   { value: 'primera', label: 'Primera Clase' },
   { value: 'segunda', label: 'Segunda Clase' }
