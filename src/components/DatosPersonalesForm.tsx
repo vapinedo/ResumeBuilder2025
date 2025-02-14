@@ -2,21 +2,21 @@ import React, { useEffect } from "react";
 import useCountries from "@hooks/useCountries";
 import { Typography, Paper } from "@mui/material";
 import CountrySelect from "@components/CountrySelect";
-import DepartamentoSelect from "@components/DepartamentoSelect"; // 🔥 Importamos el nuevo select
 import useDepartamentos from "@hooks/useDepartamentos";
 import { AutoGridRow } from "@components/AutoGridRow";
+import MunicipioSelect from "@components/MunicipioSelect";
 import { DatosPersonales } from "@interfaces/HojaDeVida";
 import { RenderFormFields } from "@components/RenderFormFields";
+import DepartamentoSelect from "@components/DepartamentoSelect";
 import { datosPersonalesFormConfig } from "@utils/datosPersonalesFormConfig";
 import { UseFormRegister, FieldErrors, UseFormSetValue, Control } from "react-hook-form";
-import MunicipioSelect from "./MunicipioSelect";
 
 interface Props {
   watch: any;
+  control: Control<DatosPersonales>;
   errors: FieldErrors<DatosPersonales>;
   register: UseFormRegister<DatosPersonales>;
   setValue: UseFormSetValue<DatosPersonales>;
-  control: Control<DatosPersonales>;
 }
 
 export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValue, watch, control }) => {
@@ -79,7 +79,7 @@ export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValu
 
   return (
     <Paper elevation={3} sx={{ padding: 3, marginBottom: 3 }}>
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h5" gutterBottom sx={{ marginBottom: 2 }}>
         Datos Personales
       </Typography>
 
