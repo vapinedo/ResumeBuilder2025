@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import useCountries from "@hooks/useCountries";
-import { Typography, Paper } from "@mui/material";
 import CountrySelect from "@components/CountrySelect";
 import useDepartamentos from "@hooks/useDepartamentos";
 import { AutoGridRow } from "@components/AutoGridRow";
 import MunicipioSelect from "@components/MunicipioSelect";
 import { DatosPersonales } from "@interfaces/HojaDeVida";
+import SectionContainer from "@containers/SectionContainer";
 import { RenderFormFields } from "@components/RenderFormFields";
 import DepartamentoSelect from "@components/DepartamentoSelect";
 import { datosPersonalesFormConfig } from "@utils/datosPersonalesFormConfig";
@@ -78,11 +78,7 @@ export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValu
   const datosPersonalesFormConfiguration = datosPersonalesFormConfig(countries || [], departamentos || []);
 
   return (
-    <Paper elevation={3} sx={{ padding: 3, marginBottom: 3 }}>
-      <Typography variant="h5" gutterBottom sx={{ marginBottom: 2 }}>
-        Datos Personales
-      </Typography>
-
+    <SectionContainer title="Datos Personales">
       {datosPersonalesFormConfiguration.map((fila, rowIndex) => (
         <AutoGridRow key={rowIndex} rowSpacing={2}>
           {fila.map((campo) =>
@@ -109,6 +105,6 @@ export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValu
           )}
         </AutoGridRow>
       ))}
-    </Paper>
+    </SectionContainer>
   );
 };

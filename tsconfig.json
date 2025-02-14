@@ -16,6 +16,7 @@
       "@hooks/*": ["hooks/*"],
       "@store/*": ["store/*"],
       "@components/*": ["components/*"],
+      "@containers/*": ["containers/*"],
       "@interfaces/*": ["interfaces/*"]
     }
   }
