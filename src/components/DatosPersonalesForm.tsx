@@ -62,6 +62,16 @@ export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValu
     normalizarDepartamento("departamentoCorrespondencia");
   }, [watch("departamentoNacimiento"), watch("departamentoCorrespondencia"), departamentos, setValue]);
 
+  useEffect(() => {
+    const sexoSeleccionado = watch("sexo");
+  
+    if (sexoSeleccionado !== "M") {
+      setValue("tipoLibretaMilitar", "");
+      setValue("numeroLibretaMilitar", "");
+      setValue("distritoMilitar", "");
+    }
+  }, [watch("sexo"), setValue]);
+
   if (isLoadingCountries || isLoadingDepartamentos) return <p>Cargando datos...</p>;
   if (error) return <p>Error al cargar los países</p>;
 
