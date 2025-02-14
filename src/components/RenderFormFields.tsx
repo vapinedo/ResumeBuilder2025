@@ -16,6 +16,14 @@ interface RenderFormFieldsProps {
 }
 
 export const RenderFormFields: React.FC<RenderFormFieldsProps> = ({ campo, register, watch, setValue, errors }) => {
+  // 🔥 Observar el valor del Select de Sexo
+  const sexoSeleccionado = watch("sexo");
+
+  // 🔥 Ocultar los campos de libreta militar si el sexo no es Masculino
+  if (["tipoLibretaMilitar", "numeroLibretaMilitar", "distritoMilitar"].includes(campo.name) && sexoSeleccionado !== "M") {
+    return null;
+  }
+
   switch (campo.type) {
     case "text":
       return (
