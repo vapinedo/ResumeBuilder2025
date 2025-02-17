@@ -40,8 +40,8 @@ export const fillPdf = async (formData: DatosPersonales): Promise<string> => {
   drawText(page, font, formData.numeroDocumento, 185, 575);
 
   const mapeoSexo: Record<string, [number, number]> = {
-    M: [317, 574],
-    F: [341.5, 574]
+    M: [341.5, 574],
+    F: [317, 574]
   };
   if (formData.sexo in mapeoSexo) {
     drawText(page, font, 'X', ...mapeoSexo[formData.sexo]);
