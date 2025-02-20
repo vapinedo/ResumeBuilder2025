@@ -5,7 +5,7 @@ interface Country {
   label: string;
 }
 
-const ONE_HOUR = 1000 * 60 * 60; 
+const CACHE_DURATION_ONE_HOUR = 1000 * 60 * 60; 
 
 const sortAZCountries = (countries: Country[]): Country[] => {
   return countries.sort((a, b) => a.value.localeCompare(b.value));
@@ -27,7 +27,7 @@ const fetchCountries = async (): Promise<Country[]> => {
 const useCountries = () => {
   return useQuery({
     queryKey: ['countries'],
-    staleTime: ONE_HOUR,
+    staleTime: CACHE_DURATION_ONE_HOUR,
     queryFn: fetchCountries,
   });
 }
