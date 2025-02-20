@@ -25,7 +25,7 @@ export const FormButtons: React.FC<FormButtonsProps> = ({ handleSubmit, onSubmit
             if (datosPersonales) {
               const parsedDatos = JSON.parse(datosPersonales);
               const pdfUrl = await fillPdf(parsedDatos);
-              window.open(pdfUrl, '_blank'); // Abrir el PDF en una nueva pestaña
+              window.open(pdfUrl, '_blank');
             } else {
               console.log('No hay datos para generar el PDF');
             }

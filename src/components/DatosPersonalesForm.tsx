@@ -1,11 +1,11 @@
 import React, { useEffect } from "react";
 import useCountries from "@hooks/useCountries";
+import { AutoGridRow } from "@components/AutoGridRow";
 import CountrySelect from "@components/CountrySelect";
 import useDepartamentos from "@hooks/useDepartamentos";
-import { AutoGridRow } from "@components/AutoGridRow";
 import MunicipioSelect from "@components/MunicipioSelect";
-import { DatosPersonales } from "@interfaces/ResumeData";
 import SectionContainer from "@containers/SectionContainer";
+import { DatosPersonales } from "@interfaces/DatosPersonales";
 import { RenderFormFields } from "@components/RenderFormFields";
 import DepartamentoSelect from "@components/DepartamentoSelect";
 import { datosPersonalesFormConfig } from "@utils/datosPersonalesFormConfig";
@@ -23,7 +23,6 @@ export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValu
   const { data: countries, isLoading: isLoadingCountries, error } = useCountries();
   const { departamentos, isLoading: isLoadingDepartamentos } = useDepartamentos();
 
-  // 🔥 Obtenemos los valores seleccionados en tiempo real
   const paisNacimiento = watch("paisNacimiento") || "";
   const paisCorrespondencia = watch("paisCorrespondencia") || "";
   const departamentoNacimiento = watch("departamentoNacimiento") || "";
