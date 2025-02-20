@@ -4,8 +4,7 @@ import { DatosPersonalesForm } from "@components/DatosPersonalesForm";
 import { SnackbarNotification } from "@components/SnackbarNotification";
 import { useDatosPersonalesForm } from "@hooks/useDatosPersonalesForm";
 
-export const HojaDeVidaForm: React.FC = () => {
-  // 🔥 Ahora incluimos `control`
+export const ResumeForm: React.FC = () => {
   const { onSubmit, handleSubmit, openSnackbar, handleSnackbarClose, register, errors, setValue, watch, control } =
     useDatosPersonalesForm();
 
@@ -13,11 +12,11 @@ export const HojaDeVidaForm: React.FC = () => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormButtons handleSubmit={handleSubmit} onSubmit={onSubmit} />
       <DatosPersonalesForm
-        register={register}
-        errors={errors}
-        setValue={setValue}
         watch={watch}
-        control={control} // 🔥 Pasamos control correctamente
+        errors={errors}
+        control={control}
+        register={register}
+        setValue={setValue}
       />
 
       <SnackbarNotification

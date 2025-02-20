@@ -1,6 +1,6 @@
 import React from 'react';
-import { HojaDeVidaForm } from '@components/HojaDeVidaForm';
+import { ResumeForm } from '@components/ResumeForm';
 
 export const HomePage: React.FC = () => {
-  return <HojaDeVidaForm />;
+  return <ResumeForm />;
 };
