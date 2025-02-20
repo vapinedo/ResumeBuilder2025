@@ -1,7 +1,7 @@
 import React from "react";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
-import { DatosPersonales } from "@interfaces/HojaDeVida";
+import { DatosPersonales } from "@interfaces/ResumeData";
 import CustomTextField from "@components/CustomTextField";
 import CustomSelectField from "@components/CustomSelectField";
 import { CampoFormulario } from "@utils/datosPersonalesFormConfig";

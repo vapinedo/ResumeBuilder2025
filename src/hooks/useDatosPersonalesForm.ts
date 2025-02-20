@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useMemo } from "react";
 import { useSnackbar } from "@hooks/useSnackbar";
-import { DatosPersonales } from "@interfaces/HojaDeVida";
-import { useHojaDeVidaStore } from "@store/useHojaDeVidaStore";
+import { DatosPersonales } from "@interfaces/ResumeData";
+import { useResumeStore } from "@store/useResumeStore";
 
 export const useDatosPersonalesForm = () => {
-  const { actualizarDatosPersonales } = useHojaDeVidaStore();
+  const { updateDatosPersonales: actualizarDatosPersonales } = useResumeStore();
   const { openSnackbar, showSnackbar, handleSnackbarClose } = useSnackbar();
 
   // Recuperar datos del localStorage al iniciar

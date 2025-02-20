@@ -4,7 +4,7 @@ import CountrySelect from "@components/CountrySelect";
 import useDepartamentos from "@hooks/useDepartamentos";
 import { AutoGridRow } from "@components/AutoGridRow";
 import MunicipioSelect from "@components/MunicipioSelect";
-import { DatosPersonales } from "@interfaces/HojaDeVida";
+import { DatosPersonales } from "@interfaces/ResumeData";
 import SectionContainer from "@containers/SectionContainer";
 import { RenderFormFields } from "@components/RenderFormFields";
 import DepartamentoSelect from "@components/DepartamentoSelect";

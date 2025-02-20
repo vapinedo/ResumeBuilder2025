@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { fillPdf } from '@utils/pdfHelper';
-import { useHojaDeVidaStore } from '@store/useHojaDeVidaStore';
+import { useResumeStore } from '@store/useResumeStore';
 
 const ResumePreview: React.FC = () => {
-  const { primerApellido, segundoApellido, nombres } = useHojaDeVidaStore(); // Obtener datos del estado global
+  const { primerApellido, segundoApellido, nombres } = useResumeStore(); // Obtener datos del estado global
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
   const handleGeneratePDF = async () => {

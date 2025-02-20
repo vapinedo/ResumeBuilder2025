@@ -1,5 +1,5 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import { DatosPersonales } from '@interfaces/HojaDeVida';
+import { DatosPersonales } from '@interfaces/ResumeData';
 
 export const fillPdf = async (formData: DatosPersonales): Promise<string> => {
   const pdfUrl = '/FormatoUnicoHojaVida.pdf';
