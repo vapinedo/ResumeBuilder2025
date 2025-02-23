@@ -1,13 +1,10 @@
 import React, { useEffect } from "react";
 import useCountries from "@hooks/useCountries";
 import { AutoGridRow } from "@components/AutoGridRow";
-import CountrySelect from "@components/CountrySelect";
 import useDepartamentos from "@hooks/useDepartamentos";
-import MunicipioSelect from "@components/MunicipioSelect";
 import SectionContainer from "@containers/SectionContainer";
 import { DatosPersonales } from "@interfaces/DatosPersonales";
 import { RenderFormFields } from "@components/RenderFormFields";
-import DepartamentoSelect from "@components/DepartamentoSelect";
 import { datosPersonalesFormConfig } from "@utils/datosPersonalesFormConfig";
 import { UseFormRegister, FieldErrors, UseFormSetValue, Control } from "react-hook-form";
 
