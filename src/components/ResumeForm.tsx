@@ -11,6 +11,7 @@ export const ResumeForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <FormButtons handleSubmit={handleSubmit} onSubmit={onSubmit} />
+      
       <DatosPersonalesForm
         watch={watch}
         errors={errors}

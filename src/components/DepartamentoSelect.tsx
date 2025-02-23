@@ -9,7 +9,7 @@ interface Props {
 }
 
 const DepartamentoSelect: React.FC<Props> = ({ name, control, selectedCountry }) => {
-  const { departamentos, isLoading, error } = useDepartamentos();
+  const { data, isLoading, error } = useDepartamentos();
 
   return (
     <SmartSelect
@@ -19,7 +19,7 @@ const DepartamentoSelect: React.FC<Props> = ({ name, control, selectedCountry })
       isLoading={isLoading}
       placeholder="Selecciona un departamento..."
       isDisabled={selectedCountry !== "Colombia"}
-      options={selectedCountry === "Colombia" ? departamentos : []}
+      options={selectedCountry === "Colombia" ? data : []}
     />
   );
 };

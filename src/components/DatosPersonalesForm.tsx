@@ -20,8 +20,8 @@ interface Props {
 }
 
 export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValue, watch, control }) => {
-  const { data: countries, isLoading: isLoadingCountries, error } = useCountries();
-  const { departamentos, isLoading: isLoadingDepartamentos } = useDepartamentos();
+  const { data: countries, isLoading: isLoadingCountries, error: errorPaises } = useCountries();
+  const { data: departamentos, isLoading: isLoadingDepartamentos, error: errorDepartamentos } = useDepartamentos();
 
   const paisNacimiento = watch("paisNacimiento") || "";
   const paisCorrespondencia = watch("paisCorrespondencia") || "";
@@ -72,7 +72,8 @@ export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValu
   }, [watch("sexo"), setValue]);
 
   if (isLoadingCountries || isLoadingDepartamentos) return <p>Cargando datos...</p>;
-  if (error) return <p>Error al cargar los países</p>;
+  if (errorPaises) return <p>Error al cargar los países</p>; 
+  if (errorDepartamentos) return <p>Error al cargar los departamentos</p>; 
 
   const datosPersonalesFormConfiguration = datosPersonalesFormConfig(countries || [], departamentos || []);
 
