@@ -1,25 +1,65 @@
 import React from "react";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
+import CountrySelect from "@components/CountrySelect";
+import MunicipioSelect from "@components/MunicipioSelect";
 import CustomTextField from "@components/CustomTextField";
-import { DatosPersonales } from "@interfaces/DatosPersonales";
 import CustomSelectField from "@components/CustomSelectField";
+import { DatosPersonales } from "@interfaces/DatosPersonales";
+import DepartamentoSelect from "@components/DepartamentoSelect";
 import { CampoFormulario } from "@utils/datosPersonalesFormConfig";
-import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue } from "react-hook-form";
+import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue, Control } from "react-hook-form";
 
 interface RenderFormFieldsProps {
   campo: CampoFormulario;
-  watch: UseFormWatch<DatosPersonales>;
+  paisNacimiento: string;
+  paisCorrespondencia: string;
+  departamentoNacimiento: string;
+  control: Control<DatosPersonales>;
+  departamentoCorrespondencia: string;
   errors: FieldErrors<DatosPersonales>;
+  watch: UseFormWatch<DatosPersonales>;
   register: UseFormRegister<DatosPersonales>;
   setValue: UseFormSetValue<DatosPersonales>;
 }
 
-export const RenderFormFields: React.FC<RenderFormFieldsProps> = ({ campo, register, watch, setValue, errors }) => {
+export const RenderFormFields: React.FC<RenderFormFieldsProps> = ({
+  campo,
+  watch,
+  setValue,
+  errors,
+  control,
+  register,
+  paisNacimiento,
+  paisCorrespondencia,
+  departamentoNacimiento,
+  departamentoCorrespondencia,
+}) => {
   const sexoSeleccionado = watch("sexo");
 
   if (["tipoLibretaMilitar", "numeroLibretaMilitar", "distritoMilitar"].includes(campo.name) && sexoSeleccionado !== "M") {
     return null;
+  }
+
+  switch (campo.name) {
+    case "paisNacimiento":
+    case "paisCorrespondencia":
+      return <CountrySelect key={campo.name} name={campo.name} control={control} />;
+
+    case "departamentoCorrespondencia":
+      return <DepartamentoSelect key={campo.name} name={campo.name} control={control} selectedCountry={paisCorrespondencia} />;
+
+    case "departamentoNacimiento":
+      return <DepartamentoSelect key={campo.name} name={campo.name} control={control} selectedCountry={paisNacimiento} />;
+
+    case "municipioCorrespondencia":
+      return <MunicipioSelect key={campo.name} name={campo.name} control={control} selectedDepartamento={departamentoCorrespondencia} />;
+
+    case "municipioNacimiento":
+      return <MunicipioSelect key={campo.name} name={campo.name} control={control} selectedDepartamento={departamentoNacimiento} />;
+
+    default:
+      break;
   }
 
   switch (campo.type) {

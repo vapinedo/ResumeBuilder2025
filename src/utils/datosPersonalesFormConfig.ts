@@ -25,10 +25,6 @@ interface CampoFecha extends CampoBase {
 
 export type CampoFormulario = CampoTexto | CampoSelect | CampoFecha;
 
-/** 
- * Nueva estructura agrupada por filas en un array 
- * Cada fila es un array con los campos correspondientes.
- */
 export const datosPersonalesFormConfig = (
   paises: { value: string; label: string }[],
   departamentos: { value: string; label: string }[]

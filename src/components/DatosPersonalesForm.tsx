@@ -81,30 +81,24 @@ export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValu
     <SectionContainer title="Datos Personales">
       {datosPersonalesFormConfiguration.map((fila, rowIndex) => (
         <AutoGridRow key={rowIndex} rowSpacing={2}>
-          {fila.map((campo) =>
-            campo.name === "paisCorrespondencia" || campo.name === "paisNacimiento" ? (
-              <CountrySelect key={campo.name} name={campo.name} control={control} />
-            ) : campo.name === "departamentoCorrespondencia" ? (
-              <DepartamentoSelect key={campo.name} name={campo.name} control={control} selectedCountry={paisCorrespondencia} />
-            ) : campo.name === "departamentoNacimiento" ? (
-              <DepartamentoSelect key={campo.name} name={campo.name} control={control} selectedCountry={paisNacimiento} />
-            ) : campo.name === "municipioCorrespondencia" ? (
-              <MunicipioSelect key={campo.name} name={campo.name} control={control} selectedDepartamento={departamentoCorrespondencia} />
-            ) : campo.name === "municipioNacimiento" ? (
-              <MunicipioSelect key={campo.name} name={campo.name} control={control} selectedDepartamento={departamentoNacimiento} />
-            ) : (
-              <RenderFormFields
-                campo={campo}
-                watch={watch}
-                errors={errors}
-                key={campo.name}
-                register={register}
-                setValue={setValue}
-              />
-            )
-          )}
+          {fila.map((campo) => (
+            <RenderFormFields
+              campo={campo}
+              watch={watch}
+              errors={errors}
+              key={campo.name}
+              control={control}
+              register={register}
+              setValue={setValue}
+              paisNacimiento={paisNacimiento}
+              paisCorrespondencia={paisCorrespondencia}
+              departamentoNacimiento={departamentoNacimiento}
+              departamentoCorrespondencia={departamentoCorrespondencia}
+            />
+          ))}
         </AutoGridRow>
       ))}
     </SectionContainer>
+
   );
 };
