@@ -3,9 +3,9 @@ import useCountries from "@hooks/useCountries";
 import { AutoGridRow } from "@components/AutoGridRow";
 import useDepartamentos from "@hooks/useDepartamentos";
 import SectionContainer from "@containers/SectionContainer";
-import { DatosPersonales } from "@interfaces/DatosPersonales";
 import { RenderFormFields } from "@components/RenderFormFields";
-import { datosPersonalesFormConfig } from "@utils/datosPersonalesFormConfig";
+import { DatosPersonales } from "@modules/resume/interfaces/DatosPersonales";
+import { datosPersonalesFormConfig } from "@modules/resume/utils/datosPersonalesFormConfig";
 import { UseFormRegister, FieldErrors, UseFormSetValue, Control } from "react-hook-form";
 
 interface Props {

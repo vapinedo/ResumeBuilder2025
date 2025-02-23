@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form";
 import { useEffect, useMemo } from "react";
 import { useSnackbar } from "@hooks/useSnackbar";
-import { useResumeStore } from "@store/useResumeStore";
-import { DatosPersonales } from "@interfaces/DatosPersonales";
+import { useResumeStore } from "@modules/resume/stores/useResumeStore";
+import { DatosPersonales } from "@modules/resume/interfaces/DatosPersonales";
 
 export const useDatosPersonalesForm = () => {
   const { updateDatosPersonales } = useResumeStore();

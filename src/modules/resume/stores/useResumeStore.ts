@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { ResumeData } from '@interfaces/ResumeData';
-import { datosPersonalesInit } from '@interfaces/DatosPersonales';
+import { ResumeData } from '@modules/resume/interfaces/ResumeData';
+import { datosPersonalesInit } from '@modules/resume/interfaces/DatosPersonales';
 
 export const useResumeStore = create<ResumeData>((set) => ({
   datosPersonales: datosPersonalesInit(),

@@ -15,9 +15,10 @@
       "@utils/*": ["utils/*"],
       "@hooks/*": ["hooks/*"],
       "@store/*": ["store/*"],
+      "@modules/*": ["modules/*"],
       "@components/*": ["components/*"],
       "@containers/*": ["containers/*"],
-      "@interfaces/*": ["interfaces/*"]
+      "@interfaces/*": ["interfaces/*"],
     }
   }
 }

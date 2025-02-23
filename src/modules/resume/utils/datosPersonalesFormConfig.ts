@@ -3,7 +3,7 @@ import {
   municipioOptions,
   tipoDocumentoOptions,
   tipoLibretaMilitarOptions,
-} from '@utils/datosPersonalesSelectOptions';
+} from '@modules/resume/utils/datosPersonalesSelectOptions';
 
 interface CampoBase {
   label: string;

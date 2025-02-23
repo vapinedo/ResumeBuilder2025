@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { fillPdf } from '@utils/pdfHelper';
-import { useResumeStore } from '@store/useResumeStore';
+import { useResumeStore } from 'modules/resume/stores/useResumeStore';
 
 const ResumePreview: React.FC = () => {
   const { primerApellido, segundoApellido, nombres } = useResumeStore(); // Obtener datos del estado global

@@ -5,9 +5,9 @@ import CountrySelect from "@components/CountrySelect";
 import MunicipioSelect from "@components/MunicipioSelect";
 import CustomTextField from "@components/CustomTextField";
 import CustomSelectField from "@components/CustomSelectField";
-import { DatosPersonales } from "@interfaces/DatosPersonales";
+import { DatosPersonales } from "modules/resume/interfaces/DatosPersonales";
 import DepartamentoSelect from "@components/DepartamentoSelect";
-import { CampoFormulario } from "@utils/datosPersonalesFormConfig";
+import { CampoFormulario } from "modules/resume/utils/datosPersonalesFormConfig";
 import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue, Control } from "react-hook-form";
 
 interface RenderFormFieldsProps {

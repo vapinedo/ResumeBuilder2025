@@ -1,8 +1,8 @@
 import React from "react";
 import { FormButtons } from "@components/FormButtons";
-import { DatosPersonalesForm } from "@components/DatosPersonalesForm";
 import { SnackbarNotification } from "@components/SnackbarNotification";
-import { useDatosPersonalesForm } from "@hooks/useDatosPersonalesForm";
+import { DatosPersonalesForm } from "@modules/resume/components/DatosPersonalesForm";
+import { useDatosPersonalesForm } from "@modules/resume/hooks/useDatosPersonalesForm";
 
 export const ResumeForm: React.FC = () => {
   const { onSubmit, handleSubmit, openSnackbar, handleSnackbarClose, register, errors, setValue, watch, control } =
