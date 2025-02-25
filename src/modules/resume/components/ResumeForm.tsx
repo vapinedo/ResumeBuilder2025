@@ -1,7 +1,7 @@
 import React from "react";
 import { FormButtons } from "@components/FormButtons";
+import { DatosPersonalesForm } from "@modules/resume/ResumeModule";
 import { SnackbarNotification } from "@components/SnackbarNotification";
-import { DatosPersonalesForm } from "@modules/resume/components/DatosPersonalesForm";
 import { useDatosPersonalesForm } from "@modules/resume/hooks/useDatosPersonalesForm";
 
 export const ResumeForm: React.FC = () => {
