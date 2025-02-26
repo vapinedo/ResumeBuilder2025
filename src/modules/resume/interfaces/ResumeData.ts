@@ -1,4 +1,4 @@
-import { DatosPersonales } from "modules/resume/interfaces/DatosPersonales";
+import { DatosPersonales } from "@modules/resume/interfaces/DatosPersonales";
 
 export interface ResumeData {
   datosPersonales: DatosPersonales;

@@ -1,14 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import useCountries from "@hooks/useCountries";
 import { AutoGridRow } from "@components/AutoGridRow";
 import useDepartamentos from "@hooks/useDepartamentos";
 import SectionContainer from "@containers/SectionContainer";
+import { useDependentSelect } from "@hooks/useDependentSelect";
 import { RenderFormFields } from "@components/RenderFormFields";
-import { datosPersonalesFormConfig, DatosPersonales } from "@modules/resume/ResumeModule";
-import { UseFormRegister, FieldErrors, UseFormSetValue, Control } from "react-hook-form";
+import { DatosPersonales } from "@modules/resume/interfaces/DatosPersonales";
+import { datosPersonalesFormConfig } from "@modules/resume/utils/datosPersonalesFormConfig";
+import { UseFormRegister, FieldErrors, UseFormSetValue, Control, UseFormWatch } from "react-hook-form";
 
 interface Props {
-  watch: any;
+  watch: UseFormWatch<DatosPersonales>;
   control: Control<DatosPersonales>;
   errors: FieldErrors<DatosPersonales>;
   register: UseFormRegister<DatosPersonales>;
@@ -19,57 +21,21 @@ export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValu
   const { data: countries, isLoading: isLoadingCountries, error: errorPaises } = useCountries();
   const { data: departamentos, isLoading: isLoadingDepartamentos, error: errorDepartamentos } = useDepartamentos();
 
+  useDependentSelect(watch, setValue, "paisCorrespondencia", "departamentoCorrespondencia");
+  useDependentSelect(watch, setValue, "departamentoCorrespondencia", "municipioCorrespondencia");
+  useDependentSelect(watch, setValue, "paisNacimiento", "departamentoNacimiento");
+  useDependentSelect(watch, setValue, "departamentoNacimiento", "municipioNacimiento");
+
+  // Extraer valores dependientes
   const paisNacimiento = watch("paisNacimiento") || "";
   const paisCorrespondencia = watch("paisCorrespondencia") || "";
   const departamentoNacimiento = watch("departamentoNacimiento") || "";
   const departamentoCorrespondencia = watch("departamentoCorrespondencia") || "";
 
-  useEffect(() => {
-    const normalizarPais = () => {
-      const paisCorrespondencia = watch("paisCorrespondencia");
-      if (paisCorrespondencia && typeof paisCorrespondencia === "string") {
-        const matchedCountry = countries?.find(
-          (c) => c.value.toLowerCase() === paisCorrespondencia.toLowerCase()
-        );
-        if (matchedCountry && matchedCountry.value !== paisCorrespondencia) {
-          setValue("paisCorrespondencia", matchedCountry.value);
-        }
-      }
-    };
-
-    normalizarPais();
-  }, [watch("paisCorrespondencia"), countries, setValue]);
-
-  useEffect(() => {
-    const normalizarDepartamento = (campo: "departamentoNacimiento" | "departamentoCorrespondencia") => {
-      const departamentoSeleccionado = watch(campo);
-      if (departamentoSeleccionado && typeof departamentoSeleccionado === "string") {
-        const matchedDepartamento = departamentos?.find(
-          (d) => d.value.toLowerCase() === departamentoSeleccionado.toLowerCase()
-        );
-        if (matchedDepartamento && matchedDepartamento.value !== departamentoSeleccionado) {
-          setValue(campo, matchedDepartamento.value);
-        }
-      }
-    };
-
-    normalizarDepartamento("departamentoNacimiento");
-    normalizarDepartamento("departamentoCorrespondencia");
-  }, [watch("departamentoNacimiento"), watch("departamentoCorrespondencia"), departamentos, setValue]);
-
-  useEffect(() => {
-    const sexoSeleccionado = watch("sexo");
-  
-    if (sexoSeleccionado !== "M") {
-      setValue("tipoLibretaMilitar", "");
-      setValue("numeroLibretaMilitar", "");
-      setValue("distritoMilitar", "");
-    }
-  }, [watch("sexo"), setValue]);
-
+  // Validaciones de carga
   if (isLoadingCountries || isLoadingDepartamentos) return <p>Cargando datos...</p>;
-  if (errorPaises) return <p>Error al cargar los países</p>; 
-  if (errorDepartamentos) return <p>Error al cargar los departamentos</p>; 
+  if (errorPaises) return <p>Error al cargar los países</p>;
+  if (errorDepartamentos) return <p>Error al cargar los departamentos</p>;
 
   const datosPersonalesFormConfiguration = datosPersonalesFormConfig(countries || [], departamentos || []);
 
@@ -95,6 +61,5 @@ export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValu
         </AutoGridRow>
       ))}
     </SectionContainer>
-
   );
 };

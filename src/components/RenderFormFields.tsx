@@ -5,8 +5,8 @@ import CountrySelect from "@components/CountrySelect";
 import MunicipioSelect from "@components/MunicipioSelect";
 import CustomTextField from "@components/CustomTextField";
 import CustomSelectField from "@components/CustomSelectField";
-import { DatosPersonales } from "modules/resume/interfaces/DatosPersonales";
 import DepartamentoSelect from "@components/DepartamentoSelect";
+import { DatosPersonales } from "modules/resume/interfaces/DatosPersonales";
 import { CampoFormulario } from "modules/resume/utils/datosPersonalesFormConfig";
 import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue, Control } from "react-hook-form";
 
@@ -15,8 +15,8 @@ interface RenderFormFieldsProps {
   paisNacimiento: string;
   paisCorrespondencia: string;
   departamentoNacimiento: string;
-  control: Control<DatosPersonales>;
   departamentoCorrespondencia: string;
+  control: Control<DatosPersonales>;
   errors: FieldErrors<DatosPersonales>;
   watch: UseFormWatch<DatosPersonales>;
   register: UseFormRegister<DatosPersonales>;
@@ -25,15 +25,15 @@ interface RenderFormFieldsProps {
 
 export const RenderFormFields: React.FC<RenderFormFieldsProps> = ({
   campo,
+  paisNacimiento,
+  paisCorrespondencia,
+  departamentoNacimiento,
+  departamentoCorrespondencia,
   watch,
   setValue,
   errors,
   control,
   register,
-  paisNacimiento,
-  paisCorrespondencia,
-  departamentoNacimiento,
-  departamentoCorrespondencia,
 }) => {
   const sexoSeleccionado = watch("sexo");
 
