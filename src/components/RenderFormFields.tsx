@@ -1,7 +1,7 @@
 import React from "react";
 import dayjs from "dayjs";
 import { DatePicker } from "@mui/x-date-pickers";
-import CountrySelect from "@components/CountrySelect";
+import { CountrySelect } from "@components/CountrySelect";
 import MunicipioSelect from "@components/MunicipioSelect";
 import CustomTextField from "@components/CustomTextField";
 import CustomSelectField from "@components/CustomSelectField";
@@ -15,26 +15,27 @@ interface RenderFormFieldsProps {
   paisNacimiento: string;
   paisCorrespondencia: string;
   departamentoNacimiento: string;
-  departamentoCorrespondencia: string;
   control: Control<DatosPersonales>;
+  departamentoCorrespondencia: string;
   errors: FieldErrors<DatosPersonales>;
   watch: UseFormWatch<DatosPersonales>;
   register: UseFormRegister<DatosPersonales>;
   setValue: UseFormSetValue<DatosPersonales>;
 }
 
-export const RenderFormFields: React.FC<RenderFormFieldsProps> = ({
-  campo,
-  paisNacimiento,
-  paisCorrespondencia,
-  departamentoNacimiento,
-  departamentoCorrespondencia,
-  watch,
-  setValue,
-  errors,
-  control,
-  register,
-}) => {
+export const RenderFormFields: React.FC<RenderFormFieldsProps> = (props) => {
+  const {
+    watch,
+    campo,
+    errors,
+    control,
+    register,
+    setValue,
+    paisNacimiento,
+    paisCorrespondencia,
+    departamentoNacimiento,
+    departamentoCorrespondencia,
+  } = props;
   const sexoSeleccionado = watch("sexo");
 
   if (["tipoLibretaMilitar", "numeroLibretaMilitar", "distritoMilitar"].includes(campo.name) && sexoSeleccionado !== "M") {

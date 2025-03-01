@@ -10,21 +10,22 @@ import { datosPersonalesFormConfig } from "@modules/resume/utils/datosPersonales
 import { UseFormRegister, FieldErrors, UseFormSetValue, Control, UseFormWatch } from "react-hook-form";
 
 interface Props {
-  watch: UseFormWatch<DatosPersonales>;
   control: Control<DatosPersonales>;
+  watch: UseFormWatch<DatosPersonales>;
   errors: FieldErrors<DatosPersonales>;
   register: UseFormRegister<DatosPersonales>;
   setValue: UseFormSetValue<DatosPersonales>;
 }
 
-export const DatosPersonalesForm: React.FC<Props> = ({ register, errors, setValue, watch, control }) => {
-  const { data: countries, isLoading: isLoadingCountries, error: errorPaises } = useCountries();
-  const { data: departamentos, isLoading: isLoadingDepartamentos, error: errorDepartamentos } = useDepartamentos();
+export const DatosPersonalesForm: React.FC<Props> = (props) => {
+  const { watch, errors, control, register, setValue } = props;
+  // const { data: countries, isLoading: isLoadingCountries, error: errorPaises } = useCountries();
+  // const { data: departamentos, isLoading: isLoadingDepartamentos, error: errorDepartamentos } = useDepartamentos();
 
-  useDependentSelect(watch, setValue, "paisCorrespondencia", "departamentoCorrespondencia");
-  useDependentSelect(watch, setValue, "departamentoCorrespondencia", "municipioCorrespondencia");
-  useDependentSelect(watch, setValue, "paisNacimiento", "departamentoNacimiento");
-  useDependentSelect(watch, setValue, "departamentoNacimiento", "municipioNacimiento");
+  // useDependentSelect(watch, setValue, "paisCorrespondencia", "departamentoCorrespondencia");
+  // useDependentSelect(watch, setValue, "departamentoCorrespondencia", "municipioCorrespondencia");
+  // useDependentSelect(watch, setValue, "paisNacimiento", "departamentoNacimiento");
+  // useDependentSelect(watch, setValue, "departamentoNacimiento", "municipioNacimiento");
 
   // Extraer valores dependientes
   const paisNacimiento = watch("paisNacimiento") || "";

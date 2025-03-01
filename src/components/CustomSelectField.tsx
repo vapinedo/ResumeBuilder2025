@@ -1,8 +1,8 @@
-import React from 'react';
-import { TextField, MenuItem } from '@mui/material';
-import { FieldErrors, UseFormRegister, UseFormWatch } from 'react-hook-form';
+import React from "react";
+import { TextField, MenuItem } from "@mui/material";
+import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 
-interface SelectOption {
+export interface SelectOption {
   value: string;
   label: string;
 }
@@ -17,22 +17,25 @@ interface CustomSelectFieldProps {
   register: UseFormRegister<any>;
 }
 
-const CustomSelectField: React.FC<CustomSelectFieldProps> = ({ label, name, register, watch, errors, options, required }) => {
+export const CustomSelectField: React.FC<CustomSelectFieldProps> = (props) => {
+  const { label, name, register, watch, errors, options, required } = props;
   const selectedValue = watch(name) ?? "";
 
   return (
     <TextField
       select
       fullWidth
-      size='small'
+      size="small"
       label={label}
-      variant='outlined'
-      value={selectedValue}
+      variant="outlined"
       error={!!errors[name]}
       helperText={errors[name]?.message ? String(errors[name]?.message) : undefined}
-      {...register(name, { required: required ? 'Este campo es obligatorio' : false })}
+      {...register(name, {
+        required: required ? "Este campo es obligatorio" : false,
+      })}
+      defaultValue=""
     >
-      {options.map(option => (
+      {options.map((option) => (
         <MenuItem key={option.value} value={option.value}>
           {option.label}
         </MenuItem>
@@ -40,5 +43,3 @@ const CustomSelectField: React.FC<CustomSelectFieldProps> = ({ label, name, regi
     </TextField>
   );
 };
-
-export default CustomSelectField;

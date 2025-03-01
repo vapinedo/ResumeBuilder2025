@@ -1,25 +1,37 @@
 import React from "react";
 import useCountries from "@hooks/useCountries";
-import SmartSelect from "@components/SmartSelect";
+import { CustomSelectField } from "@components/CustomSelectField";
+import { FieldErrors, UseFormRegister, UseFormWatch, FieldError } from "react-hook-form";
 
 interface Props {
   name: string;
-  control: any;
+  label: string;
+  required?: boolean;
+  errors: FieldErrors;
+  watch: UseFormWatch<any>;
+  register: UseFormRegister<any>;
 }
 
-const CountrySelect: React.FC<Props> = ({ name, control }) => {
-  const { data: countries, isLoading, error } = useCountries();
+export const CountrySelect: React.FC<Props> = (props) => {
+  const { name, label, required, errors, register, watch } = props;
+  const { data: countries, isLoading, error: countriesError } = useCountries();
+
+  const updatedErrors: FieldErrors = {
+    ...errors,
+    [name]: countriesError
+      ? ({ type: "manual", message: "Error al cargar la lista de países" } as FieldError)
+      : errors[name],
+  };
 
   return (
-    <SmartSelect
+    <CustomSelectField
       name={name}
-      error={error}
-      control={control}
-      isLoading={isLoading}
-      options={countries || []}
-      placeholder="Selecciona un país..."
+      label={label}
+      watch={watch}
+      required={required}
+      register={register}
+      errors={updatedErrors}
+      options={countries ?? []}
     />
   );
 };
-
-export default CountrySelect;
