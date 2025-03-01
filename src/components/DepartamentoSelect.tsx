@@ -1,27 +1,38 @@
 import React from "react";
-import SmartSelect from "@components/SmartSelect";
 import useDepartamentos from "@hooks/useDepartamentos";
+import { CustomSelectField } from "@components/CustomSelectField";
+import { FieldError, FieldErrors, UseFormWatch, UseFormRegister } from "react-hook-form";
 
 interface Props {
   name: string;
-  control: any;
-  selectedCountry: string;
+  label: string;
+  required?: boolean;
+  errors: FieldErrors;
+  watch: UseFormWatch<any>;
+  register: UseFormRegister<any>;
 }
 
-const DepartamentoSelect: React.FC<Props> = ({ name, control, selectedCountry }) => {
-  const { data, isLoading, error } = useDepartamentos();
+export const DepartamentoSelect: React.FC<Props> = (props) => {
+  const { name, label, required, errors, register, watch } = props;
+  const { data: departamentos, isLoading, error: departamentosError } = useDepartamentos();
+
+  const updatedErrors: FieldErrors = {
+    ...errors,
+    [name]: departamentosError
+      ? ({ type: "manual", message: "Error al cargar la lista de departamentos" } as FieldError)
+      : errors[name],
+  };
 
   return (
-    <SmartSelect
+    <CustomSelectField
       name={name}
-      error={error}
-      control={control}
-      isLoading={isLoading}
-      placeholder="Selecciona un departamento..."
-      isDisabled={selectedCountry !== "Colombia"}
-      options={selectedCountry === "Colombia" ? data : []}
+      label={label}
+      watch={watch}
+      required={required}
+      register={register}
+      errors={updatedErrors}
+      options={departamentos ?? []}
     />
   );
 };
 
-export default DepartamentoSelect;

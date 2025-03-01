@@ -1,11 +1,12 @@
 import React from "react";
-import useCountries from "@hooks/useCountries";
 import { AutoGridRow } from "@components/AutoGridRow";
 import { CountrySelect } from "@components/CountrySelect";
 import CustomTextField from "@components/CustomTextField";
 import SectionContainer from "@containers/SectionContainer";
+import { MunicipioSelect } from "@components/MunicipioSelect";
 import { CustomSelectField } from "@components/CustomSelectField";
 import { ResumeData } from "@modules/resume/interfaces/ResumeData";
+import { DepartamentoSelect } from "@components/DepartamentoSelect";
 import { sexoOptions, tipoDocumentoOptions } from "@modules/resume/utils/resumeFormOption.helper";
 import { Control, UseFormRegister, FieldErrors, UseFormSetValue, UseFormWatch } from "react-hook-form";
 
@@ -19,21 +20,6 @@ interface Props {
 
 export const DatosPersonalesFormulario: React.FC<Props> = (props) => {
   const { control, errors, register, setValue, watch } = props;
-  const { data: countries, isLoading, error: countriesError } = useCountries();
-
-  const countryOptions = countries
-    ? countries.map((country) => ({ value: country.code, label: country.name }))
-    : [];
-
-  const updatedErrors = {
-    ...errors,
-    datosPersonales: {
-      ...errors.datosPersonales,
-      paisNacimiento: countriesError
-        ? { message: "Error al cargar la lista de países" }
-        : errors.datosPersonales?.paisNacimiento,
-    },
-  };
 
   return (
     <SectionContainer title="Datos Personales">
@@ -53,6 +39,8 @@ export const DatosPersonalesFormulario: React.FC<Props> = (props) => {
 
       <AutoGridRow spacing={2} rowSpacing={2}>
         <CountrySelect required name="datosPersonales.paisNacimiento" label="País de Nacimiento" errors={errors} register={register} watch={watch} />
+        <DepartamentoSelect required name="datosPersonales.departamentoNacimiento" label="Departamento de Nacimiento" errors={errors} register={register} watch={watch} />
+        <MunicipioSelect required name="datosPersonales.municipioNacimiento" label="Municipio de Nacimiento" errors={errors} register={register} watch={watch} />
       </AutoGridRow>
     </SectionContainer>
   );
