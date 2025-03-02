@@ -1,16 +1,16 @@
 import dayjs from 'dayjs';
-import 'dayjs/locale/es'; // Importa el idioma español
-import customParseFormat from 'dayjs/plugin/customParseFormat';
+import 'dayjs/locale/es';
 import updateLocale from 'dayjs/plugin/updateLocale';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
-// Agrega los plugins que necesitas
 dayjs.extend(customParseFormat);
 dayjs.extend(updateLocale);
 
-// Configura el idioma y el formato de fecha predeterminado
-dayjs.locale('es', {
+dayjs.locale('es');
+
+dayjs.updateLocale('es', {
   formats: {
-    L: 'YYYY-MM-DD' // Formato de fecha por defecto
+    L: 'DD/MM/YYYY'
   }
 });
 

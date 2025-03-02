@@ -9,6 +9,7 @@ import { ResumeData } from "@modules/resume/interfaces/ResumeData";
 import { DepartamentoSelect } from "@components/DepartamentoSelect";
 import { sexoOptions, tipoDocumentoOptions } from "@modules/resume/utils/resumeFormOption.helper";
 import { Control, UseFormRegister, FieldErrors, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import { CustomDatePicker } from "@components/CustomDatePicker";
 
 interface Props {
   control: Control<ResumeData>;
@@ -38,9 +39,16 @@ export const DatosPersonalesFormulario: React.FC<Props> = (props) => {
       </AutoGridRow>
 
       <AutoGridRow spacing={2} rowSpacing={2}>
+        <CustomDatePicker required name="datosPersonales.fechaNacimiento" label="Fecha de Nacimiento" errors={errors} register={register} control={control} />
         <CountrySelect required name="datosPersonales.paisNacimiento" label="País de Nacimiento" errors={errors} register={register} watch={watch} />
         <DepartamentoSelect required name="datosPersonales.departamentoNacimiento" label="Departamento de Nacimiento" errors={errors} register={register} watch={watch} />
         <MunicipioSelect required name="datosPersonales.municipioNacimiento" label="Municipio de Nacimiento" errors={errors} register={register} watch={watch} />
+      </AutoGridRow>
+
+      <AutoGridRow spacing={2} rowSpacing={2}>
+        <CountrySelect required name="datosPersonales.paisCorrespondencia" label="País de Correspondencia" errors={errors} register={register} watch={watch} />
+        <DepartamentoSelect required name="datosPersonales.departamentoCorrespondencia" label="Departamento de Correspondencia" errors={errors} register={register} watch={watch} />
+        <MunicipioSelect required name="datosPersonales.municipioCorrespondencia" label="Municipio de Correspondencia" errors={errors} register={register} watch={watch} />
       </AutoGridRow>
     </SectionContainer>
   );
