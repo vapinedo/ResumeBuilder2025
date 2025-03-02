@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AutoGridRow } from "@components/AutoGridRow";
 import { CountrySelect } from "@components/CountrySelect";
 import CustomTextField from "@components/CustomTextField";
 import SectionContainer from "@containers/SectionContainer";
 import { MunicipioSelect } from "@components/MunicipioSelect";
+import { CustomDatePicker } from "@components/CustomDatePicker";
 import { CustomSelectField } from "@components/CustomSelectField";
 import { ResumeData } from "@modules/resume/interfaces/ResumeData";
 import { DepartamentoSelect } from "@components/DepartamentoSelect";
-import { sexoOptions, tipoDocumentoOptions } from "@modules/resume/utils/resumeFormOption.helper";
 import { Control, UseFormRegister, FieldErrors, UseFormSetValue, UseFormWatch } from "react-hook-form";
-import { CustomDatePicker } from "@components/CustomDatePicker";
+import { sexoOptions, tipoDocumentoOptions, tipoLibretaMilitarOptions } from "@modules/resume/utils/resumeFormOption.helper";
 
 interface Props {
   control: Control<ResumeData>;
@@ -21,6 +21,16 @@ interface Props {
 
 export const DatosPersonalesFormulario: React.FC<Props> = (props) => {
   const { control, errors, register, setValue, watch } = props;
+
+  const selectedSexo = watch("datosPersonales.sexo");
+
+  useEffect(() => {
+    if (selectedSexo !== "M") {
+      setValue("datosPersonales.tipoLibretaMilitar", "");
+      setValue("datosPersonales.numeroLibretaMilitar", "");
+      setValue("datosPersonales.distritoMilitar", "");
+    }
+  }, [selectedSexo, setValue]);
 
   return (
     <SectionContainer title="Datos Personales">
@@ -46,10 +56,19 @@ export const DatosPersonalesFormulario: React.FC<Props> = (props) => {
       </AutoGridRow>
 
       <AutoGridRow spacing={2} rowSpacing={2}>
+        <CustomTextField required name='datosPersonales.direccionCorrespondencia' label='Dirección de Correspondencia' errors={errors} register={register} />
         <CountrySelect required name="datosPersonales.paisCorrespondencia" label="País de Correspondencia" errors={errors} register={register} watch={watch} />
         <DepartamentoSelect required name="datosPersonales.departamentoCorrespondencia" label="Departamento de Correspondencia" errors={errors} register={register} watch={watch} />
         <MunicipioSelect required name="datosPersonales.municipioCorrespondencia" label="Municipio de Correspondencia" errors={errors} register={register} watch={watch} />
       </AutoGridRow>
+
+      {selectedSexo === "M" && (
+        <AutoGridRow spacing={2} rowSpacing={2}>
+          <CustomSelectField required name='datosPersonales.tipoLibretaMilitar' label='Tipo Libreta Militar' errors={errors} register={register} watch={watch} options={tipoLibretaMilitarOptions} />
+          <CustomTextField required name='datosPersonales.numeroLibretaMilitar' label='Numero Libreta Militar' errors={errors} register={register} />
+          <CustomTextField required name='datosPersonales.distritoMilitar' label='Distrito Militar' errors={errors} register={register} />
+        </AutoGridRow>
+      )}
     </SectionContainer>
   );
 };
