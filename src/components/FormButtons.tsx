@@ -1,11 +1,15 @@
 import React from 'react';
 import { fillPdf } from '@utils/pdfHelper';
 import { Button, Grid } from '@mui/material';
+import { getLocalStorageItem } from '@utils/storage.helper';
+import { ResumeData } from '@modules/resume/interfaces/ResumeData';
 
 interface FormButtonsProps {
   handleSubmit: (callback: (data: any) => void) => (e?: React.BaseSyntheticEvent) => void;
   onSubmit: (data: any) => void;
 }
+
+const STORAGE_KEY = "resumeForm";
 
 export const FormButtons: React.FC<FormButtonsProps> = ({ handleSubmit, onSubmit }) => {
   return (
@@ -21,10 +25,9 @@ export const FormButtons: React.FC<FormButtonsProps> = ({ handleSubmit, onSubmit
           color="success"
           variant="contained"
           onClick={async () => {
-            const datosPersonales = localStorage.getItem('datosPersonales');
-            if (datosPersonales) {
-              const parsedDatos = JSON.parse(datosPersonales);
-              const pdfUrl = await fillPdf(parsedDatos);
+            const storedData = getLocalStorageItem<ResumeData>(STORAGE_KEY);
+            if (storedData) {
+              const pdfUrl = await fillPdf(storedData.datosPersonales);
               window.open(pdfUrl, '_blank');
             } else {
               console.log('No hay datos para generar el PDF');

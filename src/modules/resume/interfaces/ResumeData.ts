@@ -22,5 +22,4 @@ export interface DatosPersonales {
 
 export interface ResumeData {
   datosPersonales: DatosPersonales;
-  // updateDatosPersonales: (datos: Partial<DatosPersonales>) => void;
 }
