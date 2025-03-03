@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useSnackbar } from "@hooks/useSnackbar";
 import { FormButtons } from "@components/FormButtons";
@@ -10,16 +10,21 @@ import { DatosPersonalesForm } from "@modules/resume/components/DatosPersonalesF
 
 const STORAGE_KEY = "resumeForm";
 
-const storedData = getLocalStorageItem<ResumeData>(STORAGE_KEY);
-
 const FORM_CONFIG = {
   defaultValues: ResumeDataInitValues()
 };
 
 export const ResumeForm: React.FC = () => {
   const { openSnackbar, showSnackbar, handleSnackbarClose } = useSnackbar();
-  const { control, handleSubmit, register, setValue, watch, formState } = useForm<ResumeData>(FORM_CONFIG);
+  const { control, handleSubmit, register, reset, setValue, watch, formState } = useForm<ResumeData>(FORM_CONFIG);
   const { errors, isValid } = formState;
+
+  useEffect(() => {
+    const storedData = getLocalStorageItem<ResumeData>(STORAGE_KEY);
+    if (storedData) {
+      reset(storedData);
+    }
+  }, [reset]);
 
   const onSubmit = (formData: ResumeData) => {
     try {
@@ -39,11 +44,6 @@ export const ResumeForm: React.FC = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-
-      {Object.keys(errors).length > 0 && (
-        <p style={{ color: "red" }}>Por favor, revisa los campos obligatorios.</p>
-      )}
-
       <FormButtons handleSubmit={handleSubmit} onSubmit={onSubmit} />
       
       <DatosPersonalesForm

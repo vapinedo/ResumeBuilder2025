@@ -33,7 +33,8 @@ export const CustomSelectField: React.FC<CustomSelectFieldProps> = (props) => {
       {...register(name, {
         required: required ? "Este campo es obligatorio" : false,
       })}
-      defaultValue=""
+      value={selectedValue}
+      onChange={(e) => register(name).onChange(e)}
     >
       {options.map((option) => (
         <MenuItem key={option.value} value={option.value}>

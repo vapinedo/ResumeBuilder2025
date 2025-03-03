@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { AutoGridRow } from "@components/AutoGridRow";
 import { CountrySelect } from "@components/CountrySelect";
-import CustomTextField from "@components/CustomTextField";
 import SectionContainer from "@containers/SectionContainer";
+import { CustomTextField } from "@components/CustomTextField";
 import { MunicipioSelect } from "@components/MunicipioSelect";
 import { CustomDatePicker } from "@components/CustomDatePicker";
 import { CustomSelectField } from "@components/CustomSelectField";

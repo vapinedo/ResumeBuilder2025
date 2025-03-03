@@ -3,22 +3,24 @@ import { TextField } from '@mui/material';
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
 
 interface CustomTextFieldProps {
+  type?: string;
   label: string;
   name: string;
-  register: UseFormRegister<any>; // Recibe el método register de react-hook-form
-  errors: FieldErrors<any>;
   required?: boolean;
-  type?: string;
+  errors: FieldErrors<any>;
+  register: UseFormRegister<any>;
 }
 
-const CustomTextField: React.FC<CustomTextFieldProps> = ({
-  label,
-  name,
-  register,
-  errors,
-  required = false,
-  type = 'text'
-}) => {
+export const CustomTextField: React.FC<CustomTextFieldProps> = (props) => {
+  const {
+    label,
+    name,
+    errors,
+    register,
+    type = 'text',
+    required = false,
+  } = props; 
+
   return (
     <TextField
       fullWidth
@@ -27,10 +29,8 @@ const CustomTextField: React.FC<CustomTextFieldProps> = ({
       label={label}
       variant='outlined'
       error={!!errors[name]}
-      helperText={errors[name]?.message as string}
-      {...register(name, required ? { required: `${label} es obligatorio` } : {})}
+      helperText={errors[name]?.message ? String(errors[name]?.message) : undefined}
+      {...register(name, required ? { required: `${label} es obligatorio` } : undefined)}
     />
   );
 };
-
-export default CustomTextField;
