@@ -1,6 +1,8 @@
 import React from "react";
+import { get} from "lodash";
 import { TextField, MenuItem } from "@mui/material";
 import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
+import { ResumeData } from "@modules/resume/interfaces/ResumeData";
 
 export interface SelectOption {
   value: string;
@@ -11,10 +13,10 @@ interface CustomSelectFieldProps {
   name: string;
   label: string;
   required?: boolean;
-  errors: FieldErrors;
   options: SelectOption[];
   watch: UseFormWatch<any>;
-  register: UseFormRegister<any>;
+  errors: FieldErrors<ResumeData>;
+  register: UseFormRegister<ResumeData>;
 }
 
 export const CustomSelectField: React.FC<CustomSelectFieldProps> = (props) => {
@@ -28,13 +30,13 @@ export const CustomSelectField: React.FC<CustomSelectFieldProps> = (props) => {
       size="small"
       label={label}
       variant="outlined"
-      error={!!errors[name]}
-      helperText={errors[name]?.message ? String(errors[name]?.message) : undefined}
-      {...register(name, {
+      error={Boolean(get(errors, name))}
+      helperText={get(errors, `${name}.message`, null)}
+      {...register(name as any, {
         required: required ? "Este campo es obligatorio" : false,
       })}
       value={selectedValue}
-      onChange={(e) => register(name).onChange(e)}
+      onChange={(e) => register(name as any).onChange(e)}
     >
       {options.map((option) => (
         <MenuItem key={option.value} value={option.value}>

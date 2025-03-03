@@ -32,8 +32,6 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
     }
   }, [selectedSexo, setValue]);
 
-  console.log("Errores en DatosPersonalesForm:", errors);
-
   return (
     <SectionContainer title="Datos Personales">
       <AutoGridRow spacing={2} rowSpacing={2}>
