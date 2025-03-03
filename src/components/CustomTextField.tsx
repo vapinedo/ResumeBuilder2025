@@ -1,36 +1,38 @@
-import React from 'react';
-import { TextField } from '@mui/material';
-import { UseFormRegister, FieldErrors } from 'react-hook-form';
+import React from "react";
+import { get } from "lodash";
+import { TextField } from "@mui/material";
+import { UseFormRegister, FieldErrors } from "react-hook-form";
+import { DatosPersonales, ResumeData } from "@modules/resume/interfaces/ResumeData";
 
-interface CustomTextFieldProps {
+interface Props {
   type?: string;
   label: string;
-  name: string;
   required?: boolean;
-  errors: FieldErrors<any>;
-  register: UseFormRegister<any>;
+  errors: FieldErrors<ResumeData>;
+  register: UseFormRegister<ResumeData>;
+  name: keyof ResumeData | `datosPersonales.${keyof DatosPersonales}`;
 }
 
-export const CustomTextField: React.FC<CustomTextFieldProps> = (props) => {
+export const CustomTextField: React.FC<Props> = (props) => {
   const {
     label,
     name,
     errors,
     register,
-    type = 'text',
+    type = "text",
     required = false,
-  } = props; 
-
+  } = props;
+  
   return (
     <TextField
       fullWidth
       type={type}
-      size='small'
+      size="small"
       label={label}
-      variant='outlined'
-      error={!!errors[name]}
-      helperText={errors[name]?.message ? String(errors[name]?.message) : undefined}
-      {...register(name, required ? { required: `${label} es obligatorio` } : undefined)}
+      variant="outlined"
+      error={Boolean(get(errors, name))}
+      helperText={get(errors, `${name}.message`, " ")}
+      {...register(name as any, required ? { required: `${label} es obligatorio` } : undefined)}
     />
   );
 };

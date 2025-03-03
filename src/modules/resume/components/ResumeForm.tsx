@@ -16,23 +16,18 @@ const FORM_CONFIG = {
 
 export const ResumeForm: React.FC = () => {
   const { openSnackbar, showSnackbar, handleSnackbarClose } = useSnackbar();
-  const { control, handleSubmit, register, reset, setValue, watch, formState } = useForm<ResumeData>(FORM_CONFIG);
-  const { errors, isValid } = formState;
+  const { control, handleSubmit, register, reset, setValue, watch, formState: { errors } } = useForm<ResumeData>(FORM_CONFIG);
 
-  useEffect(() => {
-    const storedData = getLocalStorageItem<ResumeData>(STORAGE_KEY);
-    if (storedData) {
-      reset(storedData);
-    }
-  }, [reset]);
+  // useEffect(() => {
+  //   const storedData = getLocalStorageItem<ResumeData>(STORAGE_KEY);
+  //   if (storedData !== null) {
+  //     reset(storedData, { keepErrors: true });
+  //   }
+  // }, [reset]);
 
   const onSubmit = (formData: ResumeData) => {
+    console.log('holaaaaaaaaaaaaaaaaaaaa');
     try {
-      if (!isValid) {
-        console.log('Formulario no válido, no se guardará.')
-        return;
-      }
-
       console.log("Guardando datos personales:", formData);
       setLocalStorageItem(STORAGE_KEY, formData);
       showSnackbar();
@@ -42,8 +37,12 @@ export const ResumeForm: React.FC = () => {
     }
   };
 
+  const onError = (errors: any) => {
+    console.log("Errores detectados:", errors);
+  };  
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form onSubmit={handleSubmit(onSubmit, onError)}>
       <FormButtons handleSubmit={handleSubmit} onSubmit={onSubmit} />
       
       <DatosPersonalesForm

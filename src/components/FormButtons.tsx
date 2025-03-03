@@ -16,7 +16,7 @@ export const FormButtons: React.FC<FormButtonsProps> = ({ handleSubmit, onSubmit
     <Grid container spacing={2} justifyContent="flex-end" sx={{ marginBottom: 3 }}>
       <Grid item>
         <Button type="submit" variant="contained" color="primary" onClick={handleSubmit(onSubmit)}>
-          Guardar Datos
+          Guardar
         </Button>
       </Grid>
 
