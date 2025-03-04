@@ -8,8 +8,8 @@ import { CustomTextField } from "@components/CustomTextField";
 import { CustomDatePicker } from "@components/CustomDatePicker";
 import { CustomSelectField } from "@components/CustomSelectField";
 import { ResumeData } from "@modules/resume/interfaces/ResumeData";
-import { sexoOptions, tipoLibretaMilitarOptions } from "@modules/resume/utils/resumeFormOption.helper";
 import { Control, UseFormRegister, FieldErrors, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import { sexoOptions, tipoDocumentoOptions, tipoLibretaMilitarOptions } from "@modules/resume/utils/resumeFormOption.helper";
 
 interface Props {
   control: Control<ResumeData>;
@@ -46,7 +46,7 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
       </AutoGridRow>
 
       <AutoGridRow spacing={2} rowSpacing={2}>
-        {/* <CustomSelectField required name='datosPersonales.tipoDocumento' label='Tipo de Documento' errors={errors} register={register} watch={watch} options={tipoDocumentoOptions} /> */}
+        <CustomSelectField required name='datosPersonales.tipoDocumento' label='Tipo de Documento' errors={errors} register={register} watch={watch} setValue={setValue} options={tipoDocumentoOptions} />
         <CustomTextField required name='datosPersonales.numeroDocumento' label='Número de Documento' errors={errors} register={register} />
         <CustomTextField required name='datosPersonales.email' label='Email' errors={errors} register={register} />
         <CustomTextField required name='datosPersonales.telefono' label='Teléfono' errors={errors} register={register} />
@@ -55,24 +55,24 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
       <AutoGridRow spacing={2} rowSpacing={2}>
         <CustomDatePicker required name="datosPersonales.fechaNacimiento" label="Fecha de Nacimiento" errors={errors} register={register} control={control} />
         <CustomSelectField required name="datosPersonales.paisNacimiento" label="País de Nacimiento" errors={errors} register={register} watch={watch} setValue={setValue} options={countries ?? []} />
-        {/* <CustomSelectField required name="datosPersonales.departamentoNacimiento" label="Departamento de Nacimiento" errors={errors} register={register} watch={watch} options={departamentos ?? []} />
-        <CustomSelectField required name="datosPersonales.municipioNacimiento" label="Municipio de Nacimiento" errors={errors} register={register} watch={watch} options={municipios ?? []} /> */}
+        <CustomSelectField required name="datosPersonales.departamentoNacimiento" label="Departamento de Nacimiento" errors={errors} register={register} watch={watch} setValue={setValue} options={departamentos ?? []} />
+        <CustomSelectField required name="datosPersonales.municipioNacimiento" label="Municipio de Nacimiento" errors={errors} register={register} watch={watch} setValue={setValue} options={municipios ?? []} />
       </AutoGridRow>
 
-      {/* <AutoGridRow spacing={2} rowSpacing={2}>
+      <AutoGridRow spacing={2} rowSpacing={2}>
         <CustomTextField required name='datosPersonales.direccionCorrespondencia' label='Dirección de Correspondencia' errors={errors} register={register} />
-        <CountrySelect required name="datosPersonales.paisCorrespondencia" label="País de Correspondencia" errors={errors} register={register} watch={watch} />
-        <DepartamentoSelect required name="datosPersonales.departamentoCorrespondencia" label="Departamento de Correspondencia" errors={errors} register={register} watch={watch} />
-        <MunicipioSelect required name="datosPersonales.municipioCorrespondencia" label="Municipio de Correspondencia" errors={errors} register={register} watch={watch} />
-      </AutoGridRow> */}
-{/* 
+        <CustomSelectField required name="datosPersonales.paisCorrespondencia" label="País de Correspondencia" errors={errors} register={register} watch={watch} setValue={setValue} options={countries ?? []} />
+        <CustomSelectField required name="datosPersonales.departamentoCorrespondencia" label="Departamento de Correspondencia" errors={errors} register={register} watch={watch} setValue={setValue} options={departamentos ?? []} />
+        <CustomSelectField required name="datosPersonales.municipioCorrespondencia" label="Municipio de Correspondencia" errors={errors} register={register} watch={watch} setValue={setValue} options={municipios ?? []} />
+      </AutoGridRow>
+
       {selectedSexo === "M" && (
         <AutoGridRow spacing={2} rowSpacing={2}>
-          <CustomSelectField required name='datosPersonales.tipoLibretaMilitar' label='Tipo Libreta Militar' errors={errors} register={register} watch={watch} options={tipoLibretaMilitarOptions} />
+          <CustomSelectField required name='datosPersonales.tipoLibretaMilitar' label='Tipo Libreta Militar' errors={errors} register={register} watch={watch} setValue={setValue} options={tipoLibretaMilitarOptions} />
           <CustomTextField required name='datosPersonales.numeroLibretaMilitar' label='Numero Libreta Militar' errors={errors} register={register} />
           <CustomTextField required name='datosPersonales.distritoMilitar' label='Distrito Militar' errors={errors} register={register} />
         </AutoGridRow>
-      )} */}
+      )}
     </SectionContainer>
   );
 };
