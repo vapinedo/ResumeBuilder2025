@@ -9,7 +9,7 @@ export interface SelectOption {
   label: string;
 }
 
-interface CustomSelectFieldProps {
+interface Props {
   name: string;
   label: string;
   required?: boolean;
@@ -20,7 +20,7 @@ interface CustomSelectFieldProps {
   register: UseFormRegister<ResumeData>;
 }
 
-export const CustomSelectField: React.FC<CustomSelectFieldProps> = (props) => {
+export const CustomSelect: React.FC<Props> = (props) => {
   const { label, name, register, watch, errors, options, required, setValue } = props;
   const selectedValue = watch(name) ?? "";
 

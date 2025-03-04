@@ -1,6 +1,6 @@
 import React from "react";
 import useDepartamentos from "@hooks/useDepartamentos";
-import { CustomSelectField } from "@components/CustomSelectField";
+import { CustomSelectField } from "@components/CustomSelect";
 import { FieldError, FieldErrors, UseFormWatch, UseFormRegister } from "react-hook-form";
 
 interface Props {

@@ -5,7 +5,7 @@ interface Departamento {
   label: string;
 }
 
-const useDepartamentos = () => {
+export const useDepartamentos = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState<Departamento[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -44,5 +44,3 @@ const useDepartamentos = () => {
 
   return { data, isLoading, error };
 };
-
-export default useDepartamentos;

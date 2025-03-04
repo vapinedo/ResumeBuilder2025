@@ -5,7 +5,7 @@ interface Municipio {
   label: string;
 }
 
-const useMunicipios = (selectedDepartamento: string) => {
+export const useMunicipios = (selectedDepartamento: string) => {
   const [data, setData] = useState<Municipio[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -58,5 +58,3 @@ const useMunicipios = (selectedDepartamento: string) => {
 
   return { data, isLoading, error };
 };
-
-export default useMunicipios;

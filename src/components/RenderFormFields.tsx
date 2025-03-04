@@ -4,7 +4,7 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { CountrySelect } from "@components/CountrySelect";
 import MunicipioSelect from "@components/MunicipioSelect";
 import CustomTextField from "@components/CustomTextField";
-import CustomSelectField from "@components/CustomSelectField";
+import CustomSelectField from "@components/CustomSelect";
 import DepartamentoSelect from "@components/DepartamentoSelect";
 import { DatosPersonales } from "modules/resume/interfaces/DatosPersonales";
 import { CampoFormulario } from "modules/resume/utils/datosPersonalesFormConfig";

@@ -1,12 +1,14 @@
 import React from "react";
 import { Paper, Typography } from "@mui/material";
 
-interface SectionContainerProps {
+interface Props {
   title: string;
   children: React.ReactNode;
 }
 
-const SectionContainer: React.FC<SectionContainerProps> = ({ title, children }) => {
+export const SectionContainer: React.FC<Props> = (props) => {
+  const { title, children } = props;
+
   return (
     <Paper
       elevation={3}
@@ -23,5 +25,3 @@ const SectionContainer: React.FC<SectionContainerProps> = ({ title, children }) 
     </Paper>
   );
 };
-
-export default SectionContainer;

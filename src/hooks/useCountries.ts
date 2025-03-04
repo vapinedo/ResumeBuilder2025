@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { SelectOption } from '@components/CustomSelectField';
+import { SelectOption } from '@components/CustomSelect';
 
 const CACHE_DURATION_ONE_HOUR = 1000 * 60 * 60; 
 
@@ -20,12 +20,10 @@ const fetchCountries = async (): Promise<SelectOption[]> => {
   return sortAZCountries(countries);
 }
 
-const useCountries = () => {
+export const useCountries = () => {
   return useQuery({
     queryKey: ['countries'],
     staleTime: CACHE_DURATION_ONE_HOUR,
     queryFn: fetchCountries,
   });
 }
-
-export default useCountries;
