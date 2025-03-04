@@ -1,8 +1,8 @@
 import React from "react";
 import { get} from "lodash";
 import { TextField, MenuItem } from "@mui/material";
-import { FieldErrors, UseFormRegister, UseFormWatch } from "react-hook-form";
 import { ResumeData } from "@modules/resume/interfaces/ResumeData";
+import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue } from "react-hook-form";
 
 export interface SelectOption {
   value: string;
@@ -16,11 +16,12 @@ interface CustomSelectFieldProps {
   options: SelectOption[];
   watch: UseFormWatch<any>;
   errors: FieldErrors<ResumeData>;
+  setValue: UseFormSetValue<ResumeData>;
   register: UseFormRegister<ResumeData>;
 }
 
 export const CustomSelectField: React.FC<CustomSelectFieldProps> = (props) => {
-  const { label, name, register, watch, errors, options, required } = props;
+  const { label, name, register, watch, errors, options, required, setValue } = props;
   const selectedValue = watch(name) ?? "";
 
   return (
@@ -33,10 +34,13 @@ export const CustomSelectField: React.FC<CustomSelectFieldProps> = (props) => {
       error={Boolean(get(errors, name))}
       helperText={get(errors, `${name}.message`, null)}
       {...register(name as any, {
-        required: required ? "Este campo es obligatorio" : false,
+        required: required ? `${label} es obligatorio` : false,
       })}
       value={selectedValue}
-      onChange={(e) => register(name as any).onChange(e)}
+      onChange={(e) => {
+        const newValue = e.target.value;
+        setValue(name as any, newValue, { shouldValidate: true });
+      }}
     >
       {options.map((option) => (
         <MenuItem key={option.value} value={option.value}>

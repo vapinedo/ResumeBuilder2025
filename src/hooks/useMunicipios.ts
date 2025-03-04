@@ -6,13 +6,13 @@ interface Municipio {
 }
 
 const useMunicipios = (selectedDepartamento: string) => {
-  const [municipios, setMunicipios] = useState<Municipio[]>([]);
+  const [data, setData] = useState<Municipio[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!selectedDepartamento) {
-      setMunicipios([]);
+      setData([]);
       setIsLoading(false);
       return;
     }
@@ -44,7 +44,7 @@ const useMunicipios = (selectedDepartamento: string) => {
           label: municipio,
         }));
 
-        setMunicipios(formattedMunicipios);
+        setData(formattedMunicipios);
       } catch (err) {
         console.error("Error al cargar los municipios:", err);
         setError("Error al cargar los municipios. Verifica que el archivo JSON sea accesible.");
@@ -56,7 +56,7 @@ const useMunicipios = (selectedDepartamento: string) => {
     fetchMunicipios();
   }, [selectedDepartamento]);
 
-  return { municipios, isLoading, error };
+  return { data, isLoading, error };
 };
 
 export default useMunicipios;

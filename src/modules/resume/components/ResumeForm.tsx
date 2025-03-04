@@ -18,12 +18,12 @@ export const ResumeForm: React.FC = () => {
   const { openSnackbar, showSnackbar, handleSnackbarClose } = useSnackbar();
   const { control, handleSubmit, register, reset, setValue, watch, formState: { errors } } = useForm<ResumeData>(FORM_CONFIG);
 
-  // useEffect(() => {
-  //   const storedData = getLocalStorageItem<ResumeData>(STORAGE_KEY);
-  //   if (storedData !== null) {
-  //     reset(storedData, { keepErrors: true });
-  //   }
-  // }, [reset]);
+  useEffect(() => {
+    const storedData = getLocalStorageItem<ResumeData>(STORAGE_KEY);
+    if (storedData !== null) {
+      reset(storedData, { keepErrors: true });
+    }
+  }, [reset]);
 
   const onSubmit = (formData: ResumeData) => {
     console.log('holaaaaaaaaaaaaaaaaaaaa');
