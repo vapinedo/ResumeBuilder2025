@@ -9,7 +9,7 @@ export const useSnackbar = (autoHideDuration: number = 3000) => {
   return {
     openSnackbar,
     showSnackbar,
+    autoHideDuration,
     handleSnackbarClose,
-    autoHideDuration
   };
 };

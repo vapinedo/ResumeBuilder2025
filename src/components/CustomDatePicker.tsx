@@ -1,5 +1,6 @@
 import React from 'react';
 import dayjs from 'dayjs';
+import { get } from 'lodash';
 import "@utils/configureDayjs";
 import { DatePicker } from '@mui/x-date-pickers';
 import { ResumeData } from '@modules/resume/interfaces/ResumeData';
@@ -8,13 +9,15 @@ import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-fo
 interface Props {
   label: string;
   required?: boolean;
-  errors: FieldErrors;
   control: Control<ResumeData>;
   register: UseFormRegister<any>;
+  errors: FieldErrors<ResumeData>;
   name: `datosPersonales.${keyof ResumeData["datosPersonales"]}`;
 }
 
-export const CustomDatePicker: React.FC<Props> = ({ name, label, required, control, errors }) => {
+export const CustomDatePicker: React.FC<Props> = (props) => {
+  const { name, label, required, control, errors } = props; 
+
   return (
     <Controller
       name={name}
@@ -31,8 +34,8 @@ export const CustomDatePicker: React.FC<Props> = ({ name, label, required, contr
             textField: {
               size: 'small',
               fullWidth: true,
-              error: !!errors[name],
-              helperText: errors[name]?.message ? String(errors[name]?.message) : undefined
+              error: Boolean(get(errors, name)),
+              helperText: get(errors, `${name}.message`, null)
             },
           }}
         />
