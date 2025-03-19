@@ -1,8 +1,8 @@
-import React from "react";
-import { get } from "lodash";
-import { TextField } from "@mui/material";
-import { UseFormRegister, FieldErrors } from "react-hook-form";
-import { DatosPersonales, FormacionAcademica, ResumeData } from "@modules/resume/interfaces/ResumeData";
+import React from 'react';
+import { get } from 'lodash';
+import { TextField } from '@mui/material';
+import { UseFormRegister, FieldErrors } from 'react-hook-form';
+import { DatosPersonales, EducacionBasica, EducacionSuperior, ResumeData } from '@modules/resume/interfaces/ResumeData';
 
 interface Props {
   type?: string;
@@ -10,21 +10,15 @@ interface Props {
   required?: boolean;
   errors: FieldErrors<ResumeData>;
   register: UseFormRegister<ResumeData>;
-  name: 
-    keyof ResumeData 
-    | `datosPersonales.${keyof DatosPersonales}` 
-    | `formacionAcademica.${keyof FormacionAcademica}`;
+  name:
+    | keyof ResumeData
+    | `datosPersonales.${keyof DatosPersonales}`
+    | `educacionBasica.${keyof EducacionBasica}`
+    | `educacionSuperior.${keyof EducacionSuperior}`;
 }
 
 export const CustomTextField: React.FC<Props> = (props) => {
-  const {
-    label,
-    name,
-    errors,
-    register,
-    type = "text",
-    required = false,
-  } = props;
+  const { label, name, errors, register, type = 'text', required = false } = props;
 
   return (
     <TextField

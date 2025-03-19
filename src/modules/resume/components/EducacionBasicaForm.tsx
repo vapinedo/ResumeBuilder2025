@@ -1,18 +1,12 @@
-import React from "react";
-import { AutoGridRow } from "@components/AutoGridRow";
-import { CustomSelect } from "@components/CustomSelect";
-import { CustomTextField } from "@components/CustomTextField";
-import { SectionContainer } from "@containers/SectionContainer";
-import { CustomDatePicker } from "@components/CustomDatePicker";
-import { ResumeData } from "@modules/resume/interfaces/ResumeData";
-import { educacionBasicaOptions } from "@modules/resume/utils/resumeFormOption.helper";
-import {
-  Control,
-  FieldErrors,
-  UseFormWatch,
-  UseFormSetValue,
-  UseFormRegister,
-} from "react-hook-form";
+import React from 'react';
+import { AutoGridRow } from '@components/AutoGridRow';
+import { CustomSelect } from '@components/CustomSelect';
+import { CustomTextField } from '@components/CustomTextField';
+import { SectionContainer } from '@containers/SectionContainer';
+import { CustomDatePicker } from '@components/CustomDatePicker';
+import { ResumeData } from '@modules/resume/interfaces/ResumeData';
+import { educacionBasicaOptions } from '@modules/resume/utils/resumeFormOption.helper';
+import { Control, FieldErrors, UseFormWatch, UseFormSetValue, UseFormRegister } from 'react-hook-form';
 
 interface Props {
   control: Control<ResumeData>;
@@ -22,11 +16,11 @@ interface Props {
   setValue: UseFormSetValue<ResumeData>;
 }
 
-export const FormacionAcademicaForm: React.FC<Props> = (props) => {
+export const EducacionBasicaForm: React.FC<Props> = (props) => {
   const { control, errors, register, setValue, watch } = props;
 
   return (
-    <SectionContainer title="Formación Académica">
+    <SectionContainer title="Educacion Básica">
       <AutoGridRow spacing={2} rowSpacing={2}>
         <CustomSelect
           required
@@ -36,14 +30,14 @@ export const FormacionAcademicaForm: React.FC<Props> = (props) => {
           setValue={setValue}
           label="Educación Básica"
           options={educacionBasicaOptions}
-          name="formacionAcademica.educacionBasica"
+          name="educacionBasica.educacionBasica"
         />
         <CustomTextField
           required
           errors={errors}
           register={register}
           label="Título Obtenido"
-          name="formacionAcademica.tituloObtenido"
+          name="educacionBasica.tituloObtenido"
         />
         <CustomDatePicker
           required
@@ -51,7 +45,7 @@ export const FormacionAcademicaForm: React.FC<Props> = (props) => {
           control={control}
           register={register}
           label="Fecha de Graduación"
-          name="formacionAcademica.fechaGrado"
+          name="educacionBasica.fechaGrado"
         />
       </AutoGridRow>
     </SectionContainer>
