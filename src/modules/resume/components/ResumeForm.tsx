@@ -7,6 +7,7 @@ import { SnackbarNotification } from "@components/SnackbarNotification";
 import { ResumeDataInitValues } from "@modules/resume/utils/resumeData.helper";
 import { getLocalStorageItem, setLocalStorageItem } from "@utils/storage.helper";
 import { DatosPersonalesForm } from "@modules/resume/components/DatosPersonalesForm";
+import { FormacionAcademicaForm } from "./FormacionAcademicaForm";
 
 const STORAGE_KEY = "resumeForm";
 
@@ -52,6 +53,14 @@ export const ResumeForm: React.FC = () => {
         register={register}
         setValue={setValue}
       />
+
+      <FormacionAcademicaForm
+        watch={watch}
+        errors={errors}
+        control={control}
+        register={register}
+        setValue={setValue}
+       />
 
       <SnackbarNotification
         severity="success"

@@ -23,3 +23,17 @@ export const municipioOptions = [
   { value: 'uribia', label: 'Uribia' },
   { value: 'barranquilla', label: 'Barranquilla' }
 ];
+
+export const educacionBasicaOptions = [
+  { value: 'primero', label: 'Primero' },
+  { value: 'segundo', label: 'Segundo' },
+  { value: 'tercero', label: 'Tercero' },
+  { value: 'cuarto', label: 'Cuarto' },
+  { value: 'quinto', label: 'Quinto' },
+  { value: 'sexto', label: 'Sexto' },
+  { value: 'septimo', label: 'Séptimo' },
+  { value: 'octavo', label: 'Octavo' },
+  { value: 'noveno', label: 'Noveno' },
+  { value: 'decimo', label: 'Décimo' },
+  { value: 'undecimo', label: 'Once' },
+];
