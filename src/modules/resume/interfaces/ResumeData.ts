@@ -20,6 +20,13 @@ export interface DatosPersonales {
   departamentoCorrespondencia: string;
 }
 
+export interface FormacionAcademica {
+  educacionBasica: string;
+  tituloObtenido: string;
+  fechaGrado: string;
+}
+
 export interface ResumeData {
   datosPersonales: DatosPersonales;
+  formacionAcademica: FormacionAcademica;
 }

@@ -3,8 +3,8 @@ import dayjs from 'dayjs';
 import { get } from 'lodash';
 import "@utils/configureDayjs";
 import { DatePicker } from '@mui/x-date-pickers';
-import { ResumeData } from '@modules/resume/interfaces/ResumeData';
 import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form';
+import { DatosPersonales, FormacionAcademica, ResumeData } from '@modules/resume/interfaces/ResumeData';
 
 interface Props {
   label: string;
@@ -12,7 +12,10 @@ interface Props {
   control: Control<ResumeData>;
   register: UseFormRegister<any>;
   errors: FieldErrors<ResumeData>;
-  name: `datosPersonales.${keyof ResumeData["datosPersonales"]}`;
+  name: 
+    keyof ResumeData 
+    | `datosPersonales.${keyof DatosPersonales}` 
+    | `formacionAcademica.${keyof FormacionAcademica}`;
 }
 
 export const CustomDatePicker: React.FC<Props> = (props) => {

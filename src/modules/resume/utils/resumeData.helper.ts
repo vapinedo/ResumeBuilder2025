@@ -22,4 +22,9 @@ export const ResumeDataInitValues = (): ResumeData => ({
     municipioCorrespondencia: "",
     departamentoCorrespondencia: "",
   },
+  formacionAcademica: {
+    educacionBasica: "",
+    tituloObtenido: "",
+    fechaGrado: "",
+  }
 });
