@@ -6,7 +6,13 @@ import { SectionContainer } from "@containers/SectionContainer";
 import { CustomDatePicker } from "@components/CustomDatePicker";
 import { ResumeData } from "@modules/resume/interfaces/ResumeData";
 import { educacionBasicaOptions } from "@modules/resume/utils/resumeFormOption.helper";
-import { Control, UseFormRegister, FieldErrors, UseFormSetValue, UseFormWatch } from "react-hook-form";
+import {
+  Control,
+  FieldErrors,
+  UseFormWatch,
+  UseFormSetValue,
+  UseFormRegister,
+} from "react-hook-form";
 
 interface Props {
   control: Control<ResumeData>;
@@ -22,9 +28,31 @@ export const FormacionAcademicaForm: React.FC<Props> = (props) => {
   return (
     <SectionContainer title="Formación Académica">
       <AutoGridRow spacing={2} rowSpacing={2}>
-        <CustomSelect required name='formacionAcademica.educacionBasica' label='Educación Básica' errors={errors} register={register} watch={watch} setValue={setValue} options={educacionBasicaOptions} />
-        <CustomTextField required name='formacionAcademica.tituloObtenido' label='Título Obtenido' errors={errors} register={register} />
-        <CustomDatePicker required name="formacionAcademica.fechaGrado" label="Fecha de Graduación" errors={errors} register={register} control={control} />
+        <CustomSelect
+          required
+          watch={watch}
+          errors={errors}
+          register={register}
+          setValue={setValue}
+          label="Educación Básica"
+          options={educacionBasicaOptions}
+          name="formacionAcademica.educacionBasica"
+        />
+        <CustomTextField
+          required
+          errors={errors}
+          register={register}
+          label="Título Obtenido"
+          name="formacionAcademica.tituloObtenido"
+        />
+        <CustomDatePicker
+          required
+          errors={errors}
+          control={control}
+          register={register}
+          label="Fecha de Graduación"
+          name="formacionAcademica.fechaGrado"
+        />
       </AutoGridRow>
     </SectionContainer>
   );
