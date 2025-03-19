@@ -1,6 +1,7 @@
 import React from "react";
 import { AutoGridRow } from "@components/AutoGridRow";
 import { CustomSelect } from "@components/CustomSelect";
+import { CustomTextField } from "@components/CustomTextField";
 import { SectionContainer } from "@containers/SectionContainer";
 import { ResumeData } from "@modules/resume/interfaces/ResumeData";
 import { educacionBasicaOptions } from "@modules/resume/utils/resumeFormOption.helper";
@@ -20,7 +21,8 @@ export const FormacionAcademicaForm: React.FC<Props> = (props) => {
   return (
     <SectionContainer title="Formación Académica">
       <AutoGridRow spacing={2} rowSpacing={2}>
-        <CustomSelect required name='datosPersonales.educacionBasica' label='Educación Básica' errors={errors} register={register} watch={watch} setValue={setValue} options={educacionBasicaOptions} />
+        <CustomSelect required name='formacionAcademica.educacionBasica' label='Educación Básica' errors={errors} register={register} watch={watch} setValue={setValue} options={educacionBasicaOptions} />
+        <CustomTextField required name='formacionAcademica.tituloObtenido' label='Título Obtenido' errors={errors} register={register} />
       </AutoGridRow>
     </SectionContainer>
   );

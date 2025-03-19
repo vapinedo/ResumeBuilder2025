@@ -36,7 +36,7 @@ export const CustomSelect: React.FC<Props> = (props) => {
       {...register(name as any, {
         required: required ? `${label} es obligatorio` : false,
       })}
-      value={selectedValue}
+      value={options.length > 0 ? selectedValue : ''}
       onChange={(e) => {
         const newValue = e.target.value;
         setValue(name as any, newValue, { shouldValidate: true });
