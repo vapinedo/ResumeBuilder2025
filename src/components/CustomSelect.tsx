@@ -1,8 +1,9 @@
-import React from "react";
-import { get} from "lodash";
-import { TextField, MenuItem } from "@mui/material";
-import { ResumeData } from "@modules/resume/interfaces/ResumeData";
-import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue } from "react-hook-form";
+import React from 'react';
+import { get } from 'lodash';
+import { TextField, MenuItem } from '@mui/material';
+import { ResumeData } from '@modules/resume/interfaces/ResumeData';
+import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue } from 'react-hook-form';
+import { DatosPersonales, EducacionBasica, EducacionSuperior } from '@modules/resume/interfaces/ResumeData';
 
 export interface SelectOption {
   value: string;
@@ -10,7 +11,11 @@ export interface SelectOption {
 }
 
 interface Props {
-  name: string;
+  name:
+    | keyof ResumeData
+    | `datosPersonales.${keyof DatosPersonales}`
+    | `educacionBasica.${keyof EducacionBasica}`
+    | `educacionSuperior.${number}.${keyof EducacionSuperior}`;
   label: string;
   required?: boolean;
   options: SelectOption[];
@@ -22,7 +27,7 @@ interface Props {
 
 export const CustomSelect: React.FC<Props> = (props) => {
   const { label, name, register, watch, errors, options, required, setValue } = props;
-  const selectedValue = watch(name) ?? "";
+  const selectedValue = watch(name) ?? '';
 
   return (
     <TextField

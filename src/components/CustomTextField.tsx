@@ -14,7 +14,7 @@ interface Props {
     | keyof ResumeData
     | `datosPersonales.${keyof DatosPersonales}`
     | `educacionBasica.${keyof EducacionBasica}`
-    | `educacionSuperior.${keyof EducacionSuperior}`;
+    | `educacionSuperior.${number}.${keyof EducacionSuperior}`;
 }
 
 export const CustomTextField: React.FC<Props> = (props) => {

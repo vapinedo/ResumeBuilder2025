@@ -38,5 +38,5 @@ export interface EducacionSuperior {
 export interface ResumeData {
   datosPersonales: DatosPersonales;
   educacionBasica: EducacionBasica;
-  educacionSuperior: EducacionSuperior;
+  educacionSuperior: EducacionSuperior[];
 }

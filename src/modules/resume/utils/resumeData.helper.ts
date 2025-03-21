@@ -27,12 +27,14 @@ export const ResumeDataInitValues = (): ResumeData => ({
     tituloObtenido: '',
     fechaGrado: '',
   },
-  educacionSuperior: {
-    modalidadAcademica: '',
-    semestresAprobados: '',
-    graduado: '',
-    tituloObtenido: '',
-    fechaGrado: '',
-    tarjetProfesional: '',
-  },
+  educacionSuperior: [
+    {
+      modalidadAcademica: '',
+      semestresAprobados: '',
+      graduado: '',
+      tituloObtenido: '',
+      tarjetProfesional: '',
+      fechaGrado: '',
+    },
+  ],
 });
