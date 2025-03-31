@@ -9,7 +9,7 @@ interface FormButtonsProps {
   onSubmit: (data: any) => void;
 }
 
-const STORAGE_KEY = "resumeForm";
+const STORAGE_KEY = 'resumeForm';
 
 export const FormButtons: React.FC<FormButtonsProps> = ({ handleSubmit, onSubmit }) => {
   return (
@@ -27,7 +27,7 @@ export const FormButtons: React.FC<FormButtonsProps> = ({ handleSubmit, onSubmit
           onClick={async () => {
             const storedData = getLocalStorageItem<ResumeData>(STORAGE_KEY);
             if (storedData) {
-              const pdfUrl = await fillPdf(storedData.datosPersonales);
+              const pdfUrl = await fillPdf(storedData);
               window.open(pdfUrl, '_blank');
             } else {
               console.log('No hay datos para generar el PDF');
