@@ -4,12 +4,11 @@ import { AutoGridRow } from '@components/AutoGridRow';
 import { CustomSelect } from '@components/CustomSelect';
 import { CustomTextField } from '@components/CustomTextField';
 import { SectionContainer } from '@containers/SectionContainer';
-import { CustomDatePicker } from '@components/CustomDatePicker';
 import { ResumeData } from '@modules/resume/interfaces/ResumeData';
-import { modalidadAcademicaOptions, siNoOptions } from '@modules/resume/utils/resumeFormOption.helper';
+import { IdiomaOptions } from '@modules/resume/utils/resumeFormOption.helper';
 import { Control, FieldErrors, UseFormWatch, UseFormSetValue, UseFormRegister, useFieldArray } from 'react-hook-form';
 
-const MAX_EDUCACION_SUPERIOR = 4;
+const MAX_IDIOMAS = 2;
 
 interface Props {
   control: Control<ResumeData>;
@@ -19,48 +18,40 @@ interface Props {
   setValue: UseFormSetValue<ResumeData>;
 }
 
-export const EducacionSuperiorForm: React.FC<Props> = (props) => {
+export const IdiomasForm: React.FC<Props> = (props) => {
   const { control, errors, register, setValue, watch } = props;
   const { fields, append, remove } = useFieldArray({
     control,
-    name: 'educacionSuperior',
+    name: 'idiomas',
     shouldUnregister: false,
   });
 
   const handleAppend = () => {
     if (fields.length < 4) {
       append({
-        modalidadAcademica: '',
-        semestresAprobados: '',
-        graduado: '',
-        tituloObtenido: '',
-        tarjetProfesional: '',
-        fechaGrado: '',
+        idioma: '',
+        loHabla: '',
+        loLee: '',
+        loEscribe: '',
       });
     }
   };
 
   return (
-    <SectionContainer title="Educacion Superior">
+    <SectionContainer title="Idiomas">
       {fields.map((field, index) => (
         <div key={field.id}>
           <AutoGridRow spacing={2} rowSpacing={2}>
+            <CustomTextField required errors={errors} register={register} label="Idioma" name={`idiomas.${index}.idioma`} />
             <CustomSelect
               required
               watch={watch}
               errors={errors}
               register={register}
               setValue={setValue}
-              label="Modalidad Académica"
-              options={modalidadAcademicaOptions}
-              name={`educacionSuperior.${index}.modalidadAcademica`}
-            />
-            <CustomTextField
-              required
-              errors={errors}
-              register={register}
-              label="Número de Semestres Aprobados"
-              name={`educacionSuperior.${index}.semestresAprobados`}
+              label="Lo Habla"
+              options={IdiomaOptions}
+              name={`idiomas.${index}.loHabla`}
             />
             <CustomSelect
               required
@@ -68,34 +59,19 @@ export const EducacionSuperiorForm: React.FC<Props> = (props) => {
               errors={errors}
               register={register}
               setValue={setValue}
-              label="Graduado"
-              options={siNoOptions}
-              name={`educacionSuperior.${index}.graduado`}
+              label="Lo Lee"
+              options={IdiomaOptions}
+              name={`idiomas.${index}.loLee`}
             />
-          </AutoGridRow>
-
-          <AutoGridRow spacing={2} rowSpacing={2}>
-            <CustomTextField
+            <CustomSelect
               required
+              watch={watch}
               errors={errors}
               register={register}
-              label="Titulo Obtenido"
-              name={`educacionSuperior.${index}.tituloObtenido`}
-            />
-            <CustomTextField
-              required
-              errors={errors}
-              register={register}
-              label="Número Tarjeta Profesional"
-              name={`educacionSuperior.${index}.tarjetProfesional`}
-            />
-            <CustomDatePicker
-              required
-              errors={errors}
-              control={control}
-              register={register}
-              label="Fecha de Graduación"
-              name={`educacionSuperior.${index}.fechaGrado`}
+              setValue={setValue}
+              label="Lo Escribe"
+              options={IdiomaOptions}
+              name={`idiomas.${index}.loEscribe`}
             />
           </AutoGridRow>
 
@@ -117,15 +93,15 @@ export const EducacionSuperiorForm: React.FC<Props> = (props) => {
       <button
         type="button"
         onClick={handleAppend}
-        disabled={fields.length >= MAX_EDUCACION_SUPERIOR}
+        disabled={fields.length >= MAX_IDIOMAS}
         style={{
           marginTop: '10px',
-          background: fields.length >= MAX_EDUCACION_SUPERIOR ? 'gray' : 'green',
+          background: fields.length >= MAX_IDIOMAS ? 'gray' : 'green',
           color: 'white',
-          cursor: fields.length >= MAX_EDUCACION_SUPERIOR ? 'not-allowed' : 'pointer',
+          cursor: fields.length >= MAX_IDIOMAS ? 'not-allowed' : 'pointer',
         }}
       >
-        Agregar Educación Superior ({fields.length}/{MAX_EDUCACION_SUPERIOR})
+        Agregar Idioma ({fields.length}/{MAX_IDIOMAS})
       </button>
     </SectionContainer>
   );

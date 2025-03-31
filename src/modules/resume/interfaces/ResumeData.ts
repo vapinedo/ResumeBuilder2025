@@ -35,8 +35,16 @@ export interface EducacionSuperior {
   tarjetProfesional: string;
 }
 
+export interface Idiomas {
+  idioma: string;
+  loHabla: string;
+  loLee: string;
+  loEscribe: string;
+}
+
 export interface ResumeData {
   datosPersonales: DatosPersonales;
   educacionBasica: EducacionBasica;
   educacionSuperior: EducacionSuperior[];
+  idiomas: Idiomas[];
 }

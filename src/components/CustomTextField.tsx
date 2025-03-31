@@ -2,7 +2,13 @@ import React from 'react';
 import { get } from 'lodash';
 import { TextField } from '@mui/material';
 import { UseFormRegister, FieldErrors } from 'react-hook-form';
-import { DatosPersonales, EducacionBasica, EducacionSuperior, ResumeData } from '@modules/resume/interfaces/ResumeData';
+import {
+  DatosPersonales,
+  EducacionBasica,
+  EducacionSuperior,
+  Idiomas,
+  ResumeData,
+} from '@modules/resume/interfaces/ResumeData';
 
 interface Props {
   type?: string;
@@ -14,7 +20,8 @@ interface Props {
     | keyof ResumeData
     | `datosPersonales.${keyof DatosPersonales}`
     | `educacionBasica.${keyof EducacionBasica}`
-    | `educacionSuperior.${number}.${keyof EducacionSuperior}`;
+    | `educacionSuperior.${number}.${keyof EducacionSuperior}`
+    | `idiomas.${number}.${keyof Idiomas}`;
 }
 
 export const CustomTextField: React.FC<Props> = (props) => {

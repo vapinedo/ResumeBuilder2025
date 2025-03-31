@@ -37,4 +37,12 @@ export const ResumeDataInitValues = (): ResumeData => ({
       fechaGrado: '',
     },
   ],
+  idiomas: [
+    {
+      idioma: '',
+      loHabla: '',
+      loLee: '',
+      loEscribe: '',
+    },
+  ],
 });
