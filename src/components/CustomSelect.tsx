@@ -1,8 +1,9 @@
-import React from "react";
-import { get} from "lodash";
-import { TextField, MenuItem } from "@mui/material";
-import { ResumeData } from "@modules/resume/interfaces/ResumeData";
-import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue } from "react-hook-form";
+import React from 'react';
+import { get } from 'lodash';
+import { TextField, MenuItem } from '@mui/material';
+import { ResumeData } from '@modules/resume/interfaces/ResumeData';
+import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue } from 'react-hook-form';
+import { DatosPersonales, EducacionBasica, EducacionSuperior, Idiomas } from '@modules/resume/interfaces/ResumeData';
 
 export interface SelectOption {
   value: string;
@@ -10,7 +11,12 @@ export interface SelectOption {
 }
 
 interface Props {
-  name: string;
+  name:
+    | keyof ResumeData
+    | `datosPersonales.${keyof DatosPersonales}`
+    | `educacionBasica.${keyof EducacionBasica}`
+    | `educacionSuperior.${number}.${keyof EducacionSuperior}`
+    | `idiomas.${number}.${keyof Idiomas}`;
   label: string;
   required?: boolean;
   options: SelectOption[];
@@ -22,7 +28,7 @@ interface Props {
 
 export const CustomSelect: React.FC<Props> = (props) => {
   const { label, name, register, watch, errors, options, required, setValue } = props;
-  const selectedValue = watch(name) ?? "";
+  const selectedValue = watch(name) ?? '';
 
   return (
     <TextField
@@ -36,7 +42,7 @@ export const CustomSelect: React.FC<Props> = (props) => {
       {...register(name as any, {
         required: required ? `${label} es obligatorio` : false,
       })}
-      value={selectedValue}
+      value={options.length > 0 ? selectedValue : ''}
       onChange={(e) => {
         const newValue = e.target.value;
         setValue(name as any, newValue, { shouldValidate: true });

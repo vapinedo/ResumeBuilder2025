@@ -1,97 +1,298 @@
 import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
-import { DatosPersonales } from 'modules/resume/interfaces/ResumeData';
+import { COORDINATES } from '../constants/pdfCoordinates';
+import { ResumeData } from 'modules/resume/interfaces/ResumeData';
 
-export const fillPdf = async (formData: DatosPersonales): Promise<string> => {
-  const pdfUrl = '/FormatoUnicoHojaVida.pdf';
+interface DrawTextOptions {
+  text?: string;
+  x: number;
+  y: number;
+  caps?: boolean;
+  size?: number;
+  maxWidth?: number;
+}
 
-  // Cargar el PDF base
-  const existingPdfBytes = await fetch(pdfUrl).then(res => res.arrayBuffer());
-  const pdfDoc = await PDFDocument.load(existingPdfBytes);
+class PDFGenerator {
+  private page: any;
+  private font: any;
 
-  // Obtener la primera página
-  const page = pdfDoc.getPages()[0];
-
-  // Definir fuente en negrita
-  const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
-
-  // Función reutilizable para dibujar texto en la página
-  const drawText = (page: any, font: any, text: string | undefined, x: number, y: number, caps: boolean = true, size: number = 10) => {
-    const safeText = text ? (caps ? text.toUpperCase() : text) : '';
-    page.drawText(safeText, { x, y, size, font, color: rgb(0, 0, 0) });
-  };
-
-  console.log('datos a pdf', formData);
-
-  // Escribir datos en el PDF
-  drawText(page, font, formData.primerApellido, 64, 602);
-  drawText(page, font, formData.segundoApellido, 230, 602);
-  drawText(page, font, formData.nombres, 400, 602);
-
-  // Mapeo de valores para evitar switch repetitivos
-  const mapeoTipoDocumento: Record<string, [number, number]> = {
-    CC: [82.5, 574],
-    CE: [113.5, 574],
-    PAS: [147.5, 574]
-  };
-  if (formData.tipoDocumento in mapeoTipoDocumento) {
-    drawText(page, font, 'X', ...mapeoTipoDocumento[formData.tipoDocumento]);
+  constructor(page: any, font: any) {
+    this.page = page;
+    this.font = font;
   }
 
-  drawText(page, font, formData.numeroDocumento, 185, 575);
+  private drawText({
+    text,
+    x,
+    y,
+    size = 11,
+    caps = false,
+    maxWidth = 200, // Ancho máximo por defecto
+  }: DrawTextOptions): void {
+    if (!text) return;
 
-  const mapeoSexo: Record<string, [number, number]> = {
-    M: [341.5, 574],
-    F: [317, 574]
-  };
-  if (formData.sexo in mapeoSexo) {
-    drawText(page, font, 'X', ...mapeoSexo[formData.sexo]);
+    const finalText = caps ? text.toUpperCase() : text;
+    let fontSize = size;
+    let textWidth = this.getTextWidth(finalText, fontSize);
+
+    // Si el texto es más largo que el espacio disponible, reducimos el tamaño
+    if (textWidth > maxWidth) {
+      // Calculamos el factor de reducción necesario
+      const reductionFactor = maxWidth / textWidth;
+      fontSize = Math.max(6, Math.floor(fontSize * reductionFactor));
+
+      // Verificamos que el texto quepa con el nuevo tamaño
+      textWidth = this.getTextWidth(finalText, fontSize);
+      if (textWidth > maxWidth) {
+        fontSize = Math.max(6, fontSize - 0.5);
+      }
+    }
+
+    this.page.setFontSize(fontSize);
+    this.page.drawText(finalText, {
+      x,
+      y,
+      color: rgb(0, 0, 0),
+      font: this.font, // Aseguramos que se use la fuente en negrita
+    });
   }
 
-  const mapeoNacionalidad: Record<string, [number, number]> = {
-    COL: [384, 575],
-    EXT: [456.7, 574]
-  };
-  if (formData.nacionalidad in mapeoNacionalidad) {
-    drawText(page, font, 'X', ...mapeoNacionalidad[formData.nacionalidad]);
+  private getTextWidth(text: string, fontSize: number): number {
+    // Aproximación del ancho del texto basada en el tamaño de fuente
+    // Factor de conversión ajustado para Helvetica (fontSize * 0.6)
+    const averageCharWidth = fontSize * 0.6;
+    // Ajuste adicional para caracteres especiales y espacios
+    const specialChars = text.match(/[áéíóúñÁÉÍÓÚÑ\s]/g) || [];
+    const normalChars = text.length - specialChars.length;
+    return normalChars * averageCharWidth + specialChars.length * averageCharWidth * 1.2;
   }
 
-  drawText(page, font, formData.pais, 478, 575);
+  private fillPersonalInfo(datosPersonales: ResumeData['datosPersonales']): void {
+    // Nombres
+    this.drawText({ text: datosPersonales.primerApellido, ...COORDINATES.datosPersonales.nombres.primerApellido });
+    this.drawText({ text: datosPersonales.segundoApellido, ...COORDINATES.datosPersonales.nombres.segundoApellido });
+    this.drawText({ text: datosPersonales.nombres, ...COORDINATES.datosPersonales.nombres.nombres });
 
-  const mapeoLibretaMilitar: Record<string, [number, number]> = {
-    primera: [146, 543.5],
-    segunda: [261.5, 543.5]
-  };
-  if (formData.tipoLibretaMilitar in mapeoLibretaMilitar) {
-    drawText(page, font, 'X', ...mapeoLibretaMilitar[formData.tipoLibretaMilitar]);
+    // Documento
+    if (datosPersonales.tipoDocumento in COORDINATES.datosPersonales.documento.tipo) {
+      this.drawText({
+        text: 'X',
+        ...COORDINATES.datosPersonales.documento.tipo[
+          datosPersonales.tipoDocumento as keyof typeof COORDINATES.datosPersonales.documento.tipo
+        ],
+      });
+    }
+    this.drawText({ text: datosPersonales.numeroDocumento, ...COORDINATES.datosPersonales.documento.numero });
+
+    // Sexo
+    if (datosPersonales.sexo in COORDINATES.datosPersonales.sexo) {
+      this.drawText({
+        text: 'X',
+        ...COORDINATES.datosPersonales.sexo[datosPersonales.sexo as keyof typeof COORDINATES.datosPersonales.sexo],
+      });
+    }
+
+    // Nacionalidad
+    if (datosPersonales.paisNacimiento in COORDINATES.datosPersonales.nacionalidad) {
+      this.drawText({
+        text: 'X',
+        ...COORDINATES.datosPersonales.nacionalidad[
+          datosPersonales.paisNacimiento as keyof typeof COORDINATES.datosPersonales.nacionalidad
+        ],
+      });
+    }
+    this.drawText({ text: datosPersonales.paisNacimiento, ...COORDINATES.datosPersonales.ubicacion.paisNacimiento });
+
+    // Libreta Militar
+    if (datosPersonales.tipoLibretaMilitar in COORDINATES.datosPersonales.libretaMilitar.tipo) {
+      this.drawText({
+        text: 'X',
+        ...COORDINATES.datosPersonales.libretaMilitar.tipo[
+          datosPersonales.tipoLibretaMilitar as keyof typeof COORDINATES.datosPersonales.libretaMilitar.tipo
+        ],
+      });
+    }
+    this.drawText({ text: datosPersonales.numeroLibretaMilitar, ...COORDINATES.datosPersonales.libretaMilitar.numero });
+    this.drawText({ text: datosPersonales.distritoMilitar, ...COORDINATES.datosPersonales.libretaMilitar.distrito });
+
+    // Fecha de Nacimiento
+    if (datosPersonales.fechaNacimiento?.includes('-')) {
+      const [year, month, day] = datosPersonales.fechaNacimiento.split('-');
+      this.drawText({
+        text: year.split('').join(' '),
+        ...COORDINATES.datosPersonales.fechaNacimiento.año,
+        caps: false,
+        size: 11,
+      });
+      this.drawText({
+        text: month.split('').join(' '),
+        ...COORDINATES.datosPersonales.fechaNacimiento.mes,
+        caps: false,
+        size: 11,
+      });
+      this.drawText({
+        text: day.split('').join(' '),
+        ...COORDINATES.datosPersonales.fechaNacimiento.dia,
+        caps: false,
+        size: 11,
+      });
+    }
+
+    // Ubicación
+    this.drawText({
+      text: datosPersonales.departamentoNacimiento,
+      ...COORDINATES.datosPersonales.ubicacion.departamentoNacimiento,
+    });
+    this.drawText({
+      text: datosPersonales.municipioNacimiento,
+      ...COORDINATES.datosPersonales.ubicacion.municipioNacimiento,
+    });
+
+    // Correspondencia
+    this.drawText({
+      text: datosPersonales.direccionCorrespondencia,
+      ...COORDINATES.datosPersonales.correspondencia.direccion,
+    });
+    this.drawText({ text: datosPersonales.paisCorrespondencia, ...COORDINATES.datosPersonales.correspondencia.pais });
+    this.drawText({
+      text: datosPersonales.departamentoCorrespondencia,
+      ...COORDINATES.datosPersonales.correspondencia.departamento,
+    });
+    this.drawText({
+      text: datosPersonales.municipioCorrespondencia,
+      ...COORDINATES.datosPersonales.correspondencia.municipio,
+    });
+
+    // Contacto
+    this.drawText({ text: datosPersonales.telefono, ...COORDINATES.datosPersonales.contacto.telefono });
+    this.drawText({ text: datosPersonales.email, ...COORDINATES.datosPersonales.contacto.email, caps: false, size: 8 });
   }
 
-  drawText(page, font, formData.numeroLibretaMilitar, 338, 545);
-  drawText(page, font, formData.distritoMilitar, 500, 545);
+  private fillEducacionBasica(educacionBasica: ResumeData['educacionBasica']): void {
+    // Educación Básica - Mostrar X en la coordenada correspondiente
+    if (educacionBasica.educacionBasica in COORDINATES.educacionBasica.educacionBasica) {
+      this.drawText({
+        text: 'X',
+        ...COORDINATES.educacionBasica.educacionBasica[
+          educacionBasica.educacionBasica as keyof typeof COORDINATES.educacionBasica.educacionBasica
+        ],
+      });
+    }
 
-  // Validación de `fechaNacimiento`
-  if (formData.fechaNacimiento && formData.fechaNacimiento.includes('-')) {
-    const [birthYear, birthMonth, birthDay] = formData.fechaNacimiento.split('-');
-    drawText(page, font, birthYear.split('').join(' '), 236.5, 507, false, 11);
-    drawText(page, font, birthMonth.split('').join(' '), 186.4, 507, false, 11);
-    drawText(page, font, birthDay.split('').join(' '), 137.4, 507, false, 11);
+    // Título Obtenido - Mostrar el valor capturado
+    this.drawText({
+      text: educacionBasica.tituloObtenido,
+      ...COORDINATES.educacionBasica.tituloObtenido,
+    });
+
+    // Fecha de Grado
+    if (educacionBasica.fechaGrado?.includes('-')) {
+      const [year, month] = educacionBasica.fechaGrado.split('-');
+      this.drawText({
+        text: year.split('').join(' '),
+        ...COORDINATES.educacionBasica.fechaGrado.año,
+        caps: false,
+        size: 11,
+      });
+      this.drawText({
+        text: month.split('').join(' '),
+        ...COORDINATES.educacionBasica.fechaGrado.mes,
+        caps: false,
+        size: 11,
+      });
+    }
   }
 
-  drawText(page, font, formData.paisNacimiento, 118, 490.2);
-  drawText(page, font, formData.departamentoNacimiento, 118, 473.5);
-  drawText(page, font, formData.municipioNacimiento, 118, 455.7);
+  private fillEducacionSuperior(educacionSuperior: ResumeData['educacionSuperior']): void {
+    // Iteramos sobre cada bloque de educación superior
+    educacionSuperior.forEach((educacion, index) => {
+      const bloqueKey = `bloque${index + 1}` as keyof typeof COORDINATES.educacionSuperior;
+      const coordenadas = COORDINATES.educacionSuperior[bloqueKey];
 
-  drawText(page, font, formData.direccionCorrespondencia, 294, 508.6);
-  drawText(page, font, formData.paisCorrespondencia, 320, 490);
-  drawText(page, font, formData.departamentoCorrespondencia, 475, 490);
-  drawText(page, font, formData.municipioCorrespondencia, 346, 473.5);
+      // Título Obtenido
+      this.drawText({
+        text: educacion.tituloObtenido,
+        ...coordenadas.tituloObtenido,
+        size: 13,
+      });
 
-  drawText(page, font, formData.telefono, 348, 456);
-  drawText(page, font, formData.email, 472, 456, false, 8);
+      // Fecha de Grado
+      if (educacion.fechaGrado?.includes('-')) {
+        const [year, month] = educacion.fechaGrado.split('-');
+        // Dibujamos cada dígito del año por separado
+        year.split('').forEach((digit, i) => {
+          let xOffset = i * 12; // Espaciado base
+          if (i === 2) {
+            // Para el tercer dígito (penúltimo)
+            xOffset += 2; // Añadimos un poco más de espacio
+          } else if (i === 3) {
+            // Para el último dígito
+            xOffset += 4; // Añadimos más espacio para el último dígito
+          }
+          this.drawText({
+            text: digit,
+            x: coordenadas.fechaGrado.year.x + xOffset,
+            y: coordenadas.fechaGrado.year.y,
+            caps: false,
+            size: 11,
+          });
+        });
+        this.drawText({
+          text: month.split('').join(' '), // Quitamos el espacio entre los dígitos del mes
+          ...coordenadas.fechaGrado.mes,
+          caps: false,
+          size: 11,
+        });
+      }
 
-  // Guardar y exportar el PDF
-  const pdfBytes = await pdfDoc.save();
-  const blob = new Blob([pdfBytes], { type: 'application/pdf' });
-  const url = URL.createObjectURL(blob);
+      // Modalidad Académica
+      this.drawText({
+        text: educacion.modalidadAcademica,
+        ...coordenadas.modalidad,
+      });
 
-  return url;
+      // Semestres Aprobados
+      this.drawText({
+        text: educacion.semestresAprobados,
+        ...coordenadas.semestresAprobados,
+      });
+
+      // Graduado
+      if (educacion.graduado === 'si' || educacion.graduado === 'no') {
+        this.drawText({
+          text: 'X',
+          ...coordenadas.graduado[educacion.graduado],
+          caps: true,
+          size: 11,
+        });
+      }
+
+      // Tarjeta Profesional
+      this.drawText({
+        text: educacion.tarjetProfesional,
+        ...coordenadas.tarjetProfesional,
+      });
+    });
+  }
+
+  public async fillPdf(resumeData: ResumeData): Promise<string> {
+    const pdfUrl = '/FormatoUnicoHojaVida.pdf';
+    const existingPdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
+    const pdfDoc = await PDFDocument.load(existingPdfBytes);
+    const page = pdfDoc.getPages()[0];
+    const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+    const generator = new PDFGenerator(page, font);
+    generator.fillPersonalInfo(resumeData.datosPersonales);
+    generator.fillEducacionBasica(resumeData.educacionBasica);
+    generator.fillEducacionSuperior(resumeData.educacionSuperior);
+
+    const pdfBytes = await pdfDoc.save();
+    const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+    return URL.createObjectURL(blob);
+  }
+}
+
+export const fillPdf = async (resumeData: ResumeData): Promise<string> => {
+  const generator = new PDFGenerator(null, null);
+  return generator.fillPdf(resumeData);
 };

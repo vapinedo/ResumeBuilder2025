@@ -1,5 +1,5 @@
-import React from "react";
-import { Paper, Typography } from "@mui/material";
+import React from 'react';
+import { Paper, Typography } from '@mui/material';
 
 interface Props {
   title: string;
@@ -15,10 +15,10 @@ export const SectionContainer: React.FC<Props> = (props) => {
       sx={{
         padding: 3,
         marginBottom: 3,
-        borderRadius: "7px",
+        borderRadius: '7px',
       }}
     >
-      <Typography variant="h5" gutterBottom sx={{ marginBottom: 2 }}>
+      <Typography variant="h5" gutterBottom sx={{ marginBottom: '20px' }}>
         {title}
       </Typography>
       {children}
