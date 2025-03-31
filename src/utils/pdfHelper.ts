@@ -8,6 +8,7 @@ interface DrawTextOptions {
   y: number;
   caps?: boolean;
   size?: number;
+  maxWidth?: number;
 }
 
 class PDFGenerator {
@@ -19,9 +20,50 @@ class PDFGenerator {
     this.font = font;
   }
 
-  private drawText({ text, x, y, caps = true, size = 10 }: DrawTextOptions): void {
-    const safeText = text ? (caps ? text.toUpperCase() : text) : '';
-    this.page.drawText(safeText, { x, y, size, font: this.font, color: rgb(0, 0, 0) });
+  private drawText({
+    text,
+    x,
+    y,
+    size = 11,
+    caps = false,
+    maxWidth = 200, // Ancho máximo por defecto
+  }: DrawTextOptions): void {
+    if (!text) return;
+
+    const finalText = caps ? text.toUpperCase() : text;
+    let fontSize = size;
+    let textWidth = this.getTextWidth(finalText, fontSize);
+
+    // Si el texto es más largo que el espacio disponible, reducimos el tamaño
+    if (textWidth > maxWidth) {
+      // Calculamos el factor de reducción necesario
+      const reductionFactor = maxWidth / textWidth;
+      fontSize = Math.max(6, Math.floor(fontSize * reductionFactor));
+
+      // Verificamos que el texto quepa con el nuevo tamaño
+      textWidth = this.getTextWidth(finalText, fontSize);
+      if (textWidth > maxWidth) {
+        fontSize = Math.max(6, fontSize - 0.5);
+      }
+    }
+
+    this.page.setFontSize(fontSize);
+    this.page.drawText(finalText, {
+      x,
+      y,
+      color: rgb(0, 0, 0),
+      font: this.font, // Aseguramos que se use la fuente en negrita
+    });
+  }
+
+  private getTextWidth(text: string, fontSize: number): number {
+    // Aproximación del ancho del texto basada en el tamaño de fuente
+    // Factor de conversión ajustado para Helvetica (fontSize * 0.6)
+    const averageCharWidth = fontSize * 0.6;
+    // Ajuste adicional para caracteres especiales y espacios
+    const specialChars = text.match(/[áéíóúñÁÉÍÓÚÑ\s]/g) || [];
+    const normalChars = text.length - specialChars.length;
+    return normalChars * averageCharWidth + specialChars.length * averageCharWidth * 1.2;
   }
 
   private fillPersonalInfo(datosPersonales: ResumeData['datosPersonales']): void {
@@ -170,6 +212,7 @@ class PDFGenerator {
       this.drawText({
         text: educacion.tituloObtenido,
         ...coordenadas.tituloObtenido,
+        size: 13,
       });
 
       // Fecha de Grado
@@ -194,7 +237,7 @@ class PDFGenerator {
           });
         });
         this.drawText({
-          text: month.split('').join(''), // Quitamos el espacio entre los dígitos del mes
+          text: month.split('').join(' '), // Quitamos el espacio entre los dígitos del mes
           ...coordenadas.fechaGrado.mes,
           caps: false,
           size: 11,
