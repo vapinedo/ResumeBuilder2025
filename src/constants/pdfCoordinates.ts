@@ -70,16 +70,64 @@ export const COORDINATES = {
       año: { x: 412, y: 320 },
     },
   },
-  educacionSuperior: [
-    {
-      modalidadAcademica: { x: 0, y: 0 }, // Placeholder
-      semestresAprobados: { x: 0, y: 0 }, // Placeholder
-      graduado: { x: 0, y: 0 }, // Placeholder
-      tituloObtenido: { x: 0, y: 0 }, // Placeholder
-      fechaGrado: { x: 0, y: 0 }, // Placeholder
-      tarjetProfesional: { x: 0, y: 0 }, // Placeholder
+  educacionSuperior: {
+    bloque1: {
+      tituloObtenido: { x: 226, y: 200 },
+      fechaGrado: {
+        year: { x: 451, y: 200 },
+        mes: { x: 428, y: 200 },
+      },
+      modalidad: { x: 75, y: 200 },
+      semestresAprobados: { x: 135, y: 200 },
+      graduado: {
+        si: { x: 182, y: 200 },
+        no: { x: 207, y: 200 },
+      },
+      tarjetProfesional: { x: 504, y: 200 },
     },
-  ],
+    bloque2: {
+      tituloObtenido: { x: 0, y: 0 },
+      fechaGrado: {
+        year: { x: 0, y: 0 },
+        mes: { x: 0, y: 0 },
+      },
+      modalidad: { x: 0, y: 0 },
+      semestresAprobados: { x: 0, y: 0 },
+      graduado: {
+        si: { x: 0, y: 0 },
+        no: { x: 0, y: 0 },
+      },
+      tarjetProfesional: { x: 0, y: 0 },
+    },
+    bloque3: {
+      tituloObtenido: { x: 0, y: 0 },
+      fechaGrado: {
+        year: { x: 0, y: 0 },
+        mes: { x: 0, y: 0 },
+      },
+      modalidad: { x: 0, y: 0 },
+      semestresAprobados: { x: 0, y: 0 },
+      graduado: {
+        si: { x: 0, y: 0 },
+        no: { x: 0, y: 0 },
+      },
+      tarjetProfesional: { x: 0, y: 0 },
+    },
+    bloque4: {
+      tituloObtenido: { x: 0, y: 0 },
+      fechaGrado: {
+        year: { x: 0, y: 0 },
+        mes: { x: 0, y: 0 },
+      },
+      modalidad: { x: 0, y: 0 },
+      semestresAprobados: { x: 0, y: 0 },
+      graduado: {
+        si: { x: 0, y: 0 },
+        no: { x: 0, y: 0 },
+      },
+      tarjetProfesional: { x: 0, y: 0 },
+    },
+  },
   idiomas: [
     {
       idioma: { x: 0, y: 0 }, // Placeholder

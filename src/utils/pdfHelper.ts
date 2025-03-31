@@ -160,6 +160,77 @@ class PDFGenerator {
     }
   }
 
+  private fillEducacionSuperior(educacionSuperior: ResumeData['educacionSuperior']): void {
+    // Iteramos sobre cada bloque de educación superior
+    educacionSuperior.forEach((educacion, index) => {
+      const bloqueKey = `bloque${index + 1}` as keyof typeof COORDINATES.educacionSuperior;
+      const coordenadas = COORDINATES.educacionSuperior[bloqueKey];
+
+      // Título Obtenido
+      this.drawText({
+        text: educacion.tituloObtenido,
+        ...coordenadas.tituloObtenido,
+      });
+
+      // Fecha de Grado
+      if (educacion.fechaGrado?.includes('-')) {
+        const [year, month] = educacion.fechaGrado.split('-');
+        // Dibujamos cada dígito del año por separado
+        year.split('').forEach((digit, i) => {
+          let xOffset = i * 12; // Espaciado base
+          if (i === 2) {
+            // Para el tercer dígito (penúltimo)
+            xOffset += 2; // Añadimos un poco más de espacio
+          } else if (i === 3) {
+            // Para el último dígito
+            xOffset += 4; // Añadimos más espacio para el último dígito
+          }
+          this.drawText({
+            text: digit,
+            x: coordenadas.fechaGrado.year.x + xOffset,
+            y: coordenadas.fechaGrado.year.y,
+            caps: false,
+            size: 11,
+          });
+        });
+        this.drawText({
+          text: month.split('').join(''), // Quitamos el espacio entre los dígitos del mes
+          ...coordenadas.fechaGrado.mes,
+          caps: false,
+          size: 11,
+        });
+      }
+
+      // Modalidad Académica
+      this.drawText({
+        text: educacion.modalidadAcademica,
+        ...coordenadas.modalidad,
+      });
+
+      // Semestres Aprobados
+      this.drawText({
+        text: educacion.semestresAprobados,
+        ...coordenadas.semestresAprobados,
+      });
+
+      // Graduado
+      if (educacion.graduado === 'si' || educacion.graduado === 'no') {
+        this.drawText({
+          text: 'X',
+          ...coordenadas.graduado[educacion.graduado],
+          caps: true,
+          size: 11,
+        });
+      }
+
+      // Tarjeta Profesional
+      this.drawText({
+        text: educacion.tarjetProfesional,
+        ...coordenadas.tarjetProfesional,
+      });
+    });
+  }
+
   public async fillPdf(resumeData: ResumeData): Promise<string> {
     const pdfUrl = '/FormatoUnicoHojaVida.pdf';
     const existingPdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
@@ -170,6 +241,7 @@ class PDFGenerator {
     const generator = new PDFGenerator(page, font);
     generator.fillPersonalInfo(resumeData.datosPersonales);
     generator.fillEducacionBasica(resumeData.educacionBasica);
+    generator.fillEducacionSuperior(resumeData.educacionSuperior);
 
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });
