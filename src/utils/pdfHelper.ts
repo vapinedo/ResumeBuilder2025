@@ -66,6 +66,13 @@ class PDFGenerator {
     return normalChars * averageCharWidth + specialChars.length * averageCharWidth * 1.2;
   }
 
+  private formatPhoneNumber(phone: string): string {
+    // Eliminamos cualquier carácter que no sea número
+    const numbers = phone.replace(/\D/g, '');
+    // Formateamos el número en grupos de 3 dígitos
+    return numbers.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
+  }
+
   private fillPersonalInfo(datosPersonales: ResumeData['datosPersonales']): void {
     // Nombres
     this.drawText({ text: datosPersonales.primerApellido, ...COORDINATES.datosPersonales.nombres.primerApellido });
@@ -171,8 +178,16 @@ class PDFGenerator {
     });
 
     // Contacto
-    this.drawText({ text: datosPersonales.telefono, ...COORDINATES.datosPersonales.contacto.telefono });
-    this.drawText({ text: datosPersonales.email, ...COORDINATES.datosPersonales.contacto.email, caps: false, size: 8 });
+    this.drawText({
+      text: this.formatPhoneNumber(datosPersonales.telefono),
+      ...COORDINATES.datosPersonales.contacto.telefono,
+    });
+    this.drawText({
+      text: datosPersonales.email,
+      ...COORDINATES.datosPersonales.contacto.email,
+      caps: false,
+      size: 8,
+    });
   }
 
   private fillEducacionBasica(educacionBasica: ResumeData['educacionBasica']): void {
