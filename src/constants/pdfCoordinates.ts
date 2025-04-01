@@ -127,6 +127,20 @@ export const COORDINATES = {
       },
       tarjetProfesional: { x: 504, y: 146 },
     },
+    bloque5: {
+      tituloObtenido: { x: 226, y: 128 },
+      fechaGrado: {
+        year: { x: 451, y: 128 },
+        mes: { x: 427, y: 128 },
+      },
+      modalidad: { x: 75, y: 128 },
+      semestresAprobados: { x: 135, y: 128 },
+      graduado: {
+        si: { x: 182, y: 128 },
+        no: { x: 207, y: 128 },
+      },
+      tarjetProfesional: { x: 504, y: 128 },
+    },
   },
   idiomas: [
     {

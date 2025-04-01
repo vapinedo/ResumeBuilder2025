@@ -9,7 +9,7 @@ import { ResumeData } from '@modules/resume/interfaces/ResumeData';
 import { modalidadAcademicaOptions, siNoOptions } from '@modules/resume/utils/resumeFormOption.helper';
 import { Control, FieldErrors, UseFormWatch, UseFormSetValue, UseFormRegister, useFieldArray } from 'react-hook-form';
 
-const MAX_EDUCACION_SUPERIOR = 4;
+const MAX_EDUCACION_SUPERIOR = 5;
 
 interface Props {
   control: Control<ResumeData>;
@@ -28,7 +28,7 @@ export const EducacionSuperiorForm: React.FC<Props> = (props) => {
   });
 
   const handleAppend = () => {
-    if (fields.length < 4) {
+    if (fields.length < MAX_EDUCACION_SUPERIOR) {
       append({
         modalidadAcademica: '',
         semestresAprobados: '',
