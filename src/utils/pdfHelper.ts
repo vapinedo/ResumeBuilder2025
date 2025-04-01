@@ -92,12 +92,20 @@ class PDFGenerator {
     }
 
     // Nacionalidad
-    if (datosPersonales.paisNacimiento in COORDINATES.datosPersonales.nacionalidad) {
+    if (datosPersonales.paisNacimiento === 'Colombia') {
       this.drawText({
         text: 'X',
-        ...COORDINATES.datosPersonales.nacionalidad[
-          datosPersonales.paisNacimiento as keyof typeof COORDINATES.datosPersonales.nacionalidad
-        ],
+        ...COORDINATES.datosPersonales.nacionalidad.colombiana,
+      });
+    } else {
+      this.drawText({
+        text: 'X',
+        ...COORDINATES.datosPersonales.nacionalidad.extranjera,
+      });
+      // Mostrar el nombre del país si no es Colombia
+      this.drawText({
+        text: datosPersonales.paisNacimiento,
+        ...COORDINATES.datosPersonales.nacionalidad.paisExtranjero,
       });
     }
     this.drawText({ text: datosPersonales.paisNacimiento, ...COORDINATES.datosPersonales.ubicacion.paisNacimiento });
@@ -212,7 +220,7 @@ class PDFGenerator {
       this.drawText({
         text: educacion.tituloObtenido,
         ...coordenadas.tituloObtenido,
-        size: 13,
+        size: 13, // Volvemos al tamaño anterior
       });
 
       // Fecha de Grado
