@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useSnackbar } from '@hooks/useSnackbar';
 import { FormButtons } from '@components/FormButtons';
 import { ResumeData } from '@modules/resume/interfaces/ResumeData';
-import { IdiomasForm } from '@modules/resume/components/IdomasForm';
+import { IdiomasForm } from '@modules/resume/components/IdiomasForm';
 import { SnackbarNotification } from '@components/SnackbarNotification';
 import { ResumeDataInitValues } from '@modules/resume/utils/resumeData.helper';
 import { getLocalStorageItem, setLocalStorageItem } from '@utils/storage.helper';

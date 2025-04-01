@@ -27,7 +27,7 @@ export const IdiomasForm: React.FC<Props> = (props) => {
   });
 
   const handleAppend = () => {
-    if (fields.length < 4) {
+    if (fields.length < MAX_IDIOMAS) {
       append({
         idioma: '',
         loHabla: '',

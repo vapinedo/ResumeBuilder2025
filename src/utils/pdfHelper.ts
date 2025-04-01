@@ -297,6 +297,74 @@ class PDFGenerator {
     });
   }
 
+  private fillIdiomas(idiomas: ResumeData['idiomas']): void {
+    // Iteramos sobre cada bloque de idiomas
+    idiomas.forEach((idioma, index) => {
+      const bloqueKey = `bloque${index + 1}` as keyof typeof COORDINATES.idiomas;
+      const coordenadas = COORDINATES.idiomas[bloqueKey];
+
+      // Idioma
+      this.drawText({
+        text: idioma.idioma,
+        ...coordenadas.idioma,
+      });
+
+      // Hablar
+      if (idioma.loHabla === 'muy bien') {
+        this.drawText({
+          text: 'X',
+          ...coordenadas.hablar.muyBien,
+        });
+      } else if (idioma.loHabla === 'bien') {
+        this.drawText({
+          text: 'X',
+          ...coordenadas.hablar.bien,
+        });
+      } else if (idioma.loHabla === 'regular') {
+        this.drawText({
+          text: 'X',
+          ...coordenadas.hablar.regular,
+        });
+      }
+
+      // Leer
+      if (idioma.loLee === 'muy bien') {
+        this.drawText({
+          text: 'X',
+          ...coordenadas.leer.muyBien,
+        });
+      } else if (idioma.loLee === 'bien') {
+        this.drawText({
+          text: 'X',
+          ...coordenadas.leer.bien,
+        });
+      } else if (idioma.loLee === 'regular') {
+        this.drawText({
+          text: 'X',
+          ...coordenadas.leer.regular,
+        });
+      }
+
+      // Escribir
+      if (idioma.loEscribe === 'muy bien') {
+        this.drawText({
+          text: 'X',
+          ...coordenadas.escribir.muyBien,
+        });
+      } else if (idioma.loEscribe === 'bien') {
+        this.drawText({
+          text: 'X',
+          ...coordenadas.escribir.bien,
+        });
+      } else if (idioma.loEscribe === 'regular') {
+        this.drawText({
+          text: 'X',
+          ...coordenadas.escribir.regular,
+        });
+      }
+    });
+  }
+
   public async fillPdf(resumeData: ResumeData): Promise<string> {
     const pdfUrl = '/FormatoUnicoHojaVida.pdf';
     const existingPdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
@@ -308,6 +376,7 @@ class PDFGenerator {
     generator.fillPersonalInfo(resumeData.datosPersonales);
     generator.fillEducacionBasica(resumeData.educacionBasica);
     generator.fillEducacionSuperior(resumeData.educacionSuperior);
+    generator.fillIdiomas(resumeData.idiomas);
 
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });

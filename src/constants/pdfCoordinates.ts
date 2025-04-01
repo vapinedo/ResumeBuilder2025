@@ -145,12 +145,42 @@ export const COORDINATES = {
       tarjetProfesional: { x: 504, y: 129.5 },
     },
   },
-  idiomas: [
-    {
-      idioma: { x: 0, y: 0 }, // Placeholder
-      loHabla: { x: 0, y: 0 }, // Placeholder
-      loLee: { x: 0, y: 0 }, // Placeholder
-      loEscribe: { x: 0, y: 0 }, // Placeholder
+  idiomas: {
+    bloque1: {
+      idioma: { x: 158, y: 71 },
+      hablar: {
+        muyBien: { x: 338, y: 71 },
+        bien: { x: 320, y: 71 },
+        regular: { x: 303.4, y: 71 },
+      },
+      leer: {
+        muyBien: { x: 388, y: 71 },
+        bien: { x: 372, y: 71 },
+        regular: { x: 354.4, y: 71 },
+      },
+      escribir: {
+        muyBien: { x: 440, y: 71 },
+        bien: { x: 422.3, y: 71 },
+        regular: { x: 405.5, y: 71 },
+      },
     },
-  ],
+    bloque2: {
+      idioma: { x: 158, y: 54 },
+      hablar: {
+        muyBien: { x: 338, y: 54 },
+        bien: { x: 320, y: 54 },
+        regular: { x: 303.4, y: 54 },
+      },
+      leer: {
+        muyBien: { x: 388, y: 54 },
+        bien: { x: 372, y: 54 },
+        regular: { x: 354.4, y: 54 },
+      },
+      escribir: {
+        muyBien: { x: 440, y: 54 },
+        bien: { x: 422.3, y: 54 },
+        regular: { x: 405.5, y: 54 },
+      },
+    },
+  },
 } as const;

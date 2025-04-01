@@ -54,7 +54,7 @@ export const siNoOptions = [
 ];
 
 export const IdiomaOptions = [
-  { value: 'Regular', label: 'regular' },
-  { value: 'Bien', label: 'bien' },
-  { value: 'Muy Bien', label: 'muy bien' },
+  { value: 'regular', label: 'Regular' },
+  { value: 'bien', label: 'Bien' },
+  { value: 'muy bien', label: 'Muy bien' },
 ];
