@@ -4,7 +4,13 @@ import { get } from 'lodash';
 import '@utils/configureDayjs';
 import { DatePicker } from '@mui/x-date-pickers';
 import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form';
-import { DatosPersonales, EducacionBasica, EducacionSuperior, ResumeData } from '@modules/resume/interfaces/ResumeData';
+import {
+  DatosPersonales,
+  EducacionBasica,
+  EducacionSuperior,
+  ExperienciaLaboral,
+  ResumeData,
+} from '@modules/resume/interfaces/ResumeData';
 
 interface Props {
   label: string;
@@ -16,7 +22,8 @@ interface Props {
     | keyof ResumeData
     | `datosPersonales.${keyof DatosPersonales}`
     | `educacionBasica.${keyof EducacionBasica}`
-    | `educacionSuperior.${number}.${keyof EducacionSuperior}`;
+    | `educacionSuperior.${number}.${keyof EducacionSuperior}`
+    | `experienciaLaboral.${number}.${keyof ExperienciaLaboral}`;
 }
 
 export const CustomDatePicker: React.FC<Props> = (props) => {

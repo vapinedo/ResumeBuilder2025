@@ -53,8 +53,13 @@ export const siNoOptions = [
   { value: 'no', label: 'No' },
 ];
 
-export const IdiomaOptions = [
+export const idiomaOptions = [
   { value: 'regular', label: 'Regular' },
   { value: 'bien', label: 'Bien' },
   { value: 'muy bien', label: 'Muy bien' },
+];
+
+export const tipoEmpresaOptions = [
+  { value: 'publica', label: 'Publica' },
+  { value: 'privada', label: 'Privada' },
 ];

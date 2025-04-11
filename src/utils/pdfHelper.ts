@@ -1,13 +1,14 @@
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';
+import { PDFDocument, PDFPage, rgb, StandardFonts } from 'pdf-lib';
 import { COORDINATES } from '../constants/pdfCoordinates';
 import { ResumeData } from 'modules/resume/interfaces/ResumeData';
 
 interface DrawTextOptions {
-  text?: string;
   x: number;
   y: number;
-  caps?: boolean;
+  page?: PDFPage;
+  text?: string;
   size?: number;
+  caps?: boolean;
   maxWidth?: number;
 }
 
@@ -27,6 +28,7 @@ class PDFGenerator {
     size = 11,
     caps = false,
     maxWidth = 200, // Ancho máximo por defecto
+    page = this.page,
   }: DrawTextOptions): void {
     if (!text) return;
 
@@ -47,8 +49,8 @@ class PDFGenerator {
       }
     }
 
-    this.page.setFontSize(fontSize);
-    this.page.drawText(finalText, {
+    page.setFontSize(fontSize);
+    page.drawText(finalText, {
       x,
       y,
       color: rgb(0, 0, 0),
@@ -365,18 +367,169 @@ class PDFGenerator {
     });
   }
 
+  private fillExperienciaLaboral(experienciaLaboral: ResumeData['experienciaLaboral'], page: PDFPage): void {
+    experienciaLaboral.forEach((experiencia, index) => {
+      const bloqueKey = `bloque${index + 1}` as keyof typeof COORDINATES.experienciaLaboral;
+      const coordenadas = COORDINATES.experienciaLaboral[bloqueKey];
+
+      if (!coordenadas) return;
+
+      // Empresa
+      this.drawText({
+        text: experiencia?.empresa,
+        ...coordenadas?.empresa,
+        size: 11,
+        page,
+      });
+
+      // Tipo de empresa
+      if (experiencia.tipoEmpresa === 'publica') {
+        this.drawText({
+          text: 'X',
+          ...coordenadas.tipoEmpresa.publica,
+          size: 14,
+          page,
+        });
+      } else if (experiencia.tipoEmpresa === 'privada') {
+        this.drawText({
+          text: 'X',
+          ...coordenadas.tipoEmpresa.privada,
+          size: 14,
+          page,
+        });
+      }
+
+      // Pais Empresa
+      this.drawText({
+        text: experiencia?.paisEmpresa,
+        ...coordenadas?.paisEmpresa,
+        size: 11,
+        page,
+      });
+
+      // Departamento Empresa
+      this.drawText({
+        text: experiencia?.departamentoEmpresa,
+        ...coordenadas?.departamentoEmpresa,
+        size: 11,
+        page,
+      });
+
+      // Municipio Empresa
+      this.drawText({
+        text: experiencia?.municipioEmpresa,
+        ...coordenadas?.municipioEmpresa,
+        size: 11,
+        page,
+      });
+
+      // Correo Empresa
+      this.drawText({
+        text: experiencia?.correoElectronico,
+        ...coordenadas?.correoElectronico,
+        size: 9,
+        page,
+      });
+
+      // Telefono Empresa
+      this.drawText({
+        text: experiencia?.telefonoEmpresa,
+        ...coordenadas?.telefonoEmpresa,
+        size: 11,
+        page,
+      });
+
+      // Fecha Inicio empresa
+      if (experiencia.fechaInicio?.includes('-')) {
+        const [year, month, day] = experiencia.fechaInicio.split('-');
+        this.drawText({
+          text: year.split('').join(' '),
+          ...coordenadas.fechaInicio.año,
+          caps: false,
+          size: 11,
+          page,
+        });
+        this.drawText({
+          text: month.split('').join(' '),
+          ...coordenadas.fechaInicio.mes,
+          caps: false,
+          size: 11,
+          page,
+        });
+        this.drawText({
+          text: day.split('').join(' '),
+          ...coordenadas.fechaInicio.dia,
+          caps: false,
+          size: 11,
+          page,
+        });
+      }
+
+      // Fecha fin empresa
+      if (experiencia.fechaFin?.includes('-')) {
+        const [year, month, day] = experiencia.fechaFin.split('-');
+        this.drawText({
+          text: year.split('').join(' '),
+          ...coordenadas.fechaFin.año,
+          caps: false,
+          size: 11,
+          page,
+        });
+        this.drawText({
+          text: month.split('').join(' '),
+          ...coordenadas.fechaFin.mes,
+          caps: false,
+          size: 11,
+          page,
+        });
+        this.drawText({
+          text: day.split('').join(' '),
+          ...coordenadas.fechaFin.dia,
+          caps: false,
+          size: 11,
+          page,
+        });
+      }
+
+      // Cargo Empresa
+      this.drawText({
+        text: experiencia?.cargo,
+        ...coordenadas?.cargo,
+        size: 11,
+        page,
+      });
+
+      // Dependencia Empresa
+      this.drawText({
+        text: experiencia?.dependencia,
+        ...coordenadas?.dependencia,
+        size: 11,
+        page,
+      });
+
+      // Direccion Empresa
+      this.drawText({
+        text: experiencia?.direccionEmpresa,
+        ...coordenadas?.direccionEmpresa,
+        size: 11,
+        page,
+      });
+    });
+  }
+
   public async fillPdf(resumeData: ResumeData): Promise<string> {
     const pdfUrl = '/FormatoUnicoHojaVida.pdf';
     const existingPdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(existingPdfBytes);
-    const page = pdfDoc.getPages()[0];
+    const [page0, page1] = pdfDoc.getPages();
     const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
-    const generator = new PDFGenerator(page, font);
+    const generator = new PDFGenerator(page0, font);
     generator.fillPersonalInfo(resumeData.datosPersonales);
     generator.fillEducacionBasica(resumeData.educacionBasica);
     generator.fillEducacionSuperior(resumeData.educacionSuperior);
     generator.fillIdiomas(resumeData.idiomas);
+    generator.fillExperienciaLaboral(resumeData.experienciaLaboral, page1);
 
     const pdfBytes = await pdfDoc.save();
     const blob = new Blob([pdfBytes], { type: 'application/pdf' });

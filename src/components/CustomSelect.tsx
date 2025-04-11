@@ -3,7 +3,13 @@ import { get } from 'lodash';
 import { TextField, MenuItem } from '@mui/material';
 import { ResumeData } from '@modules/resume/interfaces/ResumeData';
 import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue } from 'react-hook-form';
-import { DatosPersonales, EducacionBasica, EducacionSuperior, Idiomas } from '@modules/resume/interfaces/ResumeData';
+import {
+  DatosPersonales,
+  EducacionBasica,
+  EducacionSuperior,
+  Idiomas,
+  ExperienciaLaboral,
+} from '@modules/resume/interfaces/ResumeData';
 
 export interface SelectOption {
   value: string;
@@ -16,7 +22,8 @@ interface Props {
     | `datosPersonales.${keyof DatosPersonales}`
     | `educacionBasica.${keyof EducacionBasica}`
     | `educacionSuperior.${number}.${keyof EducacionSuperior}`
-    | `idiomas.${number}.${keyof Idiomas}`;
+    | `idiomas.${number}.${keyof Idiomas}`
+    | `experienciaLaboral.${number}.${keyof ExperienciaLaboral}`;
   label: string;
   required?: boolean;
   options: SelectOption[];

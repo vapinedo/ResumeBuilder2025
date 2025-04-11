@@ -8,6 +8,7 @@ import {
   EducacionSuperior,
   Idiomas,
   ResumeData,
+  ExperienciaLaboral,
 } from '@modules/resume/interfaces/ResumeData';
 
 interface Props {
@@ -21,7 +22,8 @@ interface Props {
     | `datosPersonales.${keyof DatosPersonales}`
     | `educacionBasica.${keyof EducacionBasica}`
     | `educacionSuperior.${number}.${keyof EducacionSuperior}`
-    | `idiomas.${number}.${keyof Idiomas}`;
+    | `idiomas.${number}.${keyof Idiomas}`
+    | `experienciaLaboral.${number}.${keyof ExperienciaLaboral}`;
 }
 
 export const CustomTextField: React.FC<Props> = (props) => {
