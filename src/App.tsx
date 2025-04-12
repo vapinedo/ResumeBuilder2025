@@ -1,14 +1,18 @@
+import 'dayjs/locale/es';
 import React from 'react';
-import { HomePage } from '@pages/HomePage';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { LocalizationProviderConfig } from '@components/LocalizationProviderConfig';
+import AppRouter from '@shared/routes/AppRouter';
+import { BrowserRouter } from 'react-router-dom';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
-export const App: React.FC = () => (
-  <LocalizationProviderConfig>
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<HomePage />} />
-      </Routes>
-    </BrowserRouter>
-  </LocalizationProviderConfig>
-);
+export default function App() {
+  return (
+    <React.Fragment>
+      <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
+        <BrowserRouter>
+          <AppRouter />
+        </BrowserRouter>
+      </LocalizationProvider>
+    </React.Fragment>
+  );
+}
