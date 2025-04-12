@@ -45,4 +45,20 @@ export const ResumeDataInitValues = (): ResumeData => ({
       loEscribe: '',
     },
   ],
+  experienciaLaboral: [
+    {
+      empresa: '',
+      tipoEmpresa: '',
+      paisEmpresa: '',
+      departamentoEmpresa: '',
+      municipioEmpresa: '',
+      correoElectronico: '',
+      telefonoEmpresa: '',
+      fechaInicio: '',
+      fechaFin: '',
+      cargo: '',
+      dependencia: '',
+      direccionEmpresa: '',
+    },
+  ],
 });

@@ -10,6 +10,7 @@ import { getLocalStorageItem, setLocalStorageItem } from '@utils/storage.helper'
 import { DatosPersonalesForm } from '@modules/resume/components/DatosPersonalesForm';
 import { EducacionBasicaForm } from '@modules/resume/components/EducacionBasicaForm';
 import { EducacionSuperiorForm } from '@modules/resume/components/EducacionSuperiorForm';
+import { ExperienciaLaboralForm } from '@modules/resume/components/ExperienciaLaboralForm';
 
 const STORAGE_KEY = 'resumeForm';
 
@@ -59,6 +60,7 @@ export const ResumeForm: React.FC = () => {
       <EducacionBasicaForm watch={watch} errors={errors} control={control} register={register} setValue={setValue} />
       <EducacionSuperiorForm watch={watch} errors={errors} control={control} register={register} setValue={setValue} />
       <IdiomasForm watch={watch} errors={errors} control={control} register={register} setValue={setValue} />
+      <ExperienciaLaboralForm watch={watch} errors={errors} control={control} register={register} setValue={setValue} />
 
       <SnackbarNotification
         severity="success"

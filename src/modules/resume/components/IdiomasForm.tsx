@@ -5,7 +5,7 @@ import { CustomSelect } from '@components/CustomSelect';
 import { CustomTextField } from '@components/CustomTextField';
 import { SectionContainer } from '@containers/SectionContainer';
 import { ResumeData } from '@modules/resume/interfaces/ResumeData';
-import { IdiomaOptions } from '@modules/resume/utils/resumeFormOption.helper';
+import { idiomaOptions } from '@modules/resume/utils/resumeFormOption.helper';
 import { Control, FieldErrors, UseFormWatch, UseFormSetValue, UseFormRegister, useFieldArray } from 'react-hook-form';
 
 const MAX_IDIOMAS = 2;
@@ -50,7 +50,7 @@ export const IdiomasForm: React.FC<Props> = (props) => {
               register={register}
               setValue={setValue}
               label="Lo Habla"
-              options={IdiomaOptions}
+              options={idiomaOptions}
               name={`idiomas.${index}.loHabla`}
             />
             <CustomSelect
@@ -60,7 +60,7 @@ export const IdiomasForm: React.FC<Props> = (props) => {
               register={register}
               setValue={setValue}
               label="Lo Lee"
-              options={IdiomaOptions}
+              options={idiomaOptions}
               name={`idiomas.${index}.loLee`}
             />
             <CustomSelect
@@ -70,7 +70,7 @@ export const IdiomasForm: React.FC<Props> = (props) => {
               register={register}
               setValue={setValue}
               label="Lo Escribe"
-              options={IdiomaOptions}
+              options={idiomaOptions}
               name={`idiomas.${index}.loEscribe`}
             />
           </AutoGridRow>

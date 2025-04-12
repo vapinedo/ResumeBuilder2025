@@ -42,9 +42,25 @@ export interface Idiomas {
   loEscribe: string;
 }
 
+export interface ExperienciaLaboral {
+  empresa: string;
+  tipoEmpresa: string;
+  paisEmpresa: string;
+  departamentoEmpresa: string;
+  municipioEmpresa: string;
+  correoElectronico: string;
+  telefonoEmpresa: string;
+  fechaInicio: string;
+  fechaFin: string;
+  cargo: string;
+  dependencia: string;
+  direccionEmpresa: string;
+}
+
 export interface ResumeData {
   datosPersonales: DatosPersonales;
   educacionBasica: EducacionBasica;
   educacionSuperior: EducacionSuperior[];
   idiomas: Idiomas[];
+  experienciaLaboral: ExperienciaLaboral[];
 }
