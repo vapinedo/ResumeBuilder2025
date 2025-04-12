@@ -433,7 +433,7 @@ class PDFGenerator {
 
       // Telefono Empresa
       this.drawText({
-        text: experiencia?.telefonoEmpresa,
+        text: this.formatPhoneNumber(experiencia?.telefonoEmpresa),
         ...coordenadas?.telefonoEmpresa,
         size: 11,
         page,

@@ -216,7 +216,7 @@ export const COORDINATES = {
         privada: { x: 392, y: 419 },
       },
       paisEmpresa: { x: 426, y: 419 },
-      departamentoEmpresa: { x: 62, y: 260 },
+      departamentoEmpresa: { x: 62, y: 389 },
       municipioEmpresa: { x: 240, y: 389 },
       correoElectronico: { x: 413, y: 389 },
       telefonoEmpresa: { x: 60, y: 359 },
