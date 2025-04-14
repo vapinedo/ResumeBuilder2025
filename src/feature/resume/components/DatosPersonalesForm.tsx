@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
-import { useCountries } from 'shared/hooks/useCountries';
-import { useMunicipios } from 'shared/hooks/useMunicipios';
-import { AutoGridRow } from '@components/AutoGridRow';
-import { CustomSelect } from '@components/CustomSelect';
-import { useDepartamentos } from 'shared/hooks/useDepartamentos';
-import { CustomTextField } from '@components/CustomTextField';
-import { SectionContainer } from 'shared/containers/SectionContainer';
-import { CustomDatePicker } from '@components/CustomDatePicker';
-import { ResumeData } from 'feature/resume/interfaces/ResumeData';
+import { useCountries } from '@shared/hooks/useCountries';
+import { useMunicipios } from '@shared/hooks/useMunicipios';
+import { AutoGridRow } from '@shared/components/AutoGridRow';
+import { CustomSelect } from '@shared/components/CustomSelect';
+import { useDepartamentos } from '@shared/hooks/useDepartamentos';
+import { ResumeData } from '@feature/resume/interfaces/ResumeData';
+import { CustomTextField } from '@shared/components/CustomTextField';
+import { SectionContainer } from '@shared/containers/SectionContainer';
+import { CustomDatePicker } from '@shared/components/CustomDatePicker';
 import { Control, UseFormRegister, FieldErrors, UseFormSetValue, UseFormWatch } from 'react-hook-form';
-import { sexoOptions, tipoDocumentoOptions, tipoLibretaMilitarOptions } from 'feature/resume/utils/resumeFormOption.helper';
+import { sexoOptions, tipoDocumentoOptions, tipoLibretaMilitarOptions } from '@feature/resume/utils/resumeFormOption.helper';
 
 interface Props {
   control: Control<ResumeData>;

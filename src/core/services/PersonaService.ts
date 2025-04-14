@@ -2,7 +2,7 @@ import { Persona } from '@feature/persona/models/Persona';
 import useNotification from '@core/services/useNotificationService';
 import FirestoreGenericService from '@core/services/FirestoreGenericService';
 
-const COLLECTION = 'usuarios';
+const COLLECTION = 'personas';
 const { toastSuccess } = useNotification();
 
 const firestore = FirestoreGenericService<Persona>(COLLECTION);

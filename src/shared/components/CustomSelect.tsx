@@ -4,10 +4,10 @@ import { TextField, MenuItem } from '@mui/material';
 import { ResumeData } from 'feature/resume/interfaces/ResumeData';
 import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue } from 'react-hook-form';
 import {
+  Idiomas,
   DatosPersonales,
   EducacionBasica,
   EducacionSuperior,
-  Idiomas,
   ExperienciaLaboral,
 } from 'feature/resume/interfaces/ResumeData';
 
@@ -19,10 +19,10 @@ export interface SelectOption {
 interface Props {
   name:
     | keyof ResumeData
+    | `idiomas.${number}.${keyof Idiomas}`
     | `datosPersonales.${keyof DatosPersonales}`
     | `educacionBasica.${keyof EducacionBasica}`
     | `educacionSuperior.${number}.${keyof EducacionSuperior}`
-    | `idiomas.${number}.${keyof Idiomas}`
     | `experienciaLaboral.${number}.${keyof ExperienciaLaboral}`;
   label: string;
   required?: boolean;

@@ -1,17 +1,15 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useSnackbar } from 'shared/hooks/useSnackbar';
-import { FormButtons } from '@components/FormButtons';
-import { ResumeData } from 'feature/resume/interfaces/ResumeData';
-import { IdiomasForm } from 'feature/resume/components/IdiomasForm';
-import { SnackbarNotification } from '@components/SnackbarNotification';
-import { createResume, getResumeById } from 'core/services/firebase.service';
-import { ResumeDataInitValues } from 'feature/resume/utils/resumeData.helper';
-import { getLocalStorageItem, setLocalStorageItem } from 'shared/utils/storage.helper';
-import { DatosPersonalesForm } from 'feature/resume/components/DatosPersonalesForm';
-import { EducacionBasicaForm } from 'feature/resume/components/EducacionBasicaForm';
-import { EducacionSuperiorForm } from 'feature/resume/components/EducacionSuperiorForm';
-import { ExperienciaLaboralForm } from 'feature/resume/components/ExperienciaLaboralForm';
+import { useSnackbar } from '@shared/hooks/useSnackbar';
+import { FormButtons } from '@shared/components/FormButtons';
+import { ResumeData } from '@feature/resume/interfaces/ResumeData';
+import { IdiomasForm } from '@feature/resume/components/IdiomasForm';
+import { ResumeDataInitValues } from '@feature/resume/utils/resumeData.helper';
+import { SnackbarNotification } from '@shared/components/SnackbarNotification';
+import { DatosPersonalesForm } from '@feature/resume/components/DatosPersonalesForm';
+import { EducacionBasicaForm } from '@feature/resume/components/EducacionBasicaForm';
+import { EducacionSuperiorForm } from '@feature/resume/components/EducacionSuperiorForm';
+import { ExperienciaLaboralForm } from '@feature/resume/components/ExperienciaLaboralForm';
 
 const STORAGE_KEY = 'resumeForm';
 
