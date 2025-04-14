@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import { SelectOption } from '@components/CustomSelect';
+import { SelectOption } from '@shared/components/CustomSelect';
 
-const TIME_1_HOUR = 1 * 60 * 60 * 1000; 
+const TIME_1_HOUR = 1 * 60 * 60 * 1000;
 const TIME_24_HOUR = 24 * 60 * 60 * 1000;
 const COUNTRIES_API_URL = 'https://restcountries.com/v3.1/all';
 
@@ -16,11 +16,11 @@ const fetchCountries = async (): Promise<SelectOption[]> => {
 
   const countries = data.map((country: any) => ({
     value: country.name.common,
-    label: `${country.name.common} ${country.flag}`
+    label: `${country.name.common} ${country.flag}`,
   }));
 
   return sortAZCountries(countries);
-}
+};
 
 export const useCountries = () => {
   return useQuery({
@@ -29,4 +29,4 @@ export const useCountries = () => {
     queryKey: ['countries'],
     queryFn: fetchCountries,
   });
-}
+};

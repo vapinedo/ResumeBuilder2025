@@ -7,9 +7,8 @@ export default function PersonaRouter() {
   return (
     <Routes>
       <Route path="/" element={<PersonaAdminPage />} />
+      <Route path="/nuevo" element={<PersonaForm />} />
       <Route path="/detalle/:id" element={<PersonaDetallePage />} />
-      <Route path="/nuevo" element={<PersonaForm isEditMode={false} />} />
-      <Route path="/editar/:id" element={<PersonaForm isEditMode={true} />} />
     </Routes>
   );
 }

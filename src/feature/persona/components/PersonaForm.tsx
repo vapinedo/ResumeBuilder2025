@@ -1,3 +1,4 @@
+import { Button, Snackbar } from '@mui/material';
 import BoxShadow from '@shared/containers/BoxShadow';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { Persona } from '@feature/persona/models/Persona';
@@ -12,8 +13,7 @@ import { useEffect, useMemo, useCallback, useState } from 'react';
 import { CustomTextField } from '@shared/components/CustomTextField';
 import { CustomDatePicker } from '@shared/components/CustomDatePicker';
 import { estadoPublicacionOptions } from '@core/mocks/DropdownOptions';
-import { Button, FormControl, InputLabel, MenuItem, Snackbar } from '@mui/material';
-import { tipoDocumentoOptions } from '@feature/resume/utils/resumeFormOption.helper';
+import { sexoOptions, tipoDocumentoOptions } from '@feature/resume/utils/resumeFormOption.helper';
 
 const defaultValues: Persona = {
   sexo: '',
@@ -30,16 +30,11 @@ const defaultValues: Persona = {
   departamentoNacimiento: '',
 };
 
-interface ArticuloFormProps {
-  isEditMode: boolean;
-}
-
-export default function PersonaForm({ isEditMode }: ArticuloFormProps) {
+export default function PersonaForm() {
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
-  const { crear, actualizar, obtener, personas, lista } = usePersonaStore();
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const { crear } = usePersonaStore();
+  // const [openSnackbar, setOpenSnackbar] = useState(false);
+  // const [snackbarMessage, setSnackbarMessage] = useState('');
 
   const { data: countries } = useCountries();
   const { data: departamentos } = useDepartamentos();
@@ -53,80 +48,48 @@ export default function PersonaForm({ isEditMode }: ArticuloFormProps) {
   const { control, register, formState, handleSubmit, setValue, getValues, watch, reset } = form;
   const { errors, isSubmitting, isValid } = formState;
 
-  useEffect(() => {
-    lista(); // carga inicial
-  }, [lista]);
-
-  useEffect(() => {
-    if (isEditMode && id) {
-      const persona = obtener(id);
-      if (persona) {
-        reset(persona);
-      }
-    }
-  }, [isEditMode, id, obtener, personas, reset]);
-
-  const estadoOptions = useMemo(() => estadoPublicacionOptions, []);
-
   const onSubmit = useCallback(
     async (persona: Persona) => {
       try {
-        if (isEditMode) {
-          await actualizar(persona);
-          setSnackbarMessage('Persona actualizada exitosamente');
-        } else {
-          await crear(persona);
-          setSnackbarMessage('Persona creada exitosamente');
-        }
-        setOpenSnackbar(true);
-        // navigate('/personas');
+        console.log(persona);
+        await crear(persona);
+        // setOpenSnackbar(true);
+        navigate('/personas');
       } catch (error) {
         console.error(error);
-        setSnackbarMessage('Ocurrió un error al guardar la persona');
-        setOpenSnackbar(true);
+        // setSnackbarMessage('Ocurrió un error al guardar la persona');
+        // setOpenSnackbar(true);
       }
     },
-    [isEditMode, crear, actualizar]
+    [crear]
   );
 
   const onError = useCallback((errors: FieldErrors<any>) => {
     console.log({ errors });
   }, []);
 
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
-  };
+  // const handleCloseSnackbar = () => {
+  //   setOpenSnackbar(false);
+  // };
 
   return (
     <BoxShadow>
       <header className="mb-4 d-flex justify-content-between align-items-center">
-        <h2>{isEditMode ? 'Editar persona' : 'Nueva persona'}</h2>
+        <h2>Nueva persona</h2>
       </header>
 
       <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
         <AutoGridRow spacing={2} rowSpacing={2}>
-          <CustomTextField
-            required
-            name="datosPersonales.primerApellido"
-            label="Primer Apellido"
-            errors={errors}
-            register={register}
-          />
-          <CustomTextField
-            required
-            name="datosPersonales.segundoApellido"
-            label="Segundo Apellido"
-            errors={errors}
-            register={register}
-          />
-          <CustomTextField required name="datosPersonales.nombres" label="Nombres" errors={errors} register={register} />
+          <CustomTextField required name="nombres" label="Nombres" errors={errors} register={register} />
+          <CustomTextField required name="primerApellido" label="Primer Apellido" errors={errors} register={register} />
+          <CustomTextField required name="segundoApellido" label="Segundo Apellido" errors={errors} register={register} />
           <CustomSelect
             required
-            name="datosPersonales.sexo"
+            name="sexo"
             label="Sexo"
+            watch={watch}
             errors={errors}
             register={register}
-            watch={watch}
             setValue={setValue}
             options={sexoOptions}
           />
@@ -141,117 +104,65 @@ export default function PersonaForm({ isEditMode }: ArticuloFormProps) {
             setValue={setValue}
             label="Tipo de Documento"
             options={tipoDocumentoOptions}
-            name="datosPersonales.tipoDocumento"
+            name="tipoDocumento"
           />
-          <CustomTextField
-            required
-            errors={errors}
-            register={register}
-            label="Número de Documento"
-            name="datosPersonales.numeroDocumento"
-          />
-          <CustomTextField required name="datosPersonales.email" label="Email" errors={errors} register={register} />
-          <CustomTextField required name="datosPersonales.telefono" label="Teléfono" errors={errors} register={register} />
+          <CustomTextField required errors={errors} register={register} label="Número de Documento" name="numeroDocumento" />
+          <CustomTextField required name="email" label="Email" errors={errors} register={register} />
+          <CustomTextField required name="telefono" label="Teléfono" errors={errors} register={register} />
         </AutoGridRow>
 
         <AutoGridRow spacing={2} rowSpacing={2}>
           <CustomDatePicker
             required
-            name="datosPersonales.fechaNacimiento"
-            label="Fecha de Nacimiento"
             errors={errors}
-            register={register}
             control={control}
+            register={register}
+            name="fechaNacimiento"
+            label="Fecha de Nacimiento"
           />
           <CustomSelect
             required
-            name="datosPersonales.paisNacimiento"
+            watch={watch}
+            errors={errors}
+            register={register}
+            setValue={setValue}
+            options={countries ?? []}
+            name="paisNacimiento"
             label="País de Nacimiento"
-            errors={errors}
-            register={register}
-            watch={watch}
-            setValue={setValue}
-            options={countries ?? []}
           />
           <CustomSelect
             required
-            name="datosPersonales.departamentoNacimiento"
+            watch={watch}
+            errors={errors}
+            register={register}
+            setValue={setValue}
+            options={departamentos ?? []}
+            name="departamentoNacimiento"
             label="Departamento de Nacimiento"
-            errors={errors}
-            register={register}
-            watch={watch}
-            setValue={setValue}
-            options={departamentos ?? []}
           />
           <CustomSelect
             required
-            name="datosPersonales.municipioNacimiento"
+            watch={watch}
+            errors={errors}
+            register={register}
+            setValue={setValue}
+            options={municipios ?? []}
+            name="municipioNacimiento"
             label="Municipio de Nacimiento"
-            errors={errors}
-            register={register}
-            watch={watch}
-            setValue={setValue}
-            options={municipios ?? []}
           />
         </AutoGridRow>
 
-        <AutoGridRow spacing={2} rowSpacing={2}>
-          <CustomTextField
-            required
-            name="datosPersonales.direccionCorrespondencia"
-            label="Dirección de Correspondencia"
-            errors={errors}
-            register={register}
-          />
-          <CustomSelect
-            required
-            name="datosPersonales.paisCorrespondencia"
-            label="País de Correspondencia"
-            errors={errors}
-            register={register}
-            watch={watch}
-            setValue={setValue}
-            options={countries ?? []}
-          />
-          <CustomSelect
-            required
-            name="datosPersonales.departamentoCorrespondencia"
-            label="Departamento de Correspondencia"
-            errors={errors}
-            register={register}
-            watch={watch}
-            setValue={setValue}
-            options={departamentos ?? []}
-          />
-          <CustomSelect
-            required
-            name="datosPersonales.municipioCorrespondencia"
-            label="Municipio de Correspondencia"
-            errors={errors}
-            register={register}
-            watch={watch}
-            setValue={setValue}
-            options={municipios ?? []}
-          />
-        </AutoGridRow>
-
-        <Button
-          type="submit"
-          variant="contained"
-          sx={{ marginTop: 2 }}
-          disabled={isSubmitting || !isValid}
-          color={isEditMode ? 'success' : 'primary'}
-        >
-          {isEditMode ? 'Actualizar' : 'Guardar'}
+        <Button type="submit" color="success" variant="contained" sx={{ marginTop: 2 }} disabled={isSubmitting || !isValid}>
+          Guardar
         </Button>
 
-        <Snackbar
+        {/* <Snackbar
           open={openSnackbar}
           autoHideDuration={3000}
           message={snackbarMessage}
           onClose={handleCloseSnackbar}
           anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        />
+        /> */}
       </form>
     </BoxShadow>
   );

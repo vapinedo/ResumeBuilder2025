@@ -1,34 +1,19 @@
-import React from 'react';
 import dayjs from 'dayjs';
 import { get } from 'lodash';
-import 'shared/utils/configureDayjs';
+import '@shared/utils/configureDayjs';
 import { DatePicker } from '@mui/x-date-pickers';
-import { Control, Controller, FieldErrors, UseFormRegister } from 'react-hook-form';
-import {
-  DatosPersonales,
-  EducacionBasica,
-  EducacionSuperior,
-  ExperienciaLaboral,
-  ResumeData,
-} from 'feature/resume/interfaces/ResumeData';
+import { Control, Controller, FieldErrors, UseFormRegister, FieldValues, Path } from 'react-hook-form';
 
-interface Props {
+interface Props<T extends FieldValues> {
+  name: Path<T>;
   label: string;
   required?: boolean;
-  control: Control<ResumeData>;
+  control: Control<T>;
+  errors: FieldErrors<T>;
   register: UseFormRegister<any>;
-  errors: FieldErrors<ResumeData>;
-  name:
-    | keyof ResumeData
-    | `datosPersonales.${keyof DatosPersonales}`
-    | `educacionBasica.${keyof EducacionBasica}`
-    | `educacionSuperior.${number}.${keyof EducacionSuperior}`
-    | `experienciaLaboral.${number}.${keyof ExperienciaLaboral}`;
 }
 
-export const CustomDatePicker: React.FC<Props> = (props) => {
-  const { name, label, required, control, errors } = props;
-
+export function CustomDatePicker<T extends FieldValues>({ name, label, required, control, errors }: Props<T>) {
   return (
     <Controller
       name={name}
@@ -46,11 +31,11 @@ export const CustomDatePicker: React.FC<Props> = (props) => {
               size: 'small',
               fullWidth: true,
               error: Boolean(get(errors, name)),
-              helperText: get(errors, `${name}.message`, null),
+              helperText: String(get(errors, `${name}.message`) ?? ''),
             },
           }}
         />
       )}
     />
   );
-};
+}

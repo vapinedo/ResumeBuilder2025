@@ -1,41 +1,34 @@
-import React from 'react';
 import { get } from 'lodash';
 import { TextField, MenuItem } from '@mui/material';
-import { ResumeData } from 'feature/resume/interfaces/ResumeData';
-import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue } from 'react-hook-form';
-import {
-  Idiomas,
-  DatosPersonales,
-  EducacionBasica,
-  EducacionSuperior,
-  ExperienciaLaboral,
-} from 'feature/resume/interfaces/ResumeData';
+import { FieldErrors, UseFormRegister, UseFormWatch, UseFormSetValue, FieldValues, PathValue } from 'react-hook-form';
 
 export interface SelectOption {
   value: string;
   label: string;
 }
 
-interface Props {
-  name:
-    | keyof ResumeData
-    | `idiomas.${number}.${keyof Idiomas}`
-    | `datosPersonales.${keyof DatosPersonales}`
-    | `educacionBasica.${keyof EducacionBasica}`
-    | `educacionSuperior.${number}.${keyof EducacionSuperior}`
-    | `experienciaLaboral.${number}.${keyof ExperienciaLaboral}`;
+interface Props<T extends FieldValues> {
+  name: string;
   label: string;
   required?: boolean;
+  watch: UseFormWatch<T>;
+  errors: FieldErrors<T>;
   options: SelectOption[];
-  watch: UseFormWatch<any>;
-  errors: FieldErrors<ResumeData>;
-  setValue: UseFormSetValue<ResumeData>;
-  register: UseFormRegister<ResumeData>;
+  register: UseFormRegister<T>;
+  setValue: UseFormSetValue<T>;
 }
 
-export const CustomSelect: React.FC<Props> = (props) => {
-  const { label, name, register, watch, errors, options, required, setValue } = props;
-  const selectedValue = watch(name) ?? '';
+export function CustomSelect<T extends FieldValues>({
+  name,
+  label,
+  register,
+  errors,
+  options,
+  required,
+  watch,
+  setValue,
+}: Props<T>) {
+  const selectedValue = watch(name as any) ?? '';
 
   return (
     <TextField
@@ -45,14 +38,14 @@ export const CustomSelect: React.FC<Props> = (props) => {
       label={label}
       variant="outlined"
       error={Boolean(get(errors, name))}
-      helperText={get(errors, `${name}.message`, null)}
+      helperText={String(get(errors, `${name}.message`) ?? '')}
       {...register(name as any, {
         required: required ? `${label} es obligatorio` : false,
       })}
       value={options.length > 0 ? selectedValue : ''}
       onChange={(e) => {
         const newValue = e.target.value;
-        setValue(name as any, newValue, { shouldValidate: true });
+        setValue(name as any, newValue as PathValue<T, any>, { shouldValidate: true });
       }}
     >
       {options.map((option) => (
@@ -62,4 +55,4 @@ export const CustomSelect: React.FC<Props> = (props) => {
       ))}
     </TextField>
   );
-};
+}

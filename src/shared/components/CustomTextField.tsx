@@ -1,34 +1,24 @@
-import React from 'react';
 import { get } from 'lodash';
 import { TextField } from '@mui/material';
-import { UseFormRegister, FieldErrors } from 'react-hook-form';
-import {
-  DatosPersonales,
-  EducacionBasica,
-  EducacionSuperior,
-  Idiomas,
-  ResumeData,
-  ExperienciaLaboral,
-} from 'feature/resume/interfaces/ResumeData';
+import { UseFormRegister, FieldErrors, FieldValues } from 'react-hook-form';
 
-interface Props {
+interface Props<T extends FieldValues> {
+  name: string;
   type?: string;
   label: string;
   required?: boolean;
-  errors: FieldErrors<ResumeData>;
-  register: UseFormRegister<ResumeData>;
-  name:
-    | keyof ResumeData
-    | `datosPersonales.${keyof DatosPersonales}`
-    | `educacionBasica.${keyof EducacionBasica}`
-    | `educacionSuperior.${number}.${keyof EducacionSuperior}`
-    | `idiomas.${number}.${keyof Idiomas}`
-    | `experienciaLaboral.${number}.${keyof ExperienciaLaboral}`;
+  errors: FieldErrors<T>;
+  register: UseFormRegister<T>;
 }
 
-export const CustomTextField: React.FC<Props> = (props) => {
-  const { label, name, errors, register, type = 'text', required = false } = props;
-
+export function CustomTextField<T extends FieldValues>({
+  label,
+  name,
+  errors,
+  register,
+  type = 'text',
+  required = false,
+}: Props<T>) {
   return (
     <TextField
       fullWidth
@@ -37,8 +27,8 @@ export const CustomTextField: React.FC<Props> = (props) => {
       label={label}
       variant="outlined"
       error={Boolean(get(errors, name))}
-      helperText={get(errors, `${name}.message`, null)}
+      helperText={String(get(errors, `${name}.message`) ?? '')}
       {...register(name as any, required ? { required: `${label} es obligatorio` } : undefined)}
     />
   );
-};
+}
