@@ -1,25 +1,27 @@
 import { v4 as createUuid } from 'uuid';
 import firebaseConfig from '@core/firebaseConfig';
-import useNotification from '@core/services/useNotificationService';
+import type { WithFieldValue, DocumentData } from 'firebase/firestore';
+import { toastSuccess, toastError } from '@core/services/NotificationService';
 import { ref, uploadBytesResumable, getDownloadURL, listAll, deleteObject } from 'firebase/storage';
 import { doc, getDocs, getDoc, setDoc, collection, runTransaction, deleteDoc } from 'firebase/firestore';
 
 const { db, storage } = firebaseConfig;
 
-export default function FirestoreGenericService<T>(COLLECTION: string) {
-  const { toastError, toastSuccess } = useNotification();
+type WithImages<T> = T & { imagenURLs?: string[] };
 
+export default function FirestoreGenericService<T extends WithFieldValue<DocumentData>>(COLLECTION: string) {
   const getAllDocuments = async (): Promise<T[]> => {
     const documents: T[] = [];
     try {
       const querySnapshot = await getDocs(collection(db, COLLECTION));
       for (const docSnapshot of querySnapshot.docs) {
-        const documentData = docSnapshot.data() as T;
+        const documentData = { id: docSnapshot.id, ...docSnapshot.data() } as unknown as T;
         documents.push(documentData);
       }
     } catch (error) {
       toastError(error, `Error al obtener los documentos de ${COLLECTION}`);
     }
+    console.log('documents', documents);
     return documents;
   };
 
@@ -29,7 +31,7 @@ export default function FirestoreGenericService<T>(COLLECTION: string) {
       const docRef = doc(db, COLLECTION, id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        document = docSnap.data() as T;
+        document = { id, ...docSnap.data() } as unknown as T;
       }
     } catch (error) {
       toastError(error, `Error al obtener documento por ID ${id} de ${COLLECTION}`);
@@ -43,16 +45,17 @@ export default function FirestoreGenericService<T>(COLLECTION: string) {
         document.id = createUuid();
       }
 
-      let imageUrls: string[] = [];
+      let finalDoc: T | WithImages<T> = document;
+
       if (imageFiles) {
-        imageUrls = await uploadImagesForDocument(document.id, imageFiles);
-        if (!('imagenURLs' in document)) {
-          (document as any).imagenURLs = []; // Asignar un arreglo vacío si no existe
-        }
-        (document as any).imagenURLs = imageUrls; // Tipo de aserción con `any`
+        const imageUrls = await uploadImagesForDocument(document.id, imageFiles);
+        finalDoc = {
+          ...document,
+          imagenURLs: imageUrls,
+        };
       }
 
-      await setDoc(doc(db, COLLECTION, document.id), document);
+      await setDoc(doc(db, COLLECTION, document.id), finalDoc);
       toastSuccess('Documento creado exitosamente!');
     } catch (error) {
       toastError(error, `Error al crear documento en ${COLLECTION}`);
@@ -68,20 +71,22 @@ export default function FirestoreGenericService<T>(COLLECTION: string) {
           throw new Error(`No existe el documento que quiere editar en ${COLLECTION}`);
         }
 
-        let imageUrls: string[] = [];
+        let finalDoc: T | WithImages<T> = document;
+
         if (imageFiles) {
           await deleteImagesForDocument(document.id);
-          imageUrls = await uploadImagesForDocument(document.id, imageFiles);
+          const imageUrls = await uploadImagesForDocument(document.id, imageFiles);
 
-          if (!('imagenURLs' in document)) {
-            (document as any).imagenURLs = []; // Asignar un arreglo vacío si no existe
-          }
-          (document as any).imagenURLs = imageUrls; // Tipo de aserción con `any`
+          finalDoc = {
+            ...document,
+            imagenURLs: imageUrls,
+          };
         }
 
-        transaction.update(docRef, { ...document });
-        toastSuccess('Documento actualizado exitosamente!');
+        transaction.update(docRef, finalDoc);
       });
+
+      toastSuccess('Documento actualizado exitosamente!');
     } catch (error) {
       toastError(error, `Error al actualizar documento en ${COLLECTION}`);
     }
@@ -122,9 +127,7 @@ export default function FirestoreGenericService<T>(COLLECTION: string) {
     try {
       const imagesRef = ref(storage, `${COLLECTION}/${documentId}`);
       const imageList = await listAll(imagesRef);
-      imageList.items.forEach(async (imageRef) => {
-        await deleteObject(imageRef);
-      });
+      await Promise.all(imageList.items.map((imageRef) => deleteObject(imageRef)));
     } catch (error) {
       console.error('Error al eliminar imágenes del documento:', error);
     }

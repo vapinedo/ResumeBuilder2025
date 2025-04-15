@@ -1,16 +1,13 @@
 import { Persona } from '@feature/persona/models/Persona';
-import useNotification from '@core/services/useNotificationService';
+import { toastSuccess } from '@core/services/NotificationService';
 import FirestoreGenericService from '@core/services/FirestoreGenericService';
 
 const COLLECTION = 'personas';
-const { toastSuccess } = useNotification();
 
 const firestore = FirestoreGenericService<Persona>(COLLECTION);
 
 const PersonaService = {
-  lista: async (): Promise<Persona[]> => {
-    return await firestore.getAllDocuments();
-  },
+  lista: (): Promise<Persona[]> => firestore.getAllDocuments(),
 
   crear: async (data: Persona): Promise<void> => {
     await firestore.createDocument(data);
@@ -18,7 +15,7 @@ const PersonaService = {
   },
 
   actualizar: async (data: Persona): Promise<void> => {
-    await firestore.updateDocument(data);
+    await firestore.updateDocument(data as Persona & { id: string });
     toastSuccess('Persona actualizada con éxito');
   },
 
@@ -27,9 +24,7 @@ const PersonaService = {
     toastSuccess('Persona eliminada con éxito');
   },
 
-  obtener: async (id: string): Promise<Persona | null> => {
-    return await firestore.getDocumentById(id);
-  },
+  obtener: (id: string): Promise<Persona | null> => firestore.getDocumentById(id),
 };
 
 export default PersonaService;

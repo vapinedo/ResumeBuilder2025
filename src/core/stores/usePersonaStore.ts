@@ -72,7 +72,7 @@ const usePersonaStore = create<PersonaStore>()(
 
       obtener: (id: string) => {
         const { personas } = get();
-        return personas.find((persona) => persona.Id === id);
+        return personas.find((persona) => persona.id === id);
       },
 
       crear: async (persona: Persona) => {
