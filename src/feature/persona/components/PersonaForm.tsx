@@ -1,20 +1,28 @@
-import { useCallback } from 'react';
 import { Button } from '@mui/material';
+import { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import BoxShadow from '@shared/containers/BoxShadow';
 import { FieldErrors, useForm } from 'react-hook-form';
-import { useCrearPersona } from '@core/hooks/usePersona';
-import { Persona } from '@feature/persona/models/Persona';
 import { useCountries } from '@shared/hooks/useCountries';
+import { Persona } from '@feature/persona/models/Persona';
+import PersonaService from '@core/services/PersonaService';
 import { useMunicipios } from '@shared/hooks/useMunicipios';
 import { AutoGridRow } from '@shared/components/AutoGridRow';
 import { CustomSelect } from '@shared/components/CustomSelect';
 import { useDepartamentos } from '@shared/hooks/useDepartamentos';
 import { CustomTextField } from '@shared/components/CustomTextField';
 import { CustomDatePicker } from '@shared/components/CustomDatePicker';
+import { useCrearPersona, useActualizarPersona } from '@core/hooks/usePersona';
 import { sexoOptions, tipoDocumentoOptions } from '@feature/resume/utils/resumeFormOption.helper';
 
+type PersonaFormProps = {
+  modo: 'crear' | 'editar';
+  personaId?: string;
+};
+
 const defaultValues: Persona = {
+  id: '',
   sexo: '',
   email: '',
   nombres: '',
@@ -29,9 +37,17 @@ const defaultValues: Persona = {
   departamentoNacimiento: '',
 };
 
-export default function PersonaForm() {
+export default function PersonaForm({ modo, personaId }: PersonaFormProps) {
   const navigate = useNavigate();
+
   const crearPersona = useCrearPersona();
+  const actualizarPersona = useActualizarPersona();
+
+  const { data: personaEditando, isLoading: cargandoPersona } = useQuery({
+    queryKey: ['persona', personaId],
+    queryFn: () => PersonaService.getDocumentById(personaId!),
+    enabled: modo === 'editar' && !!personaId,
+  });
 
   const { data: countries } = useCountries();
   const { data: departamentos } = useDepartamentos();
@@ -42,29 +58,47 @@ export default function PersonaForm() {
     mode: 'onTouched',
   });
 
-  const { control, register, formState, handleSubmit, setValue, watch } = form;
+  const { control, register, formState, handleSubmit, setValue, watch, reset } = form;
   const { errors, isSubmitting, isValid } = formState;
+
+  useEffect(() => {
+    if (modo === 'editar' && personaEditando) {
+      reset(personaEditando);
+    }
+  }, [modo, personaEditando, reset]);
 
   const onSubmit = useCallback(
     async (persona: Persona) => {
       try {
-        await crearPersona.mutateAsync({ persona });
+        if (modo === 'crear') {
+          await crearPersona.mutateAsync({ persona });
+        } else {
+          await actualizarPersona.mutateAsync({ persona });
+        }
         navigate('/personas');
       } catch (error) {
         console.error(error);
       }
     },
-    [crearPersona, navigate]
+    [crearPersona, actualizarPersona, modo, navigate]
   );
 
   const onError = useCallback((errors: FieldErrors<any>) => {
     console.log({ errors });
   }, []);
 
+  if (modo === 'editar' && cargandoPersona) {
+    return (
+      <BoxShadow>
+        <p>Cargando datos de la persona...</p>
+      </BoxShadow>
+    );
+  }
+
   return (
     <BoxShadow>
       <header className="mb-4 d-flex justify-content-between align-items-center">
-        <h2>Nueva persona</h2>
+        <h2>{modo === 'crear' ? 'Nueva persona' : 'Editar persona'}</h2>
       </header>
 
       <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
@@ -146,9 +180,15 @@ export default function PersonaForm() {
           color="success"
           variant="contained"
           sx={{ marginTop: 2 }}
-          disabled={isSubmitting || !isValid || crearPersona.isPending}
+          disabled={isSubmitting || !isValid || crearPersona.isPending || actualizarPersona.isPending}
         >
-          {crearPersona.isPending ? 'Guardando...' : 'Guardar'}
+          {modo === 'crear'
+            ? crearPersona.isPending
+              ? 'Guardando...'
+              : 'Guardar'
+            : actualizarPersona.isPending
+              ? 'Actualizando...'
+              : 'Actualizar'}
         </Button>
       </form>
     </BoxShadow>

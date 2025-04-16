@@ -1,91 +1,51 @@
-import { useEffect } from 'react';
-import AdminTable from '@shared/components/AdminTable';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { IconEdit, IconTrash } from '@tabler/icons-react';
-import { Persona } from '@feature/persona/models/Persona';
-import usePersonaStore from '@core/stores/usePersonaStore';
-import { dialogConfirm } from '@core/services/NotificationService';
-import { GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
+import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { useListaPersonas } from '@core/hooks/usePersona';
+import { SectionContainer } from '@shared/containers/SectionContainer';
 
 export default function PersonasAdminPage() {
   const navigate = useNavigate();
-  const { personas, loading, lista, borrar } = usePersonaStore((state) => ({
-    lista: state.lista,
-    borrar: state.borrar,
-    loading: state.loading,
-    personas: state.personas,
-  }));
+  const { data: personas = [], isLoading } = useListaPersonas();
 
-  useEffect(() => {
-    lista();
-  }, [lista]);
-
-  const handleActions = (params: GridRenderCellParams<Persona>) => {
-    return (
-      <>
-        <IconEdit color="#00abfb" cursor="pointer" onClick={() => navigate(`/personas/actualizar/${params.id}`)} />
-        <IconTrash color="#ff2825" cursor="pointer" style={{ marginLeft: 15 }} onClick={() => handleDelete(params)} />
-      </>
-    );
-  };
-
-  const handleDelete = async ({ row }: { row: Persona }) => {
-    const text = `Vas a eliminar a ${row.nombres} ${row.primerApellido}`;
-    const { isConfirmed } = await dialogConfirm(text);
-    if (isConfirmed && row.id) {
-      borrar(row.id);
-    }
-  };
-
-  const columns: GridColDef<Persona>[] = [
-    {
-      field: 'nombres',
-      headerName: 'Nombre',
-      width: 300,
-      renderCell: ({ row }) => (
-        <NavLink
-          title={`Ver detalles de ${row.nombres} ${row.primerApellido}`}
-          className="grid-table-linkable-column"
-          to={`/personas/detalle/${row.id}`}
-        >
-          {row.nombres} {row.primerApellido}
-        </NavLink>
-      ),
-    },
-    {
-      field: 'primerApellido',
-      headerName: 'Apellido',
-      width: 300,
-    },
-    {
-      field: 'email',
-      headerName: 'Email',
-      width: 300,
-    },
-    {
-      field: 'telefono',
-      headerName: 'Teléfono',
-      width: 200,
-    },
+  const columns: GridColDef[] = [
+    { field: 'nombres', headerName: 'Nombres', width: 200 },
+    { field: 'primerApellido', headerName: 'Primer Apellido', width: 200 },
+    { field: 'segundoApellido', headerName: 'Segundo Apellido', width: 200 },
+    { field: 'email', headerName: 'Email', width: 250 },
+    { field: 'telefono', headerName: 'Teléfono', width: 150 },
+    { field: 'numeroDocumento', headerName: 'Documento', width: 180 },
+    { field: 'fechaNacimiento', headerName: 'Nacimiento', width: 150 },
     {
       field: 'acciones',
       headerName: 'Acciones',
-      width: 120,
+      width: 150,
       sortable: false,
-      filterable: false,
-      align: 'center',
-      renderCell: handleActions,
+      renderCell: (params) => (
+        <Button
+          variant="outlined"
+          color="primary"
+          size="small"
+          onClick={() => navigate(`/personas/editar/${params.row.id}`)}
+        >
+          Editar
+        </Button>
+      ),
     },
   ];
 
   return (
-    <AdminTable
-      data={personas}
-      loading={loading}
-      columns={columns}
-      fetchData={lista}
-      title="Gestión de Personas"
-      createRoute="/personas/nuevo"
-    />
+    <SectionContainer title="Gestión de Personas">
+      <DataGrid
+        rows={personas}
+        columns={columns}
+        loading={isLoading}
+        getRowId={(row) => row.id}
+        pageSizeOptions={[5, 10, 20]}
+        initialState={{
+          pagination: { paginationModel: { pageSize: 10, page: 0 } },
+        }}
+      />
+    </SectionContainer>
   );
 }
