@@ -1,11 +1,12 @@
 import { useEffect } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import usePersonaStore from '@core/stores/usePersonaStore';
+import { SectionContainer } from '@shared/containers/SectionContainer';
 
 export default function PersonasAdminPage() {
-  const personas = usePersonaStore((state) => state.personas);
   const lista = usePersonaStore((state) => state.lista);
   const loading = usePersonaStore((state) => state.loading);
+  const personas = usePersonaStore((state) => state.personas);
 
   useEffect(() => {
     lista();
@@ -22,18 +23,17 @@ export default function PersonasAdminPage() {
   ];
 
   return (
-    <div style={{ height: 600, width: '100%' }}>
-      <h2>Gestión de Personas</h2>
+    <SectionContainer title="Gestión de Personas">
       <DataGrid
         rows={personas}
         columns={columns}
-        getRowId={(row) => row.id}
         loading={loading}
+        getRowId={(row) => row.id}
         pageSizeOptions={[5, 10, 20]}
         initialState={{
           pagination: { paginationModel: { pageSize: 10, page: 0 } },
         }}
       />
-    </div>
+    </SectionContainer>
   );
 }

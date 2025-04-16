@@ -11,7 +11,7 @@ export const SectionContainer: React.FC<Props> = (props) => {
 
   return (
     <Paper
-      elevation={3}
+      elevation={1}
       sx={{
         padding: 3,
         marginBottom: 3,
