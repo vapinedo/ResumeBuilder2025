@@ -1,16 +1,9 @@
-import { useEffect } from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import usePersonaStore from '@core/stores/usePersonaStore';
+import { useListaPersonas } from '@core/hooks/usePersona';
 import { SectionContainer } from '@shared/containers/SectionContainer';
 
 export default function PersonasAdminPage() {
-  const lista = usePersonaStore((state) => state.lista);
-  const loading = usePersonaStore((state) => state.loading);
-  const personas = usePersonaStore((state) => state.personas);
-
-  useEffect(() => {
-    lista();
-  }, [lista]);
+  const { data: personas = [], isLoading } = useListaPersonas();
 
   const columns: GridColDef[] = [
     { field: 'nombres', headerName: 'Nombres', width: 200 },
@@ -27,7 +20,7 @@ export default function PersonasAdminPage() {
       <DataGrid
         rows={personas}
         columns={columns}
-        loading={loading}
+        loading={isLoading}
         getRowId={(row) => row.id}
         pageSizeOptions={[5, 10, 20]}
         initialState={{

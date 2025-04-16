@@ -1,18 +1,17 @@
-import { Button, Snackbar } from '@mui/material';
+import { useCallback } from 'react';
+import { Button } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 import BoxShadow from '@shared/containers/BoxShadow';
 import { FieldErrors, useForm } from 'react-hook-form';
+import { useCrearPersona } from '@core/hooks/usePersona';
 import { Persona } from '@feature/persona/models/Persona';
-import { useNavigate, useParams } from 'react-router-dom';
 import { useCountries } from '@shared/hooks/useCountries';
-import usePersonaStore from '@core/stores/usePersonaStore';
 import { useMunicipios } from '@shared/hooks/useMunicipios';
 import { AutoGridRow } from '@shared/components/AutoGridRow';
 import { CustomSelect } from '@shared/components/CustomSelect';
 import { useDepartamentos } from '@shared/hooks/useDepartamentos';
-import { useEffect, useMemo, useCallback, useState } from 'react';
 import { CustomTextField } from '@shared/components/CustomTextField';
 import { CustomDatePicker } from '@shared/components/CustomDatePicker';
-import { estadoPublicacionOptions } from '@core/mocks/DropdownOptions';
 import { sexoOptions, tipoDocumentoOptions } from '@feature/resume/utils/resumeFormOption.helper';
 
 const defaultValues: Persona = {
@@ -32,45 +31,35 @@ const defaultValues: Persona = {
 
 export default function PersonaForm() {
   const navigate = useNavigate();
-  const { crear } = usePersonaStore();
-  // const [openSnackbar, setOpenSnackbar] = useState(false);
-  // const [snackbarMessage, setSnackbarMessage] = useState('');
+  const crearPersona = useCrearPersona();
 
   const { data: countries } = useCountries();
   const { data: departamentos } = useDepartamentos();
   const { data: municipios } = useMunicipios('La Guajira');
 
   const form = useForm<Persona>({
-    defaultValues: defaultValues,
+    defaultValues,
     mode: 'onTouched',
   });
 
-  const { control, register, formState, handleSubmit, setValue, getValues, watch, reset } = form;
+  const { control, register, formState, handleSubmit, setValue, watch } = form;
   const { errors, isSubmitting, isValid } = formState;
 
   const onSubmit = useCallback(
     async (persona: Persona) => {
       try {
-        console.log(persona);
-        await crear(persona);
-        // setOpenSnackbar(true);
+        await crearPersona.mutateAsync({ persona });
         navigate('/personas');
       } catch (error) {
         console.error(error);
-        // setSnackbarMessage('Ocurrió un error al guardar la persona');
-        // setOpenSnackbar(true);
       }
     },
-    [crear]
+    [crearPersona, navigate]
   );
 
   const onError = useCallback((errors: FieldErrors<any>) => {
     console.log({ errors });
   }, []);
-
-  // const handleCloseSnackbar = () => {
-  //   setOpenSnackbar(false);
-  // };
 
   return (
     <BoxShadow>
@@ -152,17 +141,15 @@ export default function PersonaForm() {
           />
         </AutoGridRow>
 
-        <Button type="submit" color="success" variant="contained" sx={{ marginTop: 2 }} disabled={isSubmitting || !isValid}>
-          Guardar
+        <Button
+          type="submit"
+          color="success"
+          variant="contained"
+          sx={{ marginTop: 2 }}
+          disabled={isSubmitting || !isValid || crearPersona.isPending}
+        >
+          {crearPersona.isPending ? 'Guardando...' : 'Guardar'}
         </Button>
-
-        {/* <Snackbar
-          open={openSnackbar}
-          autoHideDuration={3000}
-          message={snackbarMessage}
-          onClose={handleCloseSnackbar}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        /> */}
       </form>
     </BoxShadow>
   );
