@@ -1,11 +1,13 @@
 import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { useListaPersonas } from '@core/hooks/usePersona';
+import { dialogConfirm } from '@core/services/NotificationService';
 import { SectionContainer } from '@shared/containers/SectionContainer';
+import { useBorrarPersona, useListaPersonas } from '@core/hooks/usePersona';
 
 export default function PersonasAdminPage() {
   const navigate = useNavigate();
+  const borrarPersona = useBorrarPersona();
   const { data: personas = [], isLoading } = useListaPersonas();
 
   const columns: GridColDef[] = [
@@ -19,17 +21,35 @@ export default function PersonasAdminPage() {
     {
       field: 'acciones',
       headerName: 'Acciones',
-      width: 150,
+      width: 200,
       sortable: false,
       renderCell: (params) => (
-        <Button
-          variant="outlined"
-          color="primary"
-          size="small"
-          onClick={() => navigate(`/personas/editar/${params.row.id}`)}
-        >
-          Editar
-        </Button>
+        <>
+          <Button
+            variant="outlined"
+            color="primary"
+            size="small"
+            onClick={() => navigate(`/personas/editar/${params.row.id}`)}
+            style={{ marginRight: 8 }}
+          >
+            Editar
+          </Button>
+          <Button
+            variant="outlined"
+            color="error"
+            size="small"
+            onClick={async () => {
+              const result = await dialogConfirm(
+                `Seguro que quieres eliminar ${params.row.nombres} ${params.row.primerApellido} ${params.row.segundoApellido} `
+              );
+              if (result.isConfirmed) {
+                borrarPersona.mutate(params.row.id);
+              }
+            }}
+          >
+            Eliminar
+          </Button>
+        </>
       ),
     },
   ];
