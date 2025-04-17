@@ -71,9 +71,9 @@ export default function PersonaForm({ modo, personaId }: PersonaFormProps) {
     async (persona: Persona) => {
       try {
         if (modo === 'crear') {
-          await crearPersona.mutateAsync({ persona });
+          await crearPersona.mutateAsync({ entity: persona });
         } else {
-          await actualizarPersona.mutateAsync({ persona });
+          await actualizarPersona.mutateAsync({ entity: persona });
         }
         navigate('/personas');
       } catch (error) {

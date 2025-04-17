@@ -1,37 +1,8 @@
 import { Persona } from '@feature/persona/models/Persona';
-import PersonaService from '@core/services/PersonaService';
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useFirestoreCrud } from '@core/hooks/useFirestoreCrud';
 
-export const useListaPersonas = () => {
-  return useQuery({
-    queryKey: ['personas'],
-    queryFn: PersonaService.getAllDocuments,
-    staleTime: 1000 * 60 * 5,
-  });
-};
-
-export const useCrearPersona = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (data: { persona: Persona; imagenes?: FileList | null }) =>
-      PersonaService.createDocument(data.persona, data.imagenes),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['personas'] }),
-  });
-};
-
-export const useActualizarPersona = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (data: { persona: Persona; imagenes?: FileList | null }) =>
-      PersonaService.updateDocument(data.persona, data.imagenes),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['personas'] }),
-  });
-};
-
-export const useBorrarPersona = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: (id: string) => PersonaService.deleteDocument(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['personas'] }),
-  });
-};
+export const useListaPersonas = () => useFirestoreCrud<Persona>('personas').useList();
+export const useCrearPersona = (opts?: any) => useFirestoreCrud<Persona>('personas').useCreate(opts);
+export const useActualizarPersona = (opts?: any) => useFirestoreCrud<Persona>('personas').useUpdate(opts);
+export const useBorrarPersona = (opts?: any) => useFirestoreCrud<Persona>('personas').useDelete(opts);
+export const usePersonaPorId = (id: string) => useFirestoreCrud<Persona>('personas').useGetById(id);
