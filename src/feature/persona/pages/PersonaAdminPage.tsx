@@ -42,7 +42,7 @@ export default function PersonasAdminPage() {
             variant="outlined"
             onClick={async () => {
               const result = await dialogConfirm(
-                `Seguro que quieres eliminar ${params.row.nombres} ${params.row.primerApellido} ${params.row.segundoApellido} `
+                `Vas a eliminar a ${params.row.nombres} ${params.row.primerApellido} ${params.row.segundoApellido} `
               );
               if (result.isConfirmed) {
                 borrarPersona.mutate(params.row.id);
