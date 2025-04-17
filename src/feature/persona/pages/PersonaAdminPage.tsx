@@ -19,25 +19,25 @@ export default function PersonasAdminPage() {
     { field: 'numeroDocumento', headerName: 'Documento', width: 180 },
     { field: 'fechaNacimiento', headerName: 'Nacimiento', width: 150 },
     {
-      field: 'acciones',
-      headerName: 'Acciones',
       width: 200,
       sortable: false,
+      field: 'acciones',
+      headerName: 'Acciones',
       renderCell: (params) => (
         <>
           <Button
-            variant="outlined"
-            color="primary"
             size="small"
-            onClick={() => navigate(`/personas/editar/${params.row.id}`)}
+            color="primary"
+            variant="outlined"
             style={{ marginRight: 8 }}
+            onClick={() => navigate(`/personas/editar/${params.row.id}`)}
           >
             Editar
           </Button>
           <Button
-            variant="outlined"
-            color="error"
             size="small"
+            color="error"
+            variant="outlined"
             onClick={async () => {
               const result = await dialogConfirm(
                 `Seguro que quieres eliminar ${params.row.nombres} ${params.row.primerApellido} ${params.row.segundoApellido} `
