@@ -1,4 +1,6 @@
 import { Button } from '@mui/material';
+import { Box, Stack } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { dialogConfirm } from '@core/services/NotificationService';
@@ -56,6 +58,12 @@ export default function PersonasAdminPage() {
 
   return (
     <SectionContainer title="Gestión de Personas">
+      <Stack direction="row" justifyContent="flex-end" sx={{ mb: 2 }}>
+        <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={() => navigate('/personas/nuevo')}>
+          Nueva Persona
+        </Button>
+      </Stack>
+
       <DataGrid
         rows={personas}
         columns={columns}

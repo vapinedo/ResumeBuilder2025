@@ -18,7 +18,7 @@ export const SectionContainer: React.FC<Props> = (props) => {
         borderRadius: '7px',
       }}
     >
-      <Typography variant="h5" gutterBottom sx={{ marginBottom: '20px' }}>
+      <Typography variant="h5" gutterBottom sx={{ marginBottom: '0' }}>
         {title}
       </Typography>
       {children}
