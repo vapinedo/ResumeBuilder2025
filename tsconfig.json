@@ -11,14 +11,17 @@
     "types": ["node"],
     "baseUrl": "./src",
     "paths": {
+      "@core/*": ["core/*"],
       "@pages/*": ["pages/*"],
       "@utils/*": ["utils/*"],
       "@hooks/*": ["hooks/*"],
       "@store/*": ["store/*"],
-      "@modules/*": ["modules/*"],
+      "@shared/*": ["shared/*"],
+      "@models/*": ["models/*"],
+      "@feature/*": ["feature/*"],
+      "@services/*": ["services/*"],
       "@components/*": ["components/*"],
-      "@containers/*": ["containers/*"],
-      "@interfaces/*": ["interfaces/*"],
+      "@containers/*": ["containers/*"]
     }
   }
 }

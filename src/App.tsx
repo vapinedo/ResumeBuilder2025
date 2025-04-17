@@ -1,14 +1,31 @@
+import 'dayjs/locale/es';
 import React from 'react';
-import { HomePage } from '@pages/HomePage';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { LocalizationProviderConfig } from '@components/LocalizationProviderConfig';
+import AppRouter from '@shared/routes/AppRouter';
+import { BrowserRouter } from 'react-router-dom';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-export const App: React.FC = () => (
-  <LocalizationProviderConfig>
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<HomePage />} />
-      </Routes>
-    </BrowserRouter>
-  </LocalizationProviderConfig>
-);
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      staleTime: 1000 * 60 * 5, // 5 minutos
+    },
+  },
+});
+
+export default function App() {
+  return (
+    <React.Fragment>
+      <QueryClientProvider client={queryClient}>
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
+          <BrowserRouter>
+            <AppRouter />
+          </BrowserRouter>
+        </LocalizationProvider>
+      </QueryClientProvider>
+    </React.Fragment>
+  );
+}
