@@ -11,11 +11,29 @@ html {
 }
 
 .breadcrumbs {
-  gap: 5px;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
   margin-bottom: 18px;
-  justify-content: flex-start;
+  gap: 2px; /* espacio entre ícono y texto */
+  font-size: 0.95rem;
+}
+
+.breadcrumbs li {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumbs li + li {
+  margin-left: 0.1rem; /* espacio entre segmentos */
+}
+
+.breadcrumbs .bx {
+  font-size: 1rem;
+  line-height: 1;
+  vertical-align: middle;
 }
 
 .breadcrumbs a {
@@ -35,11 +53,13 @@ html {
   background-color: #fff;
   box-shadow: rgba(33, 35, 38, 0.1) 0px 10px 10px -10px;
 }
+
 .mini-card .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
+
 .mini-card .title {
   color: rgb(140, 140, 140);
 }
