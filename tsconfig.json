@@ -21,7 +21,8 @@
       "@feature/*": ["feature/*"],
       "@services/*": ["services/*"],
       "@components/*": ["components/*"],
-      "@containers/*": ["containers/*"]
+      "@containers/*": ["containers/*"],
+      "@infrastructure/*": ["infrastructure/*"]
     }
   }
 }

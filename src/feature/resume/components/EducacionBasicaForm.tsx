@@ -4,16 +4,16 @@ import { CustomSelect } from '@components/CustomSelect';
 import { CustomTextField } from '@components/CustomTextField';
 import { SectionContainer } from 'shared/containers/SectionContainer';
 import { CustomDatePicker } from '@components/CustomDatePicker';
-import { ResumeData } from 'feature/resume/interfaces/ResumeData';
-import { educacionBasicaOptions } from 'feature/resume/utils/resumeFormOption.helper';
+import { Resume } from '@core/models/Resume';
+import { educacionBasicaOptions } from '@core/constants/dropdownOptions';
 import { Control, FieldErrors, UseFormWatch, UseFormSetValue, UseFormRegister } from 'react-hook-form';
 
 interface Props {
-  control: Control<ResumeData>;
-  watch: UseFormWatch<ResumeData>;
-  errors: FieldErrors<ResumeData>;
-  register: UseFormRegister<ResumeData>;
-  setValue: UseFormSetValue<ResumeData>;
+  control: Control<Resume>;
+  watch: UseFormWatch<Resume>;
+  errors: FieldErrors<Resume>;
+  register: UseFormRegister<Resume>;
+  setValue: UseFormSetValue<Resume>;
 }
 
 export const EducacionBasicaForm: React.FC<Props> = (props) => {

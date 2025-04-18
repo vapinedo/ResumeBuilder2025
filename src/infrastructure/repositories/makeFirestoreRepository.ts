@@ -1,7 +1,7 @@
 import { v4 as createUuid } from 'uuid';
-import firebaseConfig from '@core/firebaseConfig';
+import firebaseConfig from '@infrastructure/firebase/firebaseConfig';
 import type { WithFieldValue, DocumentData } from 'firebase/firestore';
-import { toastSuccess, toastError } from '@core/services/NotificationService';
+import { toastSuccess, toastError } from '@infrastructure/notifications/notificationAdapter';
 import { ref, uploadBytesResumable, getDownloadURL, listAll, deleteObject } from 'firebase/storage';
 import { doc, getDocs, getDoc, setDoc, collection, runTransaction, deleteDoc } from 'firebase/firestore';
 
@@ -9,7 +9,7 @@ const { db, storage } = firebaseConfig;
 
 type WithImages<T> = T & { imagenURLs?: string[] };
 
-export default function FirestoreGenericService<T extends WithFieldValue<DocumentData>>(COLLECTION: string) {
+export default function makeFirestoreRepository<T extends WithFieldValue<DocumentData>>(COLLECTION: string) {
   const getAllDocuments = async (): Promise<T[]> => {
     const documents: T[] = [];
     try {
@@ -21,7 +21,6 @@ export default function FirestoreGenericService<T extends WithFieldValue<Documen
     } catch (error) {
       toastError(error, `Error al obtener los documentos de ${COLLECTION}`);
     }
-    console.log('documents', documents);
     return documents;
   };
 
@@ -144,11 +143,11 @@ export default function FirestoreGenericService<T extends WithFieldValue<Documen
   };
 
   return {
-    getAllDocuments,
-    getDocumentById,
-    createDocument,
-    updateDocument,
-    deleteDocument,
-    getTotalRecords,
+    listar: getAllDocuments,
+    obtenerPorId: getDocumentById,
+    crear: createDocument,
+    actualizar: updateDocument,
+    eliminar: deleteDocument,
+    contar: getTotalRecords,
   };
 }

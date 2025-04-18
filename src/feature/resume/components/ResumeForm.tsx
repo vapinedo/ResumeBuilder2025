@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useSnackbar } from '@shared/hooks/useSnackbar';
 import { FormButtons } from '@shared/components/FormButtons';
-import { ResumeData } from '@feature/resume/interfaces/ResumeData';
+import { Resume } from '@core/models/Resume';
 import { IdiomasForm } from '@feature/resume/components/IdiomasForm';
 import { ResumeDataInitValues } from '@feature/resume/utils/resumeData.helper';
 import { SnackbarNotification } from '@shared/components/SnackbarNotification';
@@ -27,7 +27,7 @@ export const ResumeForm: React.FC = () => {
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<ResumeData>(FORM_CONFIG);
+  } = useForm<Resume>(FORM_CONFIG);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +41,7 @@ export const ResumeForm: React.FC = () => {
     fetchData();
   }, [reset]);
 
-  const onSubmit = async (formData: ResumeData) => {
+  const onSubmit = async (formData: Resume) => {
     try {
       console.log('Guardando datos personales:', formData);
       setLocalStorageItem(STORAGE_KEY, formData);

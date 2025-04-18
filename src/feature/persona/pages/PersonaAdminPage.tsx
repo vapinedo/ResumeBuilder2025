@@ -3,14 +3,14 @@ import { Box, Stack } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
-import { dialogConfirm } from '@core/services/NotificationService';
 import { SectionContainer } from '@shared/containers/SectionContainer';
-import { useBorrarPersona, useListaPersonas } from '@core/hooks/usePersona';
+import { useEliminarPersona, useListarPersonas } from '@core/hooks/usePersona';
+import { dialogConfirm } from '@infrastructure/notifications/notificationAdapter';
 
 export default function PersonasAdminPage() {
   const navigate = useNavigate();
-  const borrarPersona = useBorrarPersona();
-  const { data: personas = [], isLoading } = useListaPersonas();
+  const borrarPersona = useEliminarPersona();
+  const { data: personas = [], isLoading } = useListarPersonas();
 
   const columns: GridColDef[] = [
     { field: 'nombres', headerName: 'Nombres', width: 200 },

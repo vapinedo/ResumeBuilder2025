@@ -4,19 +4,19 @@ import { useMunicipios } from '@shared/hooks/useMunicipios';
 import { AutoGridRow } from '@shared/components/AutoGridRow';
 import { CustomSelect } from '@shared/components/CustomSelect';
 import { useDepartamentos } from '@shared/hooks/useDepartamentos';
-import { ResumeData } from '@feature/resume/interfaces/ResumeData';
+import { Resume } from '@core/models/Resume';
 import { CustomTextField } from '@shared/components/CustomTextField';
 import { SectionContainer } from '@shared/containers/SectionContainer';
 import { CustomDatePicker } from '@shared/components/CustomDatePicker';
 import { Control, UseFormRegister, FieldErrors, UseFormSetValue, UseFormWatch } from 'react-hook-form';
-import { sexoOptions, tipoDocumentoOptions, tipoLibretaMilitarOptions } from '@feature/resume/utils/resumeFormOption.helper';
+import { sexoOptions, tipoDocumentoOptions, tipoLibretaMilitarOptions } from '@core/constants/dropdownOptions';
 
 interface Props {
-  control: Control<ResumeData>;
-  watch: UseFormWatch<ResumeData>;
-  errors: FieldErrors<ResumeData>;
-  register: UseFormRegister<ResumeData>;
-  setValue: UseFormSetValue<ResumeData>;
+  control: Control<Resume>;
+  watch: UseFormWatch<Resume>;
+  errors: FieldErrors<Resume>;
+  register: UseFormRegister<Resume>;
+  setValue: UseFormSetValue<Resume>;
 }
 
 export const DatosPersonalesForm: React.FC<Props> = (props) => {

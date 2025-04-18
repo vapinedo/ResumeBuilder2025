@@ -1,20 +1,20 @@
 import { Button } from '@mui/material';
 import { useCallback, useEffect } from 'react';
+import { Persona } from '@core/models/Persona';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import BoxShadow from '@shared/containers/BoxShadow';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { useCountries } from '@shared/hooks/useCountries';
-import { Persona } from '@feature/persona/models/Persona';
-import PersonaService from '@core/services/PersonaService';
 import { useMunicipios } from '@shared/hooks/useMunicipios';
 import { AutoGridRow } from '@shared/components/AutoGridRow';
 import { CustomSelect } from '@shared/components/CustomSelect';
 import { useDepartamentos } from '@shared/hooks/useDepartamentos';
 import { CustomTextField } from '@shared/components/CustomTextField';
 import { CustomDatePicker } from '@shared/components/CustomDatePicker';
+import PersonaService from '@infrastructure/repositories/personaRepository';
 import { useCrearPersona, useActualizarPersona } from '@core/hooks/usePersona';
-import { sexoOptions, tipoDocumentoOptions } from '@feature/resume/utils/resumeFormOption.helper';
+import { sexoOptions, tipoDocumentoOptions } from '@core/constants/dropdownOptions';
 
 type PersonaFormProps = {
   modo: 'crear' | 'editar';
@@ -45,7 +45,7 @@ export default function PersonaForm({ modo, personaId }: PersonaFormProps) {
 
   const { data: personaEditando, isLoading: cargandoPersona } = useQuery({
     queryKey: ['persona', personaId],
-    queryFn: () => PersonaService.getDocumentById(personaId!),
+    queryFn: () => PersonaService.obtenerPorId(personaId!),
     enabled: modo === 'editar' && !!personaId,
   });
 

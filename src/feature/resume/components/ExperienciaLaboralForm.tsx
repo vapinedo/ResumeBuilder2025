@@ -8,18 +8,18 @@ import { useDepartamentos } from 'shared/hooks/useDepartamentos';
 import { CustomTextField } from '@components/CustomTextField';
 import { SectionContainer } from 'shared/containers/SectionContainer';
 import { CustomDatePicker } from '@components/CustomDatePicker';
-import { ResumeData } from 'feature/resume/interfaces/ResumeData';
-import { tipoEmpresaOptions } from 'feature/resume/utils/resumeFormOption.helper';
+import { Resume } from '@core/models/Resume';
+import { tipoEmpresaOptions } from '@core/constants/dropdownOptions';
 import { Control, FieldErrors, UseFormWatch, UseFormSetValue, UseFormRegister, useFieldArray } from 'react-hook-form';
 
 const MAX_DYNAMIC_FIELDS = 4;
 
 interface Props {
-  control: Control<ResumeData>;
-  watch: UseFormWatch<ResumeData>;
-  errors: FieldErrors<ResumeData>;
-  register: UseFormRegister<ResumeData>;
-  setValue: UseFormSetValue<ResumeData>;
+  control: Control<Resume>;
+  watch: UseFormWatch<Resume>;
+  errors: FieldErrors<Resume>;
+  register: UseFormRegister<Resume>;
+  setValue: UseFormSetValue<Resume>;
 }
 
 export const ExperienciaLaboralForm: React.FC<Props> = (props) => {

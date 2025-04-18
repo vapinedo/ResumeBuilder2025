@@ -1,6 +1,6 @@
-import { ResumeData } from 'feature/resume/interfaces/ResumeData';
+import { Resume } from '@core/models/Resume';
 
-export const ResumeDataInitValues = (): ResumeData => ({
+export const ResumeDataInitValues = (): Resume => ({
   datosPersonales: {
     sexo: '',
     email: '',

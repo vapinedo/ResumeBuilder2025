@@ -2,7 +2,7 @@ import React from 'react';
 import { fillPdf } from 'shared/utils/pdfHelper';
 import { Button, Grid } from '@mui/material';
 import { getLocalStorageItem } from 'shared/utils/storage.helper';
-import { ResumeData } from 'feature/resume/interfaces/ResumeData';
+import { Resume } from '@core/models/Resume';
 
 interface FormButtonsProps {
   handleSubmit: (callback: (data: any) => void) => (e?: React.BaseSyntheticEvent) => void;
@@ -25,7 +25,7 @@ export const FormButtons: React.FC<FormButtonsProps> = ({ handleSubmit, onSubmit
           color="success"
           variant="contained"
           onClick={async () => {
-            const storedData = getLocalStorageItem<ResumeData>(STORAGE_KEY);
+            const storedData = getLocalStorageItem<Resume>(STORAGE_KEY);
             if (storedData) {
               const pdfUrl = await fillPdf(storedData);
               window.open(pdfUrl, '_blank');
