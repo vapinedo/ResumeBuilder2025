@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { Resume } from '@core/models/Resume';
 import { useSnackbar } from '@shared/hooks/useSnackbar';
 import { FormButtons } from '@shared/components/FormButtons';
-import { Resume } from '@core/models/Resume';
 import { IdiomasForm } from '@feature/resume/components/IdiomasForm';
+import { AppNotification } from '@shared/components/AppNotification';
 import { ResumeDataInitValues } from '@feature/resume/utils/resumeData.helper';
-import { SnackbarNotification } from '@shared/components/SnackbarNotification';
 import { DatosPersonalesForm } from '@feature/resume/components/DatosPersonalesForm';
 import { EducacionBasicaForm } from '@feature/resume/components/EducacionBasicaForm';
 import { EducacionSuperiorForm } from '@feature/resume/components/EducacionSuperiorForm';
@@ -69,7 +69,7 @@ export const ResumeForm: React.FC = () => {
       <IdiomasForm watch={watch} errors={errors} control={control} register={register} setValue={setValue} />
       <ExperienciaLaboralForm watch={watch} errors={errors} control={control} register={register} setValue={setValue} />
 
-      <SnackbarNotification
+      <AppNotification
         severity="success"
         open={openSnackbar}
         onClose={handleSnackbarClose}

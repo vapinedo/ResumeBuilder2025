@@ -6,22 +6,22 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 interface CustomCurrencyInputProps extends Omit<TextFieldProps, 'name' | 'onChange' | 'value'> {
   name: string;
-  control: Control<any>;
   label: string;
   helperText?: string;
+  control: Control<any>;
 }
 
 const currencyMask = createNumberMask({
   prefix: '',
   suffix: '',
-  includeThousandsSeparator: true,
-  thousandsSeparatorSymbol: '.',
-  allowDecimal: true,
-  decimalSymbol: ',',
   decimalLimit: 2,
+  decimalSymbol: ',',
+  allowDecimal: true,
   integerLimit: null,
   allowNegative: false,
-  allowLeadingZeroes: false
+  allowLeadingZeroes: false,
+  thousandsSeparatorSymbol: '.',
+  includeThousandsSeparator: true,
 });
 
 const CustomCurrencyInput: React.FC<CustomCurrencyInputProps> = ({ name, control, label, helperText, ...rest }) => {
@@ -37,8 +37,8 @@ const CustomCurrencyInput: React.FC<CustomCurrencyInputProps> = ({ name, control
             <TextField
               fullWidth
               {...props}
-              inputRef={ref}
               label={label}
+              inputRef={ref}
               error={!!helperText}
               helperText={helperText}
               {...rest}

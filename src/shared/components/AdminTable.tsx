@@ -5,29 +5,29 @@ import { dialogConfirm } from '@infrastructure/notifications/notificationAdapter
 import { DataGrid, GridColDef, GridToolbar, GridValidRowModel } from '@mui/x-data-grid';
 
 interface AdminTableProps<T extends GridValidRowModel> {
-  title: string;
   data: T[];
+  title: string;
   loading: boolean;
-  columns: GridColDef<T>[];
   createRoute: string;
+  columns: GridColDef<T>[];
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
-  confirmDeleteMessage?: (row: T) => string;
   pageSizeOptions?: number[];
   getRowId?: (row: T) => string;
+  confirmDeleteMessage?: (row: T) => string;
 }
 
 const AdminTable = <T extends GridValidRowModel>({
-  title,
   data,
+  title,
+  onEdit,
   loading,
   columns,
-  createRoute,
-  onEdit,
   onDelete,
+  createRoute,
   confirmDeleteMessage,
-  pageSizeOptions = [10, 20, 50],
   getRowId = (row) => row.id,
+  pageSizeOptions = [10, 20, 50],
 }: AdminTableProps<T>) => {
   const navigate = useNavigate();
 
@@ -46,8 +46,8 @@ const AdminTable = <T extends GridValidRowModel>({
           {onEdit && (
             <Button
               size="small"
-              variant="outlined"
               color="primary"
+              variant="outlined"
               style={{ marginRight: 8 }}
               onClick={() => onEdit(params.row)}
             >
@@ -57,8 +57,8 @@ const AdminTable = <T extends GridValidRowModel>({
           {onDelete && (
             <Button
               size="small"
-              variant="outlined"
               color="error"
+              variant="outlined"
               onClick={async () => {
                 const message = confirmDeleteMessage?.(params.row) ?? '¿Estás seguro de eliminar este registro?';
                 const result = await dialogConfirm(message);
@@ -87,11 +87,11 @@ const AdminTable = <T extends GridValidRowModel>({
       <Box sx={{ height: '100%', width: '100%' }}>
         <DataGrid
           rows={data}
-          columns={enhancedColumns}
-          getRowId={getRowId}
           loading={loading}
-          pageSizeOptions={pageSizeOptions}
+          getRowId={getRowId}
+          columns={enhancedColumns}
           disableRowSelectionOnClick
+          pageSizeOptions={pageSizeOptions}
           slots={{ toolbar: GridToolbar }}
           slotProps={{
             toolbar: {
@@ -110,9 +110,9 @@ const AdminTable = <T extends GridValidRowModel>({
             overflowX: 'auto',
             '& .MuiDataGrid-toolbarContainer': {
               display: 'flex',
-              justifyContent: 'flex-end',
               marginTop: '12px',
               marginBottom: '22px',
+              justifyContent: 'flex-end',
             },
           }}
           localeText={{

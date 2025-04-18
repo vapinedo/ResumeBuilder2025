@@ -15,4 +15,4 @@ export * from './Navbar';
 export * from './NotFoundPage';
 export * from './RenderFormFields';
 export * from './SmartSelect';
-export * from './SnackbarNotification';
+export * from './AppNotification';
