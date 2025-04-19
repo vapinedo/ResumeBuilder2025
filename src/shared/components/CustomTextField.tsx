@@ -1,6 +1,6 @@
 import { get } from 'lodash';
-import { FieldErrors, FieldValues, Path, UseFormRegister, UseFormRegisterReturn } from 'react-hook-form';
 import { TextField, TextFieldProps } from '@mui/material';
+import { FieldErrors, FieldValues, Path, UseFormRegister, UseFormRegisterReturn } from 'react-hook-form';
 
 type CustomTextFieldProps<T extends FieldValues> = {
   name: Path<T>;
@@ -28,8 +28,8 @@ export function CustomTextField<T extends FieldValues>({
       fullWidth
       size="small"
       label={label}
-      error={!!errorMessage}
       helperText={errorMessage}
+      error={!!errorMessage}
       {...fieldRegister}
     />
   );

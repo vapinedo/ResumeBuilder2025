@@ -1,14 +1,14 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import { useCountries } from 'shared/hooks/useCountries';
-import { useMunicipios } from 'shared/hooks/useMunicipios';
-import { AutoGridRow } from '@components/AutoGridRow';
-import { CustomSelect } from '@components/CustomSelect';
-import { useDepartamentos } from 'shared/hooks/useDepartamentos';
-import { CustomTextField } from '@components/CustomTextField';
-import { SectionContainer } from 'shared/containers/SectionContainer';
-import { CustomDatePicker } from '@components/CustomDatePicker';
 import { Resume } from '@core/models/Resume';
+import { AutoGridRow } from '@components/AutoGridRow';
+import { useCountries } from 'shared/hooks/useCountries';
+import { CustomSelect } from '@components/CustomSelect';
+import { useMunicipios } from 'shared/hooks/useMunicipios';
+import TitledSection from '@shared/components/TitledSection';
+import { CustomTextField } from '@components/CustomTextField';
+import { CustomDatePicker } from '@components/CustomDatePicker';
+import { useDepartamentos } from 'shared/hooks/useDepartamentos';
 import { tipoEmpresaOptions } from '@core/constants/dropdownOptions';
 import { Control, FieldErrors, UseFormWatch, UseFormSetValue, UseFormRegister, useFieldArray } from 'react-hook-form';
 
@@ -54,7 +54,7 @@ export const ExperienciaLaboralForm: React.FC<Props> = (props) => {
   };
 
   return (
-    <SectionContainer title="Experiencia Laboral">
+    <TitledSection title="Experiencia Laboral">
       {fields.map((field, index) => (
         <div key={field.id}>
           <AutoGridRow spacing={2} rowSpacing={2}>
@@ -192,6 +192,6 @@ export const ExperienciaLaboralForm: React.FC<Props> = (props) => {
       >
         Agregar Experiencia Laboral ({fields.length}/{MAX_DYNAMIC_FIELDS})
       </button>
-    </SectionContainer>
+    </TitledSection>
   );
 };

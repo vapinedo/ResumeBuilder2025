@@ -1,7 +1,7 @@
 import * as Yup from 'yup';
 import { Button, Grid } from '@mui/material';
 import { Auth } from '@feature/auth/models/Auth';
-import BoxShadow from '@shared/containers/BoxShadow';
+import BoxShadow from '@shared/components/BoxShadow';
 import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FieldErrors, useForm } from 'react-hook-form';

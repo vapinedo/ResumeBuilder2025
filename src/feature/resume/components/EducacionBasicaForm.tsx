@@ -1,10 +1,10 @@
 import React from 'react';
+import { Resume } from '@core/models/Resume';
 import { AutoGridRow } from '@components/AutoGridRow';
 import { CustomSelect } from '@components/CustomSelect';
+import TitledSection from '@shared/components/TitledSection';
 import { CustomTextField } from '@components/CustomTextField';
-import { SectionContainer } from 'shared/containers/SectionContainer';
 import { CustomDatePicker } from '@components/CustomDatePicker';
-import { Resume } from '@core/models/Resume';
 import { educacionBasicaOptions } from '@core/constants/dropdownOptions';
 import { Control, FieldErrors, UseFormWatch, UseFormSetValue, UseFormRegister } from 'react-hook-form';
 
@@ -20,7 +20,7 @@ export const EducacionBasicaForm: React.FC<Props> = (props) => {
   const { control, errors, register, setValue, watch } = props;
 
   return (
-    <SectionContainer title="Educacion Básica">
+    <TitledSection title="Educacion Básica">
       <AutoGridRow spacing={2} rowSpacing={2}>
         <CustomSelect
           required
@@ -48,6 +48,6 @@ export const EducacionBasicaForm: React.FC<Props> = (props) => {
           name="educacionBasica.fechaGrado"
         />
       </AutoGridRow>
-    </SectionContainer>
+    </TitledSection>
   );
 };

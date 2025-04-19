@@ -3,7 +3,7 @@ import { useCallback, useEffect } from 'react';
 import { Persona } from '@core/models/Persona';
 import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import BoxShadow from '@shared/containers/BoxShadow';
+import BoxShadow from '@shared/components/BoxShadow';
 import { FieldErrors, useForm } from 'react-hook-form';
 import { useCountries } from '@shared/hooks/useCountries';
 import { useMunicipios } from '@shared/hooks/useMunicipios';

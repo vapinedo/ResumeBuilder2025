@@ -3,7 +3,7 @@ import { Toaster } from 'react-hot-toast';
 import Navbar from '@shared/components/Navbar';
 import Breadcrumbs from '@shared/components/Breadcrumbs';
 
-const MainContainer = ({ children }: { children: React.ReactNode }) => (
+const MainLayout = ({ children }: { children: React.ReactNode }) => (
   <>
     <Navbar />
     <section className="container-fluid mt-5 mb-5 px-5">
@@ -14,4 +14,4 @@ const MainContainer = ({ children }: { children: React.ReactNode }) => (
   </>
 );
 
-export default MainContainer;
+export default MainLayout;

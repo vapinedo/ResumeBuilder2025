@@ -16,6 +16,7 @@
       "@utils/*": ["utils/*"],
       "@hooks/*": ["hooks/*"],
       "@store/*": ["store/*"],
+      "@router/*": ["router/*"],
       "@shared/*": ["shared/*"],
       "@models/*": ["models/*"],
       "@feature/*": ["feature/*"],

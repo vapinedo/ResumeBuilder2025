@@ -1,6 +1,6 @@
-import { PDFDocument, PDFPage, rgb, StandardFonts } from 'pdf-lib';
-import { COORDINATES } from '../constants/pdfCoordinates';
 import { Resume } from '@core/models/Resume';
+import { COORDINATES } from '@shared/constants/pdfCoordinates';
+import { PDFDocument, PDFPage, rgb, StandardFonts } from 'pdf-lib';
 
 interface DrawTextOptions {
   x: number;

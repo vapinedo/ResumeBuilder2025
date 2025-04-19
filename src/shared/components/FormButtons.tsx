@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Grid } from '@mui/material';
 import { Resume } from '@core/models/Resume';
-import { fillPdf } from 'shared/utils/pdfHelper';
+import { fillPdf } from '@feature/resume/utils/pdfGenerator';
 import { getLocalStorageItem } from 'shared/utils/storage.helper';
 
 interface FormButtonsProps {

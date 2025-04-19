@@ -1,10 +1,10 @@
 import React from 'react';
 import { Button } from '@mui/material';
+import { Resume } from '@core/models/Resume';
 import { AutoGridRow } from '@components/AutoGridRow';
 import { CustomSelect } from '@components/CustomSelect';
+import TitledSection from '@shared/components/TitledSection';
 import { CustomTextField } from '@components/CustomTextField';
-import { SectionContainer } from 'shared/containers/SectionContainer';
-import { Resume } from '@core/models/Resume';
 import { idiomaOptions } from '@core/constants/dropdownOptions';
 import { Control, FieldErrors, UseFormWatch, UseFormSetValue, UseFormRegister, useFieldArray } from 'react-hook-form';
 
@@ -38,7 +38,7 @@ export const IdiomasForm: React.FC<Props> = (props) => {
   };
 
   return (
-    <SectionContainer title="Idiomas">
+    <TitledSection title="Idiomas">
       {fields.map((field, index) => (
         <div key={field.id}>
           <AutoGridRow spacing={2} rowSpacing={2}>
@@ -103,6 +103,6 @@ export const IdiomasForm: React.FC<Props> = (props) => {
       >
         Agregar Idioma ({fields.length}/{MAX_IDIOMAS})
       </button>
-    </SectionContainer>
+    </TitledSection>
   );
 };

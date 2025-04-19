@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button } from '@mui/material';
+import { Resume } from '@core/models/Resume';
 import { AutoGridRow } from '@components/AutoGridRow';
 import { CustomSelect } from '@components/CustomSelect';
+import TitledSection from '@shared/components/TitledSection';
 import { CustomTextField } from '@components/CustomTextField';
-import { SectionContainer } from 'shared/containers/SectionContainer';
 import { CustomDatePicker } from '@components/CustomDatePicker';
-import { Resume } from '@core/models/Resume';
 import { modalidadAcademicaOptions, siNoOptions } from '@core/constants/dropdownOptions';
 import { Control, FieldErrors, UseFormWatch, UseFormSetValue, UseFormRegister, useFieldArray } from 'react-hook-form';
 
@@ -41,7 +41,7 @@ export const EducacionSuperiorForm: React.FC<Props> = (props) => {
   };
 
   return (
-    <SectionContainer title="Educacion Superior">
+    <TitledSection title="Educacion Superior">
       {fields.map((field, index) => (
         <div key={field.id}>
           <AutoGridRow spacing={2} rowSpacing={2}>
@@ -127,6 +127,6 @@ export const EducacionSuperiorForm: React.FC<Props> = (props) => {
       >
         Agregar Educación Superior ({fields.length}/{MAX_EDUCACION_SUPERIOR})
       </button>
-    </SectionContainer>
+    </TitledSection>
   );
 };

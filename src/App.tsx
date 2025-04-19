@@ -1,5 +1,5 @@
 import React from 'react';
-import AppRouter from '@shared/routes/AppRouter';
+import AppRouter from './router/AppRouter';
 import { BrowserRouter } from 'react-router-dom';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';

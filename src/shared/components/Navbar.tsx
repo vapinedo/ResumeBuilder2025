@@ -1,25 +1,37 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import useAuthService from '@core/services/useAuthService';
 
+const navLinks = [
+  { to: '/', label: 'Inicio' },
+  { to: '/personas', label: 'Personas' },
+  // Aquí podrías agregar más rutas fácilmente
+];
+
 export default function Navbar() {
   const navigate = useNavigate();
   const { user, logout } = useAuthService();
 
   const handleLogout = async () => {
-    const logoutResponse = await logout();
-    if (logoutResponse === undefined) {
-      navigate('/login');
+    try {
+      const logoutResponse = await logout();
+      if (logoutResponse === undefined) {
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error('Error al cerrar sesión:', error);
     }
   };
 
   return (
     <nav
       className="navbar navbar-expand-lg bg-body-tertiary bg-dark animate__animated animate__fadeInDown animate_faster"
+      role="navigation"
       data-bs-theme="dark"
+      aria-label="Barra de navegación principal"
     >
       <div className="container-fluid">
         <NavLink className="navbar-brand" to="/">
-          Resume Builder{' '}
+          Resume Builder
         </NavLink>
 
         <button
@@ -36,17 +48,13 @@ export default function Navbar() {
 
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <NavLink className="nav-link" aria-current="page" to="/">
-                Inicio
-              </NavLink>
-            </li>
-
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/personas">
-                Personas
-              </NavLink>
-            </li>
+            {navLinks.map(({ to, label }) => (
+              <li className="nav-item" key={to}>
+                <NavLink className="nav-link" to={to}>
+                  {label}
+                </NavLink>
+              </li>
+            ))}
           </ul>
 
           {user && (
