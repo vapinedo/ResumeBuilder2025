@@ -20,9 +20,9 @@ export function CustomDatePicker<T extends FieldValues>({ name, label, required,
       render={({ field }) => (
         <DatePicker
           {...field}
-          format="L" // Visualmente: DD/MM/YYYY (configurado en dayjsConfig)
+          format="L"
           label={label}
-          value={typeof field.value === 'string' ? dayjs(field.value) : null}
+          value={field.value ? dayjs(field.value) : null}
           onChange={(date) => field.onChange(date ? dayjs(date).format('YYYY-MM-DD') : null)}
           slotProps={{
             textField: {

@@ -58,7 +58,7 @@ export default function PersonaForm({ modo, personaId }: PersonaFormProps) {
     mode: 'onTouched',
   });
 
-  const { control, register, formState, handleSubmit, setValue, watch, reset } = form;
+  const { control, register, formState, handleSubmit, reset } = form;
   const { errors, isSubmitting, isValid } = formState;
 
   useEffect(() => {
@@ -106,28 +106,17 @@ export default function PersonaForm({ modo, personaId }: PersonaFormProps) {
           <CustomTextField required name="nombres" label="Nombres" errors={errors} register={register} />
           <CustomTextField required name="primerApellido" label="Primer Apellido" errors={errors} register={register} />
           <CustomTextField required name="segundoApellido" label="Segundo Apellido" errors={errors} register={register} />
-          <CustomSelect
-            required
-            name="sexo"
-            label="Sexo"
-            watch={watch}
-            errors={errors}
-            register={register}
-            setValue={setValue}
-            options={sexoOptions}
-          />
+          <CustomSelect required name="sexo" label="Sexo" errors={errors} control={control} options={sexoOptions} />
         </AutoGridRow>
 
         <AutoGridRow spacing={2} rowSpacing={2}>
           <CustomSelect
             required
-            watch={watch}
             errors={errors}
-            register={register}
-            setValue={setValue}
+            control={control}
+            name="tipoDocumento"
             label="Tipo de Documento"
             options={tipoDocumentoOptions}
-            name="tipoDocumento"
           />
           <CustomTextField required errors={errors} register={register} label="Número de Documento" name="numeroDocumento" />
           <CustomTextField required name="email" label="Email" errors={errors} register={register} />
@@ -135,42 +124,29 @@ export default function PersonaForm({ modo, personaId }: PersonaFormProps) {
         </AutoGridRow>
 
         <AutoGridRow spacing={2} rowSpacing={2}>
-          <CustomDatePicker
+          <CustomDatePicker required errors={errors} control={control} name="fechaNacimiento" label="Fecha de Nacimiento" />
+          <CustomSelect
             required
             errors={errors}
             control={control}
-            register={register}
-            name="fechaNacimiento"
-            label="Fecha de Nacimiento"
-          />
-          <CustomSelect
-            required
-            watch={watch}
-            errors={errors}
-            register={register}
-            setValue={setValue}
-            options={countries ?? []}
             name="paisNacimiento"
+            options={countries ?? []}
             label="País de Nacimiento"
           />
           <CustomSelect
             required
-            watch={watch}
             errors={errors}
-            register={register}
-            setValue={setValue}
-            options={departamentos ?? []}
+            control={control}
             name="departamentoNacimiento"
+            options={departamentos ?? []}
             label="Departamento de Nacimiento"
           />
           <CustomSelect
             required
-            watch={watch}
             errors={errors}
-            register={register}
-            setValue={setValue}
-            options={municipios ?? []}
+            control={control}
             name="municipioNacimiento"
+            options={municipios ?? []}
             label="Municipio de Nacimiento"
           />
         </AutoGridRow>

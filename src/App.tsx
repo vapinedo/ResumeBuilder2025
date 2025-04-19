@@ -1,4 +1,3 @@
-import 'dayjs/locale/es';
 import React from 'react';
 import AppRouter from '@shared/routes/AppRouter';
 import { BrowserRouter } from 'react-router-dom';
