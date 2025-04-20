@@ -4,19 +4,22 @@ import { AuthRepository } from '@infrastructure/repositories/AuthRepository';
 import { toastError } from '@infrastructure/notifications/notificationAdapter';
 
 interface AuthState {
-  user: User | null;
   loading: boolean;
+  user: User | null;
+  isInitialized: boolean;
 
+  logout: () => Promise<void>;
+  setUser: (user: User | null) => void;
+  setInitialized: (value: boolean) => void;
+  resetPassword: (email: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   register: (email: string, password: string) => Promise<void>;
-  logout: () => Promise<void>;
-  resetPassword: (email: string) => Promise<void>;
-  setUser: (user: User | null) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   loading: false,
+  isInitialized: false,
 
   login: async (email, password) => {
     set({ loading: true });
@@ -25,7 +28,7 @@ export const useAuthStore = create<AuthState>((set) => ({
       set({ user });
     } catch (error) {
       toastError(error, 'Error al iniciar sesión');
-      throw error; // para que la UI también pueda decidir cómo actuar
+      throw error;
     } finally {
       set({ loading: false });
     }
@@ -56,4 +59,5 @@ export const useAuthStore = create<AuthState>((set) => ({
   },
 
   setUser: (user) => set({ user }),
+  setInitialized: (value) => set({ isInitialized: value }),
 }));

@@ -1,10 +1,11 @@
 import { Suspense } from 'react';
-import { appRoutes } from './routesConfig';
 import { Routes, Route } from 'react-router-dom';
+import CircularProgress from '@mui/material/CircularProgress';
+
+import { appRoutes } from '@router/routesConfig';
 import ProtectedRoute from '@router/ProtectedRoute';
 import MainLayout from '@shared/layouts/MainLayout';
 import NotFoundPage from '@shared/pages/NotFoundPage';
-import CircularProgress from '@mui/material/CircularProgress';
 
 const FallbackLoader = () => <CircularProgress sx={{ display: 'block', margin: '4rem auto' }} />;
 
