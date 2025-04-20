@@ -23,15 +23,21 @@ const auth = getAuth(firebaseApp);
 export default function App() {
   const setUser = useAuthStore((state) => state.setUser);
   const setInitialized = useAuthStore((state) => state.setInitialized);
+  const isInitialized = useAuthStore((state) => state.isInitialized); // ✅ extraemos estado
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user ?? null);
-      setInitialized(true); // Indicamos que Firebase ya respondió
+      setInitialized(true); // ✅ confirmamos que Firebase ya respondió
     });
 
     return () => unsubscribe();
   }, [setUser, setInitialized]);
+
+  // ✅ Bloqueamos toda la app hasta que Firebase nos diga si hay sesión o no
+  if (!isInitialized) {
+    return null; // o un <FullPageLoader /> si lo deseas
+  }
 
   return (
     <React.Fragment>
