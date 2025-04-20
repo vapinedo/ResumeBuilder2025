@@ -23,12 +23,12 @@ const auth = getAuth(firebaseApp);
 export default function App() {
   const setUser = useAuthStore((state) => state.setUser);
   const setInitialized = useAuthStore((state) => state.setInitialized);
-  const isInitialized = useAuthStore((state) => state.isInitialized); // ✅ extraemos estado
+  const isInitialized = useAuthStore((state) => state.isInitialized); // extraemos estado
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       setUser(user ?? null);
-      setInitialized(true); // ✅ confirmamos que Firebase ya respondió
+      setInitialized(true); // confirmamos que Firebase ya respondió
     });
 
     return () => unsubscribe();
