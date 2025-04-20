@@ -1,8 +1,7 @@
-import dayjs from 'dayjs';
 import { get } from 'lodash';
-import '@shared/utils/configureDayjs';
+import dayjs from '@shared/utils/dayjsConfig';
 import { DatePicker } from '@mui/x-date-pickers';
-import { Control, Controller, FieldErrors, UseFormRegister, FieldValues, Path } from 'react-hook-form';
+import { Control, Controller, FieldErrors, FieldValues, Path } from 'react-hook-form';
 
 interface Props<T extends FieldValues> {
   name: Path<T>;
@@ -10,7 +9,6 @@ interface Props<T extends FieldValues> {
   required?: boolean;
   control: Control<T>;
   errors: FieldErrors<T>;
-  register: UseFormRegister<any>;
 }
 
 export function CustomDatePicker<T extends FieldValues>({ name, label, required, control, errors }: Props<T>) {
@@ -24,7 +22,7 @@ export function CustomDatePicker<T extends FieldValues>({ name, label, required,
           {...field}
           format="L"
           label={label}
-          value={typeof field.value === 'string' ? dayjs(field.value) : null}
+          value={field.value ? dayjs(field.value) : null}
           onChange={(date) => field.onChange(date ? dayjs(date).format('YYYY-MM-DD') : null)}
           slotProps={{
             textField: {

@@ -1,6 +1,6 @@
+import { Resume } from '@core/models/Resume';
+import { COORDINATES } from '@shared/constants/pdfCoordinates';
 import { PDFDocument, PDFPage, rgb, StandardFonts } from 'pdf-lib';
-import { COORDINATES } from '../constants/pdfCoordinates';
-import { ResumeData } from 'feature/resume/interfaces/ResumeData';
 
 interface DrawTextOptions {
   x: number;
@@ -75,7 +75,7 @@ class PDFGenerator {
     return numbers.replace(/(\d{3})(\d{3})(\d{4})/, '$1 $2 $3');
   }
 
-  private fillPersonalInfo(datosPersonales: ResumeData['datosPersonales']): void {
+  private fillPersonalInfo(datosPersonales: Resume['datosPersonales']): void {
     // Nombres
     this.drawText({ text: datosPersonales.primerApellido, ...COORDINATES.datosPersonales.nombres.primerApellido });
     this.drawText({ text: datosPersonales.segundoApellido, ...COORDINATES.datosPersonales.nombres.segundoApellido });
@@ -192,7 +192,7 @@ class PDFGenerator {
     });
   }
 
-  private fillEducacionBasica(educacionBasica: ResumeData['educacionBasica']): void {
+  private fillEducacionBasica(educacionBasica: Resume['educacionBasica']): void {
     // Educación Básica - Mostrar X en la coordenada correspondiente
     if (educacionBasica.educacionBasica in COORDINATES.educacionBasica.educacionBasica) {
       this.drawText({
@@ -227,7 +227,7 @@ class PDFGenerator {
     }
   }
 
-  private fillEducacionSuperior(educacionSuperior: ResumeData['educacionSuperior']): void {
+  private fillEducacionSuperior(educacionSuperior: Resume['educacionSuperior']): void {
     // Iteramos sobre cada bloque de educación superior
     educacionSuperior.forEach((educacion, index) => {
       const bloqueKey = `bloque${index + 1}` as keyof typeof COORDINATES.educacionSuperior;
@@ -299,7 +299,7 @@ class PDFGenerator {
     });
   }
 
-  private fillIdiomas(idiomas: ResumeData['idiomas']): void {
+  private fillIdiomas(idiomas: Resume['idiomas']): void {
     // Iteramos sobre cada bloque de idiomas
     idiomas.forEach((idioma, index) => {
       const bloqueKey = `bloque${index + 1}` as keyof typeof COORDINATES.idiomas;
@@ -367,7 +367,7 @@ class PDFGenerator {
     });
   }
 
-  private fillExperienciaLaboral(experienciaLaboral: ResumeData['experienciaLaboral'], page: PDFPage): void {
+  private fillExperienciaLaboral(experienciaLaboral: Resume['experienciaLaboral'], page: PDFPage): void {
     experienciaLaboral.forEach((experiencia, index) => {
       const bloqueKey = `bloque${index + 1}` as keyof typeof COORDINATES.experienciaLaboral;
       const coordenadas = COORDINATES.experienciaLaboral[bloqueKey];
@@ -517,7 +517,7 @@ class PDFGenerator {
     });
   }
 
-  public async fillPdf(resumeData: ResumeData): Promise<string> {
+  public async fillPdf(resumeData: Resume): Promise<string> {
     const pdfUrl = '/FormatoUnicoHojaVida.pdf';
     const existingPdfBytes = await fetch(pdfUrl).then((res) => res.arrayBuffer());
     const pdfDoc = await PDFDocument.load(existingPdfBytes);
@@ -537,7 +537,7 @@ class PDFGenerator {
   }
 }
 
-export const fillPdf = async (resumeData: ResumeData): Promise<string> => {
+export const fillPdf = async (resumeData: Resume): Promise<string> => {
   const generator = new PDFGenerator(null, null);
   return generator.fillPdf(resumeData);
 };

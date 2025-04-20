@@ -1,22 +1,22 @@
 import type { WithFieldValue, DocumentData } from 'firebase/firestore';
 import { DEFAULT_STALE_TIME } from '@shared/constants/reactQuery.config';
-import FirestoreGenericService from '@core/services/FirestoreGenericService';
+import FirestoreGenericService from '@infrastructure/repositories/makeFirestoreRepository';
 import { useQuery, useMutation, useQueryClient, UseMutationOptions } from '@tanstack/react-query';
 
 export function useFirestoreCrud<T extends WithFieldValue<DocumentData>>(collectionName: string) {
   const queryClient = useQueryClient();
   const service = FirestoreGenericService<T>(collectionName);
 
-  const useList = () =>
+  const useListar = () =>
     useQuery({
       queryKey: [collectionName],
-      queryFn: service.getAllDocuments,
+      queryFn: service.listar,
       staleTime: DEFAULT_STALE_TIME,
     });
 
-  const useCreate = (options?: UseMutationOptions<void, unknown, { entity: T; images?: FileList | null }>) =>
+  const useCrear = (options?: UseMutationOptions<void, unknown, { entity: T; images?: FileList | null }>) =>
     useMutation({
-      mutationFn: (data) => service.createDocument(data.entity, data.images),
+      mutationFn: (data) => service.crear(data.entity, data.images),
       onSuccess: (...args) => {
         queryClient.invalidateQueries({ queryKey: [collectionName] });
         options?.onSuccess?.(...args);
@@ -24,11 +24,11 @@ export function useFirestoreCrud<T extends WithFieldValue<DocumentData>>(collect
       onError: options?.onError,
     });
 
-  const useUpdate = (
+  const useActualizar = (
     options?: UseMutationOptions<void, unknown, { entity: T & { id: string }; images?: FileList | null }>
   ) =>
     useMutation({
-      mutationFn: (data) => service.updateDocument(data.entity, data.images),
+      mutationFn: (data) => service.actualizar(data.entity, data.images),
       onSuccess: (...args) => {
         queryClient.invalidateQueries({ queryKey: [collectionName] });
         options?.onSuccess?.(...args);
@@ -36,9 +36,9 @@ export function useFirestoreCrud<T extends WithFieldValue<DocumentData>>(collect
       onError: options?.onError,
     });
 
-  const useDelete = (options?: UseMutationOptions<void, unknown, string>) =>
+  const useEliminar = (options?: UseMutationOptions<void, unknown, string>) =>
     useMutation({
-      mutationFn: (id) => service.deleteDocument(id),
+      mutationFn: (id) => service.eliminar(id),
       onSuccess: (...args) => {
         queryClient.invalidateQueries({ queryKey: [collectionName] });
         options?.onSuccess?.(...args);
@@ -46,18 +46,18 @@ export function useFirestoreCrud<T extends WithFieldValue<DocumentData>>(collect
       onError: options?.onError,
     });
 
-  const useGetById = (id?: string) =>
+  const useObtenerPorId = (id?: string) =>
     useQuery({
       queryKey: [collectionName, id],
-      queryFn: () => service.getDocumentById(id!),
+      queryFn: () => service.obtenerPorId(id!),
       enabled: !!id,
     });
 
   return {
-    useList,
-    useCreate,
-    useUpdate,
-    useDelete,
-    useGetById,
+    useListar,
+    useCrear,
+    useActualizar,
+    useEliminar,
+    useObtenerPorId,
   };
 }

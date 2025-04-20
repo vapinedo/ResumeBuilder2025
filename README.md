@@ -9,7 +9,9 @@ Esta sección describe la estructura de carpetas y archivos utilizada en el proy
 ```
 src
 ├── core
-├── features
+├── feature
+├── infrastructure
+├── router
 ├── shared
 ├── App.css
 ├── App.tsx

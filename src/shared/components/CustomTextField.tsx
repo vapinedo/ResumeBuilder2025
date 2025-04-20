@@ -1,34 +1,36 @@
 import { get } from 'lodash';
-import { TextField } from '@mui/material';
-import { UseFormRegister, FieldErrors, FieldValues } from 'react-hook-form';
+import { TextField, TextFieldProps } from '@mui/material';
+import { FieldErrors, FieldValues, Path, UseFormRegister, UseFormRegisterReturn } from 'react-hook-form';
 
-interface Props<T extends FieldValues> {
-  name: string;
-  type?: string;
+type CustomTextFieldProps<T extends FieldValues> = {
+  name: Path<T>;
   label: string;
   required?: boolean;
-  errors: FieldErrors<T>;
-  register: UseFormRegister<T>;
-}
+  errors?: FieldErrors<T>;
+  register?: UseFormRegister<T> | UseFormRegisterReturn;
+} & Omit<TextFieldProps, 'name' | 'error'>;
 
 export function CustomTextField<T extends FieldValues>({
-  label,
   name,
+  label,
   errors,
   register,
-  type = 'text',
-  required = false,
-}: Props<T>) {
+  required,
+  ...rest
+}: CustomTextFieldProps<T>) {
+  const validation = required ? { required: `${label} es obligatorio` } : undefined;
+  const fieldRegister = typeof register === 'function' ? register(name, validation) : (register ?? {});
+  const errorMessage = get(errors, `${name}.message`) as string | undefined;
+
   return (
     <TextField
+      {...rest}
       fullWidth
-      type={type}
       size="small"
       label={label}
-      variant="outlined"
-      error={Boolean(get(errors, name))}
-      helperText={String(get(errors, `${name}.message`) ?? '')}
-      {...register(name as any, required ? { required: `${label} es obligatorio` } : undefined)}
+      helperText={errorMessage}
+      error={!!errorMessage}
+      {...fieldRegister}
     />
   );
 }

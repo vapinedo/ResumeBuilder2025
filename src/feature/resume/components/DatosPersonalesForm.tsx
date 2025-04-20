@@ -1,22 +1,22 @@
 import React, { useEffect } from 'react';
+import { Resume } from '@core/models/Resume';
 import { useCountries } from '@shared/hooks/useCountries';
 import { useMunicipios } from '@shared/hooks/useMunicipios';
+import TitledSection from '@shared/components/TitledSection';
 import { AutoGridRow } from '@shared/components/AutoGridRow';
 import { CustomSelect } from '@shared/components/CustomSelect';
 import { useDepartamentos } from '@shared/hooks/useDepartamentos';
-import { ResumeData } from '@feature/resume/interfaces/ResumeData';
 import { CustomTextField } from '@shared/components/CustomTextField';
-import { SectionContainer } from '@shared/containers/SectionContainer';
 import { CustomDatePicker } from '@shared/components/CustomDatePicker';
 import { Control, UseFormRegister, FieldErrors, UseFormSetValue, UseFormWatch } from 'react-hook-form';
-import { sexoOptions, tipoDocumentoOptions, tipoLibretaMilitarOptions } from '@feature/resume/utils/resumeFormOption.helper';
+import { sexoOptions, tipoDocumentoOptions, tipoLibretaMilitarOptions } from '@core/constants/dropdownOptions';
 
 interface Props {
-  control: Control<ResumeData>;
-  watch: UseFormWatch<ResumeData>;
-  errors: FieldErrors<ResumeData>;
-  register: UseFormRegister<ResumeData>;
-  setValue: UseFormSetValue<ResumeData>;
+  control: Control<Resume>;
+  watch: UseFormWatch<Resume>;
+  errors: FieldErrors<Resume>;
+  register: UseFormRegister<Resume>;
+  setValue: UseFormSetValue<Resume>;
 }
 
 export const DatosPersonalesForm: React.FC<Props> = (props) => {
@@ -37,7 +37,7 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
   }, [selectedSexo, setValue]);
 
   return (
-    <SectionContainer title="Datos Personales">
+    <TitledSection title="Datos Personales">
       <AutoGridRow spacing={2} rowSpacing={2}>
         <CustomTextField
           required
@@ -197,6 +197,6 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
           />
         </AutoGridRow>
       )}
-    </SectionContainer>
+    </TitledSection>
   );
 };

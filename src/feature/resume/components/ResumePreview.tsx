@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { fillPdf } from 'shared/utils/pdfHelper';
+import { fillPdf } from '@feature/resume/utils/pdfGenerator';
 import { useResumeStore } from 'feature/resume/stores/useResumeStore';
 
 const ResumePreview: React.FC = () => {

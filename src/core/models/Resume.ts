@@ -57,7 +57,7 @@ export interface ExperienciaLaboral {
   direccionEmpresa: string;
 }
 
-export interface ResumeData {
+export interface Resume {
   datosPersonales: DatosPersonales;
   educacionBasica: EducacionBasica;
   educacionSuperior: EducacionSuperior[];

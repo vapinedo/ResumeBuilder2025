@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { Resume } from '@core/models/Resume';
 import { useSnackbar } from '@shared/hooks/useSnackbar';
 import { FormButtons } from '@shared/components/FormButtons';
-import { ResumeData } from '@feature/resume/interfaces/ResumeData';
 import { IdiomasForm } from '@feature/resume/components/IdiomasForm';
+import { AppNotification } from '@shared/components/AppNotification';
 import { ResumeDataInitValues } from '@feature/resume/utils/resumeData.helper';
-import { SnackbarNotification } from '@shared/components/SnackbarNotification';
 import { DatosPersonalesForm } from '@feature/resume/components/DatosPersonalesForm';
 import { EducacionBasicaForm } from '@feature/resume/components/EducacionBasicaForm';
 import { EducacionSuperiorForm } from '@feature/resume/components/EducacionSuperiorForm';
@@ -27,7 +27,7 @@ export const ResumeForm: React.FC = () => {
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<ResumeData>(FORM_CONFIG);
+  } = useForm<Resume>(FORM_CONFIG);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +41,7 @@ export const ResumeForm: React.FC = () => {
     fetchData();
   }, [reset]);
 
-  const onSubmit = async (formData: ResumeData) => {
+  const onSubmit = async (formData: Resume) => {
     try {
       console.log('Guardando datos personales:', formData);
       setLocalStorageItem(STORAGE_KEY, formData);
@@ -69,7 +69,7 @@ export const ResumeForm: React.FC = () => {
       <IdiomasForm watch={watch} errors={errors} control={control} register={register} setValue={setValue} />
       <ExperienciaLaboralForm watch={watch} errors={errors} control={control} register={register} setValue={setValue} />
 
-      <SnackbarNotification
+      <AppNotification
         severity="success"
         open={openSnackbar}
         onClose={handleSnackbarClose}

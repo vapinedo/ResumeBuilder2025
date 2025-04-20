@@ -1,12 +1,12 @@
 import * as Yup from 'yup';
 import { Button, Grid } from '@mui/material';
 import { Auth } from '@feature/auth/models/Auth';
-import BoxShadow from '@shared/containers/BoxShadow';
+import BoxShadow from '@shared/components/BoxShadow';
 import { Link, useNavigate } from 'react-router-dom';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FieldErrors, useForm } from 'react-hook-form';
 import useAuthService from '@core/services/useAuthService';
-import CustomTextFieldLegacy from '@shared/components/CustomTextFieldLegacy';
+import { CustomTextField } from '@shared/components/CustomTextField';
 
 const defaultValues: Auth = {
   email: '',
@@ -33,7 +33,7 @@ export default function LoginPage() {
 
   const onSubmit = (loginData: Auth) => {
     const { email, password } = loginData;
-    if (email !== null && password != null) {
+    if (email && password) {
       signIn(email, password);
       navigate('/');
     }
@@ -59,24 +59,11 @@ export default function LoginPage() {
         <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <CustomTextFieldLegacy
-                autoFocus
-                type="text"
-                name="email"
-                label="Correo"
-                register={register('email')}
-                error={errors.email?.message}
-              />
+              <CustomTextField name="email" label="Correo" type="text" autoFocus register={register} errors={errors} />
             </Grid>
 
             <Grid item xs={12}>
-              <CustomTextFieldLegacy
-                type="password"
-                name="password"
-                label="Contraseña"
-                register={register('password')}
-                error={errors.password?.message}
-              />
+              <CustomTextField name="password" label="Contraseña" type="password" register={register} errors={errors} />
             </Grid>
           </Grid>
 

@@ -6,42 +6,67 @@ import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 interface CustomCurrencyInputProps extends Omit<TextFieldProps, 'name' | 'onChange' | 'value'> {
   name: string;
-  control: Control<any>;
   label: string;
   helperText?: string;
+  control: Control<any>;
+  parseToNumber?: boolean;
 }
 
 const currencyMask = createNumberMask({
   prefix: '',
   suffix: '',
-  includeThousandsSeparator: true,
-  thousandsSeparatorSymbol: '.',
-  allowDecimal: true,
-  decimalSymbol: ',',
   decimalLimit: 2,
+  decimalSymbol: ',',
+  allowDecimal: true,
   integerLimit: null,
   allowNegative: false,
-  allowLeadingZeroes: false
+  allowLeadingZeroes: false,
+  thousandsSeparatorSymbol: '.',
+  includeThousandsSeparator: true,
 });
 
-const CustomCurrencyInput: React.FC<CustomCurrencyInputProps> = ({ name, control, label, helperText, ...rest }) => {
+const parseCurrencyToNumber = (value: string): number => {
+  if (!value) return 0;
+  const clean = value.replace(/\./g, '').replace(',', '.');
+  const parsed = parseFloat(clean);
+  return isNaN(parsed) ? 0 : parsed;
+};
+
+const CustomCurrencyInput: React.FC<CustomCurrencyInputProps> = ({
+  name,
+  control,
+  label,
+  helperText,
+  parseToNumber = false,
+  ...rest
+}) => {
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field }) => (
+      render={({ field: { onChange, value, ref, ...fieldRest } }) => (
         <MaskedInput
-          {...field}
           mask={currencyMask}
-          render={(ref, props) => (
+          value={value}
+          onChange={(e) => {
+            const rawValue = e.target.value;
+            if (parseToNumber) {
+              const numericValue = parseCurrencyToNumber(rawValue);
+              onChange(numericValue);
+            } else {
+              onChange(rawValue);
+            }
+          }}
+          render={(inputRef, props) => (
             <TextField
-              fullWidth
               {...props}
-              inputRef={ref}
+              {...rest}
+              fullWidth
               label={label}
+              inputRef={inputRef}
               error={!!helperText}
               helperText={helperText}
-              {...rest}
+              {...fieldRest}
             />
           )}
         />

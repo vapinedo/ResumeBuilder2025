@@ -16,12 +16,14 @@
       "@utils/*": ["utils/*"],
       "@hooks/*": ["hooks/*"],
       "@store/*": ["store/*"],
+      "@router/*": ["router/*"],
       "@shared/*": ["shared/*"],
       "@models/*": ["models/*"],
       "@feature/*": ["feature/*"],
       "@services/*": ["services/*"],
       "@components/*": ["components/*"],
-      "@containers/*": ["containers/*"]
+      "@containers/*": ["containers/*"],
+      "@infrastructure/*": ["infrastructure/*"]
     }
   }
 }
