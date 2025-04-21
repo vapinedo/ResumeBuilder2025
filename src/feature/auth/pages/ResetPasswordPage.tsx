@@ -3,27 +3,25 @@ import { Button, Grid } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
 import BoxShadow from '@shared/components/BoxShadow';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FieldErrors, useForm } from 'react-hook-form';
+import { useForm, FieldErrors } from 'react-hook-form';
 import { useAuthStore } from '@core/stores/useAuthStore';
 import { CustomTextField } from '@shared/components/CustomTextField';
-import { LoginFormValues } from '@feature/auth/models/LoginFormValues';
-import { toastError } from '@infrastructure/notifications/notificationAdapter';
+import { ResetPasswordFormValues } from '@feature/auth/models/ResetPasswordFormValues';
+import { toastError, toastSuccess } from '@infrastructure/notifications/notificationAdapter';
 
-const defaultValues: LoginFormValues = {
+const defaultValues: ResetPasswordFormValues = {
   email: '',
-  password: '',
 };
 
 const validationSchema = Yup.object().shape({
   email: Yup.string().email('Correo inválido').required('Correo es requerido'),
-  password: Yup.string().required('Contraseña es requerida'),
 });
 
-export default function LoginPage() {
-  const { login, loading } = useAuthStore();
+export default function ResetPasswordPage() {
+  const { resetPassword, loading } = useAuthStore();
   const navigate = useNavigate();
 
-  const form = useForm<LoginFormValues>({
+  const form = useForm<ResetPasswordFormValues>({
     defaultValues,
     mode: 'onTouched',
     resolver: yupResolver(validationSchema),
@@ -32,16 +30,17 @@ export default function LoginPage() {
   const { register, formState, handleSubmit } = form;
   const { errors, isValid, isSubmitting } = formState;
 
-  const onSubmit = async (loginData: LoginFormValues) => {
+  const onSubmit = async (data: ResetPasswordFormValues) => {
     try {
-      await login(loginData.email, loginData.password);
-      navigate('/');
+      await resetPassword(data.email);
+      toastSuccess('Hemos enviado un correo para restablecer tu contraseña.');
+      navigate('/login');
     } catch {
-      toastError('Credenciales inválidas o error al iniciar sesión');
+      toastError('No se pudo enviar el correo. Verifica tu dirección.');
     }
   };
 
-  const onError = (errors: FieldErrors<LoginFormValues>) => {
+  const onError = (errors: FieldErrors<ResetPasswordFormValues>) => {
     console.log({ errors });
   };
 
@@ -56,16 +55,19 @@ export default function LoginPage() {
       }}
     >
       <BoxShadow>
-        <h2 className="text-center">Resume Builder</h2>
+        <h2 className="text-center">Recuperar contraseña</h2>
 
         <form onSubmit={handleSubmit(onSubmit, onError)} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12}>
-              <CustomTextField name="email" label="Correo" type="text" autoFocus register={register} errors={errors} />
-            </Grid>
-
-            <Grid item xs={12}>
-              <CustomTextField name="password" label="Contraseña" type="password" register={register} errors={errors} />
+              <CustomTextField
+                name="email"
+                label="Correo electrónico"
+                type="email"
+                autoFocus
+                register={register}
+                errors={errors}
+              />
             </Grid>
           </Grid>
 
@@ -76,12 +78,12 @@ export default function LoginPage() {
             sx={{ mt: 3, mb: 2 }}
             disabled={!isValid || isSubmitting || loading}
           >
-            Acceder
+            Enviar correo de recuperación
           </Button>
 
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link to="/reset-password">¿Olvidaste tu contraseña?</Link>
+              <Link to="/login">Volver al inicio de sesión</Link>
             </Grid>
           </Grid>
         </form>

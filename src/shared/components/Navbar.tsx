@@ -1,23 +1,22 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import useAuthService from '@core/services/useAuthService';
+import { useAuthStore } from '@core/stores/useAuthStore';
+import { toastError } from '@infrastructure/notifications/notificationAdapter';
 
 const navLinks = [
   { to: '/', label: 'Inicio' },
   { to: '/personas', label: 'Personas' },
-  // Aquí podrías agregar más rutas fácilmente
 ];
 
 export default function Navbar() {
   const navigate = useNavigate();
-  const { user, logout } = useAuthService();
+  const { user, logout } = useAuthStore();
 
   const handleLogout = async () => {
     try {
-      const logoutResponse = await logout();
-      if (logoutResponse === undefined) {
-        navigate('/login');
-      }
+      await logout();
+      navigate('/login');
     } catch (error) {
+      toastError('Error al cerrar sesión');
       console.error('Error al cerrar sesión:', error);
     }
   };

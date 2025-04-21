@@ -1,30 +1,19 @@
 import React from 'react';
-import AppRouter from './router/AppRouter';
+import AppRouter from '@router/AppRouter';
 import { BrowserRouter } from 'react-router-dom';
-import { LocalizationProvider } from '@mui/x-date-pickers';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-const queryClient = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-      retry: 1,
-      staleTime: 1000 * 60 * 5, // 5 minutos
-    },
-  },
-});
+import { AppProviders } from '@infrastructure/providers/AppProviders';
+import { useInitializeAuth } from '@feature/auth/hooks/useInitializeAuth';
 
 export default function App() {
+  const isInitializedAuth = useInitializeAuth();
+
+  if (!isInitializedAuth) return null;
+
   return (
-    <React.Fragment>
-      <QueryClientProvider client={queryClient}>
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
-          <BrowserRouter>
-            <AppRouter />
-          </BrowserRouter>
-        </LocalizationProvider>
-      </QueryClientProvider>
-    </React.Fragment>
+    <AppProviders>
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+    </AppProviders>
   );
 }

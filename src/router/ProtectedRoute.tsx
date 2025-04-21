@@ -1,17 +1,17 @@
 import { ComponentType } from 'react';
 import { Navigate } from 'react-router-dom';
-import useAuthService from '@core/services/useAuthService';
+import { useAuthStore } from '@core/stores/useAuthStore';
 
 interface ProtectedRouteProps {
   Component: ComponentType<any>;
 }
 
 const ProtectedRoute = ({ Component }: ProtectedRouteProps) => {
-  const { user } = useAuthService();
+  const { user, isInitialized } = useAuthStore();
 
-  if (user === null) {
-    // Aún no sabemos si hay usuario (puedes mostrar un loader aquí si quieres)
-    return null;
+  if (!isInitialized) {
+    // Firebase aún no ha respondido: mostramos loader
+    return <div>Cargando...</div>;
   }
 
   if (!user) {

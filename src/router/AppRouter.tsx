@@ -10,17 +10,26 @@ const FallbackLoader = () => <CircularProgress sx={{ display: 'block', margin: '
 
 export default function AppRouter() {
   return (
-    <MainLayout>
-      <Suspense fallback={<FallbackLoader />}>
-        <Routes>
-          {appRoutes.map(({ path, Component, isPrivate }) => {
-            const element = isPrivate ? <ProtectedRoute Component={Component} /> : <Component />;
-            return <Route key={path} path={path} element={element} />;
-          })}
+    <Suspense fallback={<FallbackLoader />}>
+      <Routes>
+        {appRoutes.map(({ path, Component, isPrivate }) => {
+          const element = isPrivate ? (
+            <ProtectedRoute
+              Component={() => (
+                <MainLayout>
+                  <Component />
+                </MainLayout>
+              )}
+            />
+          ) : (
+            <Component />
+          );
 
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
-      </Suspense>
-    </MainLayout>
+          return <Route key={path} path={path} element={element} />;
+        })}
+
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </Suspense>
   );
 }
