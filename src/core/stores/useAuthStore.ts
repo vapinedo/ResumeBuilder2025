@@ -13,7 +13,7 @@ interface AuthState {
   setInitialized: (value: boolean) => void;
   resetPassword: (email: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
-  register: (email: string, password: string) => Promise<void>;
+  register: (email: string, password: string, name: string) => Promise<void>;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -34,11 +34,23 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
   },
 
-  register: async (email, password) => {
+  register: async (email, password, name) => {
     set({ loading: true });
     try {
       const user = await AuthRepository.register(email, password);
-      set({ user });
+
+      if (user) {
+        // Establecer displayName
+        await AuthRepository.updateUserProfile({ displayName: name });
+
+        // Enviar correo de verificación
+        await AuthRepository.sendEmailVerification(user);
+
+        set({ user });
+      }
+    } catch (error) {
+      toastError(error, 'Error al registrar el usuario');
+      throw error;
     } finally {
       set({ loading: false });
     }

@@ -2,6 +2,7 @@ import * as Yup from 'yup';
 import { Button, Grid } from '@mui/material';
 import { useNavigate, Link } from 'react-router-dom';
 import BoxShadow from '@shared/components/BoxShadow';
+import type { SubmitHandler } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm, FieldErrors } from 'react-hook-form';
 import { useAuthStore } from '@core/stores/useAuthStore';
@@ -24,7 +25,7 @@ const validationSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password')], 'Las contraseñas no coinciden')
     .required('Debes confirmar la contraseña'),
-  acceptTerms: Yup.boolean().oneOf([true], 'Debes aceptar los términos'),
+  acceptTerms: Yup.boolean().oneOf([true], 'Debes aceptar los términos').required('Debes aceptar los términos'),
 });
 
 export default function RegisterPage() {
@@ -40,9 +41,9 @@ export default function RegisterPage() {
   const { register, formState, handleSubmit } = form;
   const { errors, isValid, isSubmitting } = formState;
 
-  const onSubmit = async (data: RegisterFormValues) => {
+  const onSubmit: SubmitHandler<RegisterFormValues> = async (data) => {
     try {
-      await registerUser(data.email, data.password);
+      await registerUser(data.email, data.password, data.name);
       toastSuccess('Usuario registrado exitosamente. Revisa tu correo para verificar tu cuenta.');
       navigate('/login');
     } catch {
@@ -83,11 +84,11 @@ export default function RegisterPage() {
 
             <Grid item xs={12}>
               <CustomTextField
-                name="confirmPassword"
-                label="Confirmar contraseña"
+                errors={errors}
                 type="password"
                 register={register}
-                errors={errors}
+                name="confirmPassword"
+                label="Confirmar contraseña"
               />
             </Grid>
 

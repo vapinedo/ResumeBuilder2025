@@ -2,6 +2,7 @@ import {
   User,
   getAuth,
   signOut,
+  updateProfile,
   sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
@@ -18,8 +19,16 @@ const login = async (email: string, password: string): Promise<User> => {
 
 const register = async (email: string, password: string): Promise<User> => {
   const result = await createUserWithEmailAndPassword(auth, email, password);
-  await sendEmailVerification(result.user);
   return result.user;
+};
+
+const updateUserProfile = async (data: { displayName?: string; photoURL?: string }) => {
+  if (!auth.currentUser) throw new Error('No hay usuario autenticado');
+  await updateProfile(auth.currentUser, data);
+};
+
+const sendEmailVerificationToUser = async (user: User): Promise<void> => {
+  await sendEmailVerification(user);
 };
 
 const logout = async (): Promise<void> => {
@@ -40,4 +49,6 @@ export const AuthRepository = {
   register,
   resetPassword,
   getCurrentUser,
+  updateUserProfile,
+  sendEmailVerification: sendEmailVerificationToUser,
 };
