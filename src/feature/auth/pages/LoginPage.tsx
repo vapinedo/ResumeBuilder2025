@@ -79,7 +79,10 @@ export default function LoginPage() {
             Acceder
           </Button>
 
-          <Grid container justifyContent="flex-end">
+          <Grid container justifyContent="space-between">
+            <Grid item>
+              <Link to="/register">¿No tienes una cuenta? Regístrate</Link>
+            </Grid>
             <Grid item>
               <Link to="/reset-password">¿Olvidaste tu contraseña?</Link>
             </Grid>
