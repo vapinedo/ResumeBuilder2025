@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "express": "^4.21.2",
-    "@vercel/node": "^5.1.15",
     "firebase-admin": "^13.3.0"
   },
   "devDependencies": {
