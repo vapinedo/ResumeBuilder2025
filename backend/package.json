@@ -1,0 +1,17 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "start": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "firebase-admin": "^13.3.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.1",
+    "tsx": "^4.19.4"
+  }
+}
