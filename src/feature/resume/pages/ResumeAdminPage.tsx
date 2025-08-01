@@ -37,8 +37,8 @@ export default function ResumeAdminPage() {
     { field: 'primerApellido', headerName: 'Primer Apellido', width: 150 },
     { field: 'segundoApellido', headerName: 'Segundo Apellido', width: 150 },
     { field: 'telefono', headerName: 'Telefono', width: 180 },
-    { field: 'tipoDocumento', headerName: 'Tipo Documento', width: 130 },
-    { field: 'numeroDocumento', headerName: 'Documento', width: 180 },
+    { field: 'tipoDocumento', headerName: 'Tipo Documento', width: 180 },
+    { field: 'numeroDocumento', headerName: '# Documento', width: 180 },
     { field: 'email', headerName: 'Email', width: 300 },
   ];
 
@@ -47,11 +47,11 @@ export default function ResumeAdminPage() {
       data={resumesFormatted}
       columns={columns}
       loading={isLoading}
-      title="Gestión de Hojas de Vida"
+      title="Hojas de Vida"
       createRoute="/resume/nuevo"
       onDelete={(row) => eliminarResume.mutate(row.id)}
       onEdit={(row) => navigate(`/resume/editar/${row.id}`)}
-      confirmDeleteMessage={(row) => `¿Deseas eliminar la hoja de vida de ${row.nombres} ${row.primerApellido}?`}
+      confirmDeleteMessage={(row) => `¿Deseas eliminar la Hoja de Vida de ${row.nombres} ${row.primerApellido}?`}
     />
   );
 }
