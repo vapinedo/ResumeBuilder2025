@@ -31,7 +31,7 @@ export default function Navbar() {
     >
       <div className="container-fluid">
         <NavLink className="navbar-brand" to="/">
-          Curriculums
+          Resume Builder
         </NavLink>
 
         <button
