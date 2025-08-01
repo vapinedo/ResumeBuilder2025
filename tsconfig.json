@@ -24,6 +24,7 @@
       "@components/*": ["components/*"],
       "@containers/*": ["containers/*"],
       "@infrastructure/*": ["infrastructure/*"]
-    }
+    },
+    "outDir": "./dist"
   }
 }
