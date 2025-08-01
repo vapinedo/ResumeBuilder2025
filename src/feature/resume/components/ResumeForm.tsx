@@ -8,7 +8,7 @@ import { IdiomasForm } from '@feature/resume/components/IdiomasForm';
 import { ResumeDataInitValues } from '@feature/resume/utils/resumeData.helper';
 import { DatosPersonalesForm } from '@feature/resume/components/DatosPersonalesForm';
 import { EducacionBasicaForm } from '@feature/resume/components/EducacionBasicaForm';
-import { setLocalStorageItem, getLocalStorageItem } from '@shared/utils/localStorage';
+import { setLocalStorageItem, getLocalStorageItem, removeLocalStorageItem } from '@shared/utils/localStorage';
 import { EducacionSuperiorForm } from '@feature/resume/components/EducacionSuperiorForm';
 import { ExperienciaLaboralForm } from '@feature/resume/components/ExperienciaLaboralForm';
 import { useNavigate } from 'react-router-dom';
@@ -52,7 +52,6 @@ const ResumeForm: React.FC<ResumeFormProps> = ({ modo = 'crear', resumeId }) => 
     }
   }, [modo, resumeEditando, reset]);
 
-  // Cargar datos del localStorage (solo en modo crear)
   useEffect(() => {
     if (modo === 'crear') {
       const savedData = getLocalStorageItem<Resume>(STORAGE_KEY);
@@ -77,8 +76,7 @@ const ResumeForm: React.FC<ResumeFormProps> = ({ modo = 'crear', resumeId }) => 
       try {
         if (modo === 'crear') {
           await crearResume.mutateAsync({ entity: formData });
-          // Limpiar localStorage después de guardar exitosamente
-          localStorage.removeItem(STORAGE_KEY);
+          removeLocalStorageItem(STORAGE_KEY);
         } else {
           if (!resumeId) {
             throw new Error('No se puede actualizar un resume sin ID');
