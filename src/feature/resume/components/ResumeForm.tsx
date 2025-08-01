@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Resume } from '@core/models/Resume';
 import { useSnackbar } from '@shared/hooks/useSnackbar';
@@ -11,6 +11,9 @@ import { EducacionBasicaForm } from '@feature/resume/components/EducacionBasicaF
 import { setLocalStorageItem, getLocalStorageItem } from '@shared/utils/localStorage';
 import { EducacionSuperiorForm } from '@feature/resume/components/EducacionSuperiorForm';
 import { ExperienciaLaboralForm } from '@feature/resume/components/ExperienciaLaboralForm';
+import { useNavigate } from 'react-router-dom';
+import { useActualizarResume, useCrearResume, useResumePorId } from '@core/hooks/useResume';
+import BoxShadow from '@shared/components/BoxShadow';
 
 const STORAGE_KEY = 'resumeForm';
 
@@ -18,8 +21,20 @@ const FORM_CONFIG = {
   defaultValues: ResumeDataInitValues(),
 };
 
-const ResumeForm: React.FC = () => {
-  const { openSnackbar, showSnackbar } = useSnackbar();
+type ResumeFormProps = {
+  modo?: 'crear' | 'editar';
+  resumeId?: string;
+};
+
+const ResumeForm: React.FC<ResumeFormProps> = ({ modo = 'crear', resumeId }) => {
+  const navigate = useNavigate();
+  const { openSnackbar } = useSnackbar();
+
+  const crearResume = useCrearResume();
+  const actualizarResume = useActualizarResume();
+
+  const { data: resumeEditando, isLoading: cargandoResume } = useResumePorId(resumeId || '');
+
   const {
     reset,
     watch,
@@ -28,47 +43,60 @@ const ResumeForm: React.FC = () => {
     setValue,
     getValues,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting, isValid },
   } = useForm<Resume>(FORM_CONFIG);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const id = 'TU_ID_DOCUMENTO_AQUI'; // Cambia esto por el ID real (puedes pasarlo como prop, ruta, etc)
-  //     const data = await getResumeById(id);
-  //     if (data) {
-  //       reset(data, { keepErrors: true });
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, [reset]);
-
   useEffect(() => {
-    const savedData = getLocalStorageItem<Resume>(STORAGE_KEY);
-    if (savedData) {
-      reset(savedData);
+    if (modo === 'editar' && resumeEditando) {
+      reset(resumeEditando);
     }
-  }, [reset]);
+  }, [modo, resumeEditando, reset]);
 
+  // Cargar datos del localStorage (solo en modo crear)
+  useEffect(() => {
+    if (modo === 'crear') {
+      const savedData = getLocalStorageItem<Resume>(STORAGE_KEY);
+      if (savedData) {
+        reset(savedData);
+      }
+    }
+  }, [reset, modo]);
+
+  // Guardar en localStorage mientras se edita (solo en modo crear)
   useEffect(() => {
     const subscription = watch((value) => {
-      setLocalStorageItem(STORAGE_KEY, value);
+      if (modo === 'crear') {
+        setLocalStorageItem(STORAGE_KEY, value);
+      }
     });
     return () => subscription.unsubscribe();
-  }, [watch]);
+  }, [watch, modo]);
 
-  const onSubmit = async (formData: Resume) => {
-    console.log('resume', formData);
-    // try {
-    //   console.log('Guardando datos personales:', formData);
-    //   // setLocalStorageItem(STORAGE_KEY, formData);
-    //   const id = await createResume(formData);
-    //   console.log('Documento guardado con ID:', id);
-    //   showSnackbar();
-    // } catch (error) {
-    //   console.error('Error guardando los datos:', error);
-    // }
-  };
+  const onSubmit = useCallback(
+    async (formData: Resume) => {
+      try {
+        if (modo === 'crear') {
+          await crearResume.mutateAsync({ entity: formData });
+          // Limpiar localStorage después de guardar exitosamente
+          localStorage.removeItem(STORAGE_KEY);
+        } else {
+          if (!resumeId) {
+            throw new Error('No se puede actualizar un resume sin ID');
+          }
+          await actualizarResume.mutateAsync({
+            entity: {
+              ...formData,
+              id: resumeId, // Ahora TypeScript sabe que resumeId no es undefined
+            },
+          });
+        }
+        navigate('/resume');
+      } catch (error) {
+        console.error('Error guardando los datos:', error);
+      }
+    },
+    [crearResume, actualizarResume, modo, navigate, openSnackbar, resumeId]
+  );
 
   const onGeneratePdf = async () => {
     const formData = getValues();
@@ -80,9 +108,20 @@ const ResumeForm: React.FC = () => {
     }
   };
 
-  const onError = (errors: any) => {
-    console.log('Errores detectados:', errors);
-  };
+  const onError = useCallback(
+    (errors: any) => {
+      console.log('Errores detectados:', errors);
+    },
+    [openSnackbar]
+  );
+
+  if (modo === 'editar' && cargandoResume) {
+    return (
+      <BoxShadow>
+        <p>Cargando datos del resume...</p>
+      </BoxShadow>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit, onError)}>

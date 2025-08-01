@@ -1,7 +1,8 @@
 import { Resume } from '@core/models/Resume';
-import { useFirestoreCrud } from '@shared/hooks/useGenericFirestoreRepository.';
+import { COLLECTIONS } from '@shared/constants/collections';
+import useGenericFirestoreRepository from '@shared/hooks/useGenericFirestoreRepository.';
 
-const resumeCrud = () => useFirestoreCrud<Resume>('resumes');
+const resumeCrud = () => useGenericFirestoreRepository<Resume>(COLLECTIONS.RESUMES);
 
 export const useListarResumes = () => resumeCrud().useListar();
 export const useCrearResume = (opts?: any) => resumeCrud().useCrear(opts);
