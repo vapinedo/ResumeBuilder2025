@@ -85,14 +85,13 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
       </AutoGridRow>
 
       <AutoGridRow spacing={2} rowSpacing={2}>
-        {/* <CustomDatePicker
+        <CustomDatePicker
           required
-          name="datosPersonales.fechaNacimiento"
-          label="Fecha de Nacimiento"
           errors={errors}
-          register={register}
           control={control}
-        /> */}
+          label="Fecha de Nacimiento"
+          name="datosPersonales.fechaNacimiento"
+        />
         <CustomSelect
           required
           errors={errors}
