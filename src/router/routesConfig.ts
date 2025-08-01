@@ -1,9 +1,10 @@
 import { lazyImport } from '@shared/utils/lazyImport';
 
 const LoginPage = lazyImport(() => import('@feature/auth/pages/LoginPage'));
-const PersonasRouter = lazyImport(() => import('@feature/persona/PersonaRouter'));
+// const PersonasRouter = lazyImport(() => import('@feature/persona/PersonaRouter'));
+const ResumeRouter = lazyImport(() => import('@feature/resume/ResumeRouter'));
 const RegisterPage = lazyImport(() => import('@feature/auth/pages/RegisterPage'));
-const DashboardPage = lazyImport(() => import('@feature/dashboard/pages/DashboardPage'));
+// const DashboardPage = lazyImport(() => import('@feature/dashboard/pages/DashboardPage'));
 const ResetPasswordPage = lazyImport(() => import('@feature/auth/pages/ResetPasswordPage'));
 
 export interface AppRoute {
@@ -30,12 +31,17 @@ export const appRoutes: AppRoute[] = [
   },
   {
     path: '/',
-    Component: DashboardPage,
+    Component: ResumeRouter,
     isPrivate: true,
   },
+  // {
+  //   path: '/personas/*',
+  //   Component: PersonasRouter,
+  //   isPrivate: true,
+  // },
   {
-    path: '/personas/*',
-    Component: PersonasRouter,
+    path: '/resume/*',
+    Component: ResumeRouter,
     isPrivate: true,
   },
 ];

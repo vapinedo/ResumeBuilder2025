@@ -3,8 +3,9 @@ import { useAuthStore } from '@core/stores/useAuthStore';
 import { toastError } from '@infrastructure/notifications/notificationAdapter';
 
 const navLinks = [
-  { to: '/', label: 'Inicio' },
-  { to: '/personas', label: 'Personas' },
+  // { to: '/', label: 'Inicio' },
+  // { to: '/personas', label: 'Personas' },
+  { to: '/resume', label: 'Hojas de Vida' },
 ];
 
 export default function Navbar() {

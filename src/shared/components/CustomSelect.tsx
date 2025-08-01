@@ -22,24 +22,30 @@ export function CustomSelect<T extends FieldValues>({ name, label, control, erro
       name={name}
       control={control}
       rules={{ required: required ? `${label} es obligatorio` : false }}
-      render={({ field }) => (
-        <TextField
-          {...field}
-          select
-          fullWidth
-          size="small"
-          label={label}
-          variant="outlined"
-          error={Boolean(get(errors, name))}
-          helperText={String(get(errors, `${name}.message`) ?? '')}
-        >
-          {options.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-      )}
+      render={({ field }) => {
+        const isValid = options.some((option) => option.value === field.value);
+        const safeValue = isValid ? field.value : '';
+
+        return (
+          <TextField
+            {...field}
+            select
+            fullWidth
+            size="small"
+            label={label}
+            value={safeValue}
+            variant="outlined"
+            error={Boolean(get(errors, name))}
+            helperText={String(get(errors, `${name}.message`) ?? '')}
+          >
+            {options.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+        );
+      }}
     />
   );
 }

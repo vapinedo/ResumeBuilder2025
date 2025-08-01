@@ -1,6 +1,6 @@
 import { Persona } from '@core/models';
 
-export interface PersonaRepository {
+export interface IPersonaRepository {
   listar(): Promise<Persona[]>;
   obtenerPorId(id: string): Promise<Persona | null>;
   crear(persona: Persona, images?: FileList | null): Promise<void>;

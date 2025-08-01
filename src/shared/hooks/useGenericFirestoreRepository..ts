@@ -1,11 +1,11 @@
 import type { WithFieldValue, DocumentData } from 'firebase/firestore';
 import { DEFAULT_STALE_TIME } from '@shared/constants/reactQuery.config';
-import FirestoreGenericService from '@infrastructure/repositories/makeFirestoreRepository';
+import makeFirestoreRepository from '@infrastructure/repositories/makeFirestoreRepository';
 import { useQuery, useMutation, useQueryClient, UseMutationOptions } from '@tanstack/react-query';
 
-export function useFirestoreCrud<T extends WithFieldValue<DocumentData>>(collectionName: string) {
+export default function useGenericFirestoreRepository<T extends WithFieldValue<DocumentData>>(collectionName: string) {
   const queryClient = useQueryClient();
-  const service = FirestoreGenericService<T>(collectionName);
+  const service = makeFirestoreRepository<T>(collectionName);
 
   const useListar = () =>
     useQuery({

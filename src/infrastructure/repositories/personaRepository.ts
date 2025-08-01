@@ -1,7 +1,7 @@
 import { Persona } from '@core/models/Persona';
-import { PersonaRepository } from '@core/repositories';
+import { IPersonaRepository } from '@core/repositories';
+import { COLLECTIONS } from '@shared/constants/collections';
 import makeFirestoreRepository from '@infrastructure/repositories/makeFirestoreRepository';
 
-const COLLECTION_NAME = 'personas';
-const personaRepository: PersonaRepository = makeFirestoreRepository<Persona>('personas');
+const personaRepository: IPersonaRepository = makeFirestoreRepository<Persona>(COLLECTIONS.PERSONAS);
 export default personaRepository;

@@ -9,9 +9,11 @@ interface AdminTableProps<T extends GridValidRowModel> {
   title: string;
   loading: boolean;
   createRoute: string;
+  hideToolbar?: boolean;
   columns: GridColDef<T>[];
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
+  onPrint?: (row: T) => void;
   pageSizeOptions?: number[];
   getRowId?: (row: T) => string;
   confirmDeleteMessage?: (row: T) => string;
@@ -24,7 +26,9 @@ const AdminTable = <T extends GridValidRowModel>({
   loading,
   columns,
   onDelete,
+  onPrint, // Nueva prop
   createRoute,
+  hideToolbar = false,
   confirmDeleteMessage,
   getRowId = (row) => row.id,
   pageSizeOptions = [10, 20, 50],
@@ -34,23 +38,24 @@ const AdminTable = <T extends GridValidRowModel>({
   // Agregamos columna de acciones solo si hay handlers definidos
   const enhancedColumns: GridColDef<T>[] = [...columns];
 
-  if (onEdit || onDelete) {
+  if (onEdit || onDelete || onPrint) {
     enhancedColumns.push({
       field: 'acciones',
       headerName: 'Acciones',
-      width: 200,
+      width: onPrint ? 300 : 200, // Aumentamos el ancho si hay botón de imprimir
       sortable: false,
       filterable: false,
       renderCell: (params) => (
-        <>
+        <Box
+          sx={{
+            display: 'flex',
+            gap: 1,
+            alignItems: 'center', // Centra verticalmente
+            height: '100%', // Asegura que el Box ocupe toda la altura disponible
+          }}
+        >
           {onEdit && (
-            <Button
-              size="small"
-              color="primary"
-              variant="outlined"
-              style={{ marginRight: 8 }}
-              onClick={() => onEdit(params.row)}
-            >
+            <Button size="small" color="primary" variant="outlined" onClick={() => onEdit(params.row)}>
               Editar
             </Button>
           )}
@@ -70,7 +75,12 @@ const AdminTable = <T extends GridValidRowModel>({
               Eliminar
             </Button>
           )}
-        </>
+          {onPrint && (
+            <Button size="small" color="secondary" variant="outlined" onClick={() => onPrint(params.row)}>
+              Imprimir
+            </Button>
+          )}
+        </Box>
       ),
     });
   }
@@ -92,7 +102,7 @@ const AdminTable = <T extends GridValidRowModel>({
           columns={enhancedColumns}
           disableRowSelectionOnClick
           pageSizeOptions={pageSizeOptions}
-          slots={{ toolbar: GridToolbar }}
+          slots={hideToolbar ? {} : { toolbar: GridToolbar }}
           slotProps={{
             toolbar: {
               showQuickFilter: true,

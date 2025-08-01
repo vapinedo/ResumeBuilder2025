@@ -23,7 +23,7 @@ export default function PersonasAdminPage() {
       data={personas}
       columns={columns}
       loading={isLoading}
-      title="Gestión de Personas"
+      title="Personas"
       createRoute="/personas/nuevo"
       onDelete={(row) => eliminarPersona.mutate(row.id)}
       onEdit={(row) => navigate(`/personas/editar/${row.id}`)}

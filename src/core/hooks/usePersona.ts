@@ -1,7 +1,8 @@
 import { Persona } from '@core/models/Persona';
-import { useFirestoreCrud } from '@core/hooks/useFirestoreCrud';
+import { COLLECTIONS } from '@shared/constants/collections';
+import useGenericFirestoreRepository from '@shared/hooks/useGenericFirestoreRepository.';
 
-const personaCrud = () => useFirestoreCrud<Persona>('personas');
+const personaCrud = () => useGenericFirestoreRepository<Persona>(COLLECTIONS.PERSONAS);
 
 export const useListarPersonas = () => personaCrud().useListar();
 export const useCrearPersona = (opts?: any) => personaCrud().useCrear(opts);
