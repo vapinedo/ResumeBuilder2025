@@ -8,6 +8,7 @@ import { IdiomasForm } from '@feature/resume/components/IdiomasForm';
 import { ResumeDataInitValues } from '@feature/resume/utils/resumeData.helper';
 import { DatosPersonalesForm } from '@feature/resume/components/DatosPersonalesForm';
 import { EducacionBasicaForm } from '@feature/resume/components/EducacionBasicaForm';
+import { setLocalStorageItem, getLocalStorageItem } from '@shared/utils/localStorage';
 import { EducacionSuperiorForm } from '@feature/resume/components/EducacionSuperiorForm';
 import { ExperienciaLaboralForm } from '@feature/resume/components/ExperienciaLaboralForm';
 
@@ -41,6 +42,20 @@ const ResumeForm: React.FC = () => {
 
   //   fetchData();
   // }, [reset]);
+
+  useEffect(() => {
+    const savedData = getLocalStorageItem<Resume>(STORAGE_KEY);
+    if (savedData) {
+      reset(savedData);
+    }
+  }, [reset]);
+
+  useEffect(() => {
+    const subscription = watch((value) => {
+      setLocalStorageItem(STORAGE_KEY, value);
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
   const onSubmit = async (formData: Resume) => {
     console.log('resume', formData);
