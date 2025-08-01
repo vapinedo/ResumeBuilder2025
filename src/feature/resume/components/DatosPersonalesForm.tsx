@@ -41,49 +41,44 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
       <AutoGridRow spacing={2} rowSpacing={2}>
         <CustomTextField
           required
-          name="datosPersonales.primerApellido"
-          label="Primer Apellido"
           errors={errors}
           register={register}
+          label="Primer Apellido"
+          name="datosPersonales.primerApellido"
         />
         <CustomTextField
           required
-          name="datosPersonales.segundoApellido"
-          label="Segundo Apellido"
           errors={errors}
           register={register}
+          label="Segundo Apellido"
+          name="datosPersonales.segundoApellido"
         />
         <CustomTextField required name="datosPersonales.nombres" label="Nombres" errors={errors} register={register} />
         <CustomSelect
           required
-          name="datosPersonales.sexo"
           label="Sexo"
           errors={errors}
           control={control}
-          // register={register}
-          // watch={watch}
-          // setValue={setValue}
           options={sexoOptions}
+          name="datosPersonales.sexo"
         />
       </AutoGridRow>
 
       <AutoGridRow spacing={2} rowSpacing={2}>
-        {/* <CustomSelect
+        <CustomSelect
           required
-          name="datosPersonales.tipoDocumento"
-          label="Tipo de Documento"
           errors={errors}
-          register={register}
-          watch={watch}
-          setValue={setValue}
+          control={control}
+          label="Tipo de Documento"
           options={tipoDocumentoOptions}
-        /> */}
+          name="datosPersonales.tipoDocumento"
+        />
         <CustomTextField
           required
-          name="datosPersonales.numeroDocumento"
-          label="Número de Documento"
           errors={errors}
           register={register}
+          label="Número de Documento"
+          name="datosPersonales.numeroDocumento"
         />
         <CustomTextField required name="datosPersonales.email" label="Email" errors={errors} register={register} />
         <CustomTextField required name="datosPersonales.telefono" label="Teléfono" errors={errors} register={register} />
@@ -98,36 +93,30 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
           register={register}
           control={control}
         /> */}
-        {/* <CustomSelect
+        <CustomSelect
           required
-          name="datosPersonales.paisNacimiento"
-          label="País de Nacimiento"
           errors={errors}
-          register={register}
-          watch={watch}
-          setValue={setValue}
+          control={control}
           options={countries ?? []}
-        /> */}
-        {/* <CustomSelect
+          label="País de Nacimiento"
+          name="datosPersonales.paisNacimiento"
+        />
+        <CustomSelect
           required
-          name="datosPersonales.departamentoNacimiento"
-          label="Departamento de Nacimiento"
           errors={errors}
-          register={register}
-          watch={watch}
-          setValue={setValue}
+          control={control}
           options={departamentos ?? []}
-        /> */}
-        {/* <CustomSelect
+          label="Departamento de Nacimiento"
+          name="datosPersonales.departamentoNacimiento"
+        />
+        <CustomSelect
           required
-          name="datosPersonales.municipioNacimiento"
-          label="Municipio de Nacimiento"
           errors={errors}
-          register={register}
-          watch={watch}
-          setValue={setValue}
+          control={control}
           options={municipios ?? []}
-        /> */}
+          label="Municipio de Nacimiento"
+          name="datosPersonales.municipioNacimiento"
+        />
       </AutoGridRow>
 
       <AutoGridRow spacing={2} rowSpacing={2}>
@@ -138,50 +127,42 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
           errors={errors}
           register={register}
         />
-        {/* <CustomSelect
+        <CustomSelect
           required
-          name="datosPersonales.paisCorrespondencia"
-          label="País de Correspondencia"
           errors={errors}
-          register={register}
-          watch={watch}
-          setValue={setValue}
+          control={control}
           options={countries ?? []}
-        /> */}
-        {/* <CustomSelect
+          label="País de Correspondencia"
+          name="datosPersonales.paisCorrespondencia"
+        />
+        <CustomSelect
           required
-          name="datosPersonales.departamentoCorrespondencia"
-          label="Departamento de Correspondencia"
           errors={errors}
-          register={register}
-          watch={watch}
-          setValue={setValue}
+          control={control}
           options={departamentos ?? []}
-        /> */}
-        {/* <CustomSelect
+          label="Departamento de Correspondencia"
+          name="datosPersonales.departamentoCorrespondencia"
+        />
+        <CustomSelect
           required
-          name="datosPersonales.municipioCorrespondencia"
-          label="Municipio de Correspondencia"
           errors={errors}
-          register={register}
-          watch={watch}
-          setValue={setValue}
+          control={control}
           options={municipios ?? []}
-        /> */}
+          label="Municipio de Correspondencia"
+          name="datosPersonales.municipioCorrespondencia"
+        />
       </AutoGridRow>
 
       {selectedSexo === 'M' && (
         <AutoGridRow spacing={2} rowSpacing={2}>
-          {/* <CustomSelect
+          <CustomSelect
             required
-            name="datosPersonales.tipoLibretaMilitar"
-            label="Tipo Libreta Militar"
             errors={errors}
-            register={register}
-            watch={watch}
-            setValue={setValue}
+            control={control}
+            label="Tipo Libreta Militar"
             options={tipoLibretaMilitarOptions}
-          /> */}
+            name="datosPersonales.tipoLibretaMilitar"
+          />
           <CustomTextField
             required
             name="datosPersonales.numeroLibretaMilitar"
