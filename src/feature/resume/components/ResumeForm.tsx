@@ -126,10 +126,10 @@ const ResumeForm: React.FC<ResumeFormProps> = ({ modo = 'crear', resumeId }) => 
       <FormButtons handleSubmit={handleSubmit} onSubmit={onSubmit} onGeneratePdf={onGeneratePdf} />
 
       <DatosPersonalesForm watch={watch} errors={errors} control={control} register={register} setValue={setValue} />
-      {/* <EducacionBasicaForm watch={watch} errors={errors} control={control} register={register} setValue={setValue} />
+      <EducacionBasicaForm watch={watch} errors={errors} control={control} register={register} setValue={setValue} />
       <EducacionSuperiorForm watch={watch} errors={errors} control={control} register={register} setValue={setValue} />
       <IdiomasForm watch={watch} errors={errors} control={control} register={register} setValue={setValue} />
-      <ExperienciaLaboralForm watch={watch} errors={errors} control={control} register={register} setValue={setValue} /> */}
+      <ExperienciaLaboralForm watch={watch} errors={errors} control={control} register={register} setValue={setValue} />
     </form>
   );
 };
