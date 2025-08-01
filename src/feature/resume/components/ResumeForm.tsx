@@ -71,7 +71,7 @@ const ResumeForm: React.FC = () => {
   };
 
   const onGeneratePdf = async () => {
-    const formData = getValues(); // Obtiene los datos actuales del formulario
+    const formData = getValues();
     try {
       const pdfUrl = await fillPdf(formData);
       window.open(pdfUrl, '_blank');

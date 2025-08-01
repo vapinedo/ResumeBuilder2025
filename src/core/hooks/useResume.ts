@@ -1,5 +1,5 @@
 import { Resume } from '@core/models/Resume';
-import { useFirestoreCrud } from '@core/hooks/useFirestoreCrud';
+import { useFirestoreCrud } from '@shared/hooks/useGenericFirestoreRepository.';
 
 const resumeCrud = () => useFirestoreCrud<Resume>('resumes');
 
