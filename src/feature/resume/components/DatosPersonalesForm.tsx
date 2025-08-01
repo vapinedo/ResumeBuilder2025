@@ -59,15 +59,16 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
           name="datosPersonales.sexo"
           label="Sexo"
           errors={errors}
-          register={register}
-          watch={watch}
-          setValue={setValue}
+          control={control}
+          // register={register}
+          // watch={watch}
+          // setValue={setValue}
           options={sexoOptions}
         />
       </AutoGridRow>
 
       <AutoGridRow spacing={2} rowSpacing={2}>
-        <CustomSelect
+        {/* <CustomSelect
           required
           name="datosPersonales.tipoDocumento"
           label="Tipo de Documento"
@@ -76,7 +77,7 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
           watch={watch}
           setValue={setValue}
           options={tipoDocumentoOptions}
-        />
+        /> */}
         <CustomTextField
           required
           name="datosPersonales.numeroDocumento"
@@ -89,15 +90,15 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
       </AutoGridRow>
 
       <AutoGridRow spacing={2} rowSpacing={2}>
-        <CustomDatePicker
+        {/* <CustomDatePicker
           required
           name="datosPersonales.fechaNacimiento"
           label="Fecha de Nacimiento"
           errors={errors}
           register={register}
           control={control}
-        />
-        <CustomSelect
+        /> */}
+        {/* <CustomSelect
           required
           name="datosPersonales.paisNacimiento"
           label="País de Nacimiento"
@@ -106,8 +107,8 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
           watch={watch}
           setValue={setValue}
           options={countries ?? []}
-        />
-        <CustomSelect
+        /> */}
+        {/* <CustomSelect
           required
           name="datosPersonales.departamentoNacimiento"
           label="Departamento de Nacimiento"
@@ -116,8 +117,8 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
           watch={watch}
           setValue={setValue}
           options={departamentos ?? []}
-        />
-        <CustomSelect
+        /> */}
+        {/* <CustomSelect
           required
           name="datosPersonales.municipioNacimiento"
           label="Municipio de Nacimiento"
@@ -126,7 +127,7 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
           watch={watch}
           setValue={setValue}
           options={municipios ?? []}
-        />
+        /> */}
       </AutoGridRow>
 
       <AutoGridRow spacing={2} rowSpacing={2}>
@@ -137,7 +138,7 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
           errors={errors}
           register={register}
         />
-        <CustomSelect
+        {/* <CustomSelect
           required
           name="datosPersonales.paisCorrespondencia"
           label="País de Correspondencia"
@@ -146,8 +147,8 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
           watch={watch}
           setValue={setValue}
           options={countries ?? []}
-        />
-        <CustomSelect
+        /> */}
+        {/* <CustomSelect
           required
           name="datosPersonales.departamentoCorrespondencia"
           label="Departamento de Correspondencia"
@@ -156,8 +157,8 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
           watch={watch}
           setValue={setValue}
           options={departamentos ?? []}
-        />
-        <CustomSelect
+        /> */}
+        {/* <CustomSelect
           required
           name="datosPersonales.municipioCorrespondencia"
           label="Municipio de Correspondencia"
@@ -166,12 +167,12 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
           watch={watch}
           setValue={setValue}
           options={municipios ?? []}
-        />
+        /> */}
       </AutoGridRow>
 
       {selectedSexo === 'M' && (
         <AutoGridRow spacing={2} rowSpacing={2}>
-          <CustomSelect
+          {/* <CustomSelect
             required
             name="datosPersonales.tipoLibretaMilitar"
             label="Tipo Libreta Militar"
@@ -180,7 +181,7 @@ export const DatosPersonalesForm: React.FC<Props> = (props) => {
             watch={watch}
             setValue={setValue}
             options={tipoLibretaMilitarOptions}
-          />
+          /> */}
           <CustomTextField
             required
             name="datosPersonales.numeroLibretaMilitar"
