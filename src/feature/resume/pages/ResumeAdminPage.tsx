@@ -66,10 +66,11 @@ export default function ResumeAdminPage() {
 
   return (
     <AdminTable
-      data={resumesFormatted}
       columns={columns}
+      hideToolbar={true}
       loading={isLoading}
       title="Hojas de Vida"
+      data={resumesFormatted}
       createRoute="/resume/nuevo"
       onDelete={(row) => eliminarResume.mutate(row.id)}
       onEdit={(row) => navigate(`/resume/editar/${row.id}`)}

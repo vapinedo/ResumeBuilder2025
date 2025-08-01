@@ -9,10 +9,11 @@ interface AdminTableProps<T extends GridValidRowModel> {
   title: string;
   loading: boolean;
   createRoute: string;
+  hideToolbar?: boolean;
   columns: GridColDef<T>[];
   onEdit?: (row: T) => void;
   onDelete?: (row: T) => void;
-  onPrint?: (row: T) => void; // Nueva prop opcional para la acción de imprimir
+  onPrint?: (row: T) => void;
   pageSizeOptions?: number[];
   getRowId?: (row: T) => string;
   confirmDeleteMessage?: (row: T) => string;
@@ -27,6 +28,7 @@ const AdminTable = <T extends GridValidRowModel>({
   onDelete,
   onPrint, // Nueva prop
   createRoute,
+  hideToolbar = false,
   confirmDeleteMessage,
   getRowId = (row) => row.id,
   pageSizeOptions = [10, 20, 50],
@@ -100,7 +102,7 @@ const AdminTable = <T extends GridValidRowModel>({
           columns={enhancedColumns}
           disableRowSelectionOnClick
           pageSizeOptions={pageSizeOptions}
-          slots={{ toolbar: GridToolbar }}
+          slots={hideToolbar ? {} : { toolbar: GridToolbar }}
           slotProps={{
             toolbar: {
               showQuickFilter: true,

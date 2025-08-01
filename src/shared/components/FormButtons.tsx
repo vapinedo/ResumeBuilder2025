@@ -18,7 +18,7 @@ export const FormButtons: React.FC<FormButtonsProps> = ({ handleSubmit, onSubmit
 
       <Grid item>
         <Button color="success" variant="contained" onClick={onGeneratePdf}>
-          Generar PDF
+          Imprimir
         </Button>
       </Grid>
     </Grid>
